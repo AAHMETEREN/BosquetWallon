@@ -1,7 +1,9 @@
 package views;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.awt.Graphics;  
+import java.awt.Image;  
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -48,63 +50,81 @@ public class main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JPanel panel = new JPanel();
+		JPanel panel = new JPanel()  {
+				                 public void paintComponent(Graphics g) {  
+			                     Image img = Toolkit.getDefaultToolkit().getImage(  
+			                    		 main.class.getResource("/images/vertical-ticket.png"));  
+			                     g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
+		                 }  
+			          };  
 		panel.setBackground(Color.RED);
-		panel.setBounds(10, -20, 193, 420);
+		panel.setBounds(0, 2, 221, 390);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JButton registerBtn = new JButton("Inscription");
-		registerBtn.setBounds(22, 338, 161, 45);
+		registerBtn.setBounds(54, 324, 113, 33);
 		panel.add(registerBtn);
 		registerBtn.setForeground(Color.WHITE);
 		registerBtn.setBackground(Color.DARK_GRAY);
-		
-		JLabel lblNewLabel_2 = new JLabel("");
-		lblNewLabel_2.setBounds(0, 20, 193, 400);
-		panel.add(lblNewLabel_2);
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
+		
+		JPanel panel_1 = new JPanel(){
+            public void paintComponent(Graphics g) {  
+                Image img = Toolkit.getDefaultToolkit().getImage(  
+               		 main.class.getResource("/images/main-background.jpg"));  
+                g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(),this);  
+        }  
+     };  
+		panel_1.setBounds(218, 2, 476, 390);
+		contentPane.add(panel_1);
+		panel_1.setLayout(null);
+		
 		JButton loginBtn = new JButton("Connexion");
+		loginBtn.setBounds(281, 316, 157, 34);
 		loginBtn.setForeground(Color.WHITE);
 		loginBtn.setBackground(Color.RED);
-		loginBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		loginBtn.setBounds(528, 331, 109, 45);
-		contentPane.add(loginBtn);
+		panel_1.add(loginBtn);
 		
 		TextField textField = new TextField();
-		textField.setBounds(227, 204, 410, 45);
-		contentPane.add(textField);
+		textField.setBounds(65, 273, 373, 34);
+		textField.setForeground(Color.BLACK);
+		textField.setFont(new Font("Dialog", Font.PLAIN, 21));
+		textField.setBackground(Color.LIGHT_GRAY);
+		panel_1.add(textField);
 		
 		TextField textField_1 = new TextField();
-		textField_1.setBounds(227, 280, 410, 45);
-		contentPane.add(textField_1);
+		textField_1.setBounds(65, 205, 373, 34);
+		textField_1.setForeground(Color.BLACK);
+		textField_1.setFont(new Font("Dialog", Font.PLAIN, 21));
+		textField_1.setBackground(Color.LIGHT_GRAY);
+		panel_1.add(textField_1);
 		
 		JLabel lblNewLabel = new JLabel("Mot de passe");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNewLabel.setBounds(65, 254, 129, 13);
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(227, 255, 79, 19);
-		contentPane.add(lblNewLabel);
+		panel_1.add(lblNewLabel);
 		
 		JLabel lblNomDutilisateur = new JLabel("Nom d'utilisateur");
+		lblNomDutilisateur.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblNomDutilisateur.setBounds(65, 187, 142, 13);
 		lblNomDutilisateur.setForeground(Color.WHITE);
-		lblNomDutilisateur.setBounds(227, 179, 124, 19);
-		contentPane.add(lblNomDutilisateur);
+		panel_1.add(lblNomDutilisateur);
 		
 		JLabel lblNewLabel_1 = new JLabel("Bienvenue au ");
-		lblNewLabel_1.setFont(new Font("Lucida Handwriting", Font.BOLD, 40));
+		lblNewLabel_1.setBounds(93, 43, 346, 56);
 		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(227, 2, 410, 104);
-		contentPane.add(lblNewLabel_1);
+		lblNewLabel_1.setFont(new Font("Impact", Font.BOLD, 44));
+		panel_1.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("Bosquet Wallon !");
+		lblNewLabel_1_1.setBounds(65, 104, 401, 56);
 		lblNewLabel_1_1.setForeground(Color.WHITE);
-		lblNewLabel_1_1.setFont(new Font("Lucida Handwriting", Font.BOLD, 40));
-		lblNewLabel_1_1.setBounds(227, 72, 410, 104);
-		contentPane.add(lblNewLabel_1_1);
+		lblNewLabel_1_1.setFont(new Font("Impact", Font.BOLD, 44));
+		panel_1.add(lblNewLabel_1_1);
 	}
 }
