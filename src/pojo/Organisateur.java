@@ -1,5 +1,5 @@
 package pojo;
 
-public class Organisateur {
+public class Organisateur  {
 
 }

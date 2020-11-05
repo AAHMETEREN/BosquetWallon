@@ -12,24 +12,16 @@ public class ClientDAO extends DAO<Client> {
 
 	public boolean create(Client client) {
 		try {
-			System.out.println(client.getMotDePasse());
-			System.out.println(client.getNomUtilisateur());
-			System.out.println(client.getPrenom());
-			System.out.println(client.getAdresse());
-			System.out.println(client.getNom());
-			System.out.println(client.getAge());
-
 			this.connect
 					.createStatement()
 					.executeUpdate(
 							"INSERT INTO Personne VALUES(null,'"+client.getMotDePasse()+"','"+client.getNomUtilisateur()+"','"+"client"+"','"+client.getAdresse()+"','"+client.getPrenom()+"','"+client.getNom()+"','"+"null"+"','"+client.getAge()+"')");
-			
-			;
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return false;
 		}
-		return false;
+		
 	}
 
 	public boolean delete(Client obj) {

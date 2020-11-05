@@ -22,6 +22,7 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class ClientRegisterPage extends JFrame {
 
@@ -137,9 +138,6 @@ public class ClientRegisterPage extends JFrame {
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String test = nomUtilisateur.getText();
-				System.out.println(test);
-				nomUtilisateur.getText();
 				Client client = new Client(
 						motDePasse.getText(), 
 						nomUtilisateur.getText(), 
@@ -149,7 +147,15 @@ public class ClientRegisterPage extends JFrame {
 						Integer.parseInt(age.getText())
 					);
 
-				clientDAO.create(client);
+				Boolean isUserCreated = clientDAO.create(client);
+				if(isUserCreated) {
+					Dashboard dashboard = new Dashboard(client);
+					dashboard.setVisible(true);
+					me.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");
+				}
+				
 			}
 		});
 		btnNewButton.setBounds(399, 287, 130, 33);

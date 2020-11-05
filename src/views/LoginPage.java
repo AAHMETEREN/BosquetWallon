@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Font;
 
-public class RegisterPage extends JFrame {
+public class LoginPage extends JFrame {
 
 	private JPanel contentPane;
 
@@ -27,7 +27,7 @@ public class RegisterPage extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegisterPage frame = new RegisterPage();
+					LoginPage frame = new LoginPage();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -39,8 +39,8 @@ public class RegisterPage extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public RegisterPage() {
-		RegisterPage me = this;
+	public LoginPage() {
+		LoginPage me = this;
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
@@ -58,8 +58,8 @@ public class RegisterPage extends JFrame {
                 Image img = Toolkit.getDefaultToolkit().getImage(  
                		 Main.class.getResource("/images/red-tickets.png"));  
                 g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
-	        }  
-	     }; 
+        }  
+     }; 
 		panel_1.setBounds(22, 10, 662, 371);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
@@ -70,7 +70,7 @@ public class RegisterPage extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClientRegisterPage page = new ClientRegisterPage();
+				ClientLoginPage page = new ClientLoginPage();
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -86,7 +86,7 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrganisateurRegisterPage page = new OrganisateurRegisterPage();
+				OrganisateurLoginPage page = new OrganisateurLoginPage();
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -99,7 +99,7 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1_1);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArtisteRegisterPage page = new ArtisteRegisterPage();
+				ArtisteLoginPage page = new ArtisteLoginPage();
 				page.setVisible(true);
 				me.dispose();
 			}
