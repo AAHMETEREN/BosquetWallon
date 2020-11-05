@@ -7,6 +7,11 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.ClientDAO;
+import dao.DAO;
+import pojo.Client;
+
 import java.awt.Color;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -41,6 +46,12 @@ public class main extends JFrame {
 	 * Create the frame.
 	 */
 	public main() {
+		DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());// on fait connection
+		for (int i = 1; i < 2; i++) {
+			Client eleve = clientDAO.find(i);
+			System.out.println("Eleve N°" +eleve.getNom() + " " + eleve.getPrenom());
+		}
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 431);
 		contentPane = new JPanel();
