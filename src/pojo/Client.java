@@ -1,13 +1,18 @@
 package pojo;
 
 public class Client extends Personne {
-	public  Client(String motDePasse , String nomUtilisateur , String role , String adresse ,String prenom ,String nom) {
-		super(motDePasse, nomUtilisateur, role , adresse , prenom , nom);
+	private Integer age;
+	public  Client(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
+		super(motDePasse, nomUtilisateur , adresse , prenom , nom);
+		this.age = age;
 	}
 	
 	public Client() {
 		
 	}
-	
+
+	public Integer getAge() {
+		return this.age;
+	}
 
 }
