@@ -9,6 +9,11 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.ClientDAO;
+import dao.DAO;
+import pojo.Client;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -17,7 +22,12 @@ import java.awt.Color;
 import java.awt.Font;
 
 public class RegisterPage extends JFrame {
-
+	public static enum  Roles { 
+		CLIENT,
+		GESTIONNAIRE,
+		ARTISTE,
+		ORGANISATEUR
+	}
 	private JPanel contentPane;
 
 	/**
@@ -70,7 +80,8 @@ public class RegisterPage extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClientRegisterPage page = new ClientRegisterPage();
+				DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());
+				RegisterForm page = new RegisterForm(Roles.CLIENT,clientDAO);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -86,9 +97,8 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrganisateurRegisterPage page = new OrganisateurRegisterPage();
-				page.setVisible(true);
-				me.dispose();
+
+				
 			}
 		});
 		JButton btnNewButton_1_1 = new JButton("Je suis un artiste");
@@ -99,11 +109,14 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1_1);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArtisteRegisterPage page = new ArtisteRegisterPage();
-				page.setVisible(true);
-				me.dispose();
+				
 			}
 		});
+		
+	
+		
+		
+		
 		
 	}
 }

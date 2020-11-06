@@ -26,7 +26,6 @@ public class Dashboard extends JFrame {
 	private static final long serialVersionUID = -9047883467236372662L;
 	private JLayeredPane layeredPane;
 	private JPanel HomePanel, ShowPanel, OrderPanel;
-	private Client client = null;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -51,21 +50,11 @@ public class Dashboard extends JFrame {
 	public Dashboard() {
 		createView();
 	}
-	public Dashboard(Client client) {
-		this.client = client;
-		System.out.println(client.getMotDePasse());
+	public Dashboard(Personne personne) {
+		System.out.println(personne.getMotDePasse());
 		createView();
 	}
-	public Dashboard(Artiste artiste) {
-		createView();
-	}
-	public Dashboard(Organisateur organisateur) {
-		createView();
-	}
-	public Dashboard(Gestionnaire gestionnaire) {
-		createView();
-	}
-	
+
 	public void createView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 580, 400);

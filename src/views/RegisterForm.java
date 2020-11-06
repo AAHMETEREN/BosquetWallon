@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 import dao.ClientDAO;
 import dao.DAO;
 import pojo.Client;
+import pojo.Personne;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -23,9 +24,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
-public class ClientRegisterPage extends JFrame {
-
+import views.RegisterPage;
+import views.RegisterPage.Roles;
+public class RegisterForm extends JFrame {
 	private JPanel contentPane;
 	private JTextField nomUtilisateur;
 	private JTextField motDePasse;
@@ -34,28 +35,11 @@ public class ClientRegisterPage extends JFrame {
 	private JTextField age;
 	private JTextField adresse;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientRegisterPage frame = new ClientRegisterPage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public ClientRegisterPage() {
-		DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());// on fait connection
-		ClientRegisterPage me = this;
+	public RegisterForm(Roles role,DAO daoInstance) {
+	
+
+		RegisterForm me = this;
 		getContentPane().setLayout(null);
 
 		JPanel panel = new JPanel();
@@ -135,21 +119,26 @@ public class ClientRegisterPage extends JFrame {
 		JButton btnNewButton = new JButton("S'inscrire");
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.DARK_GRAY);
-
+		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Client client = new Client(
-						motDePasse.getText(), 
-						nomUtilisateur.getText(), 
-						adresse.getText(),
-						prenom.getText(), 
-						nom.getText(), 
-						Integer.parseInt(age.getText())
-					);
+				Personne personne = null;
+				if(role == Roles.CLIENT) {
+					System.out.println("INSTANCE OF CLIENT");
 
-				Boolean isUserCreated = clientDAO.create(client);
+					personne =  new Client(
+							motDePasse.getText(), 
+							nomUtilisateur.getText(), 
+							adresse.getText(),
+							prenom.getText(), 
+							nom.getText(), 
+							Integer.parseInt(age.getText())
+						);
+					
+				}
+				Boolean isUserCreated = daoInstance.create(personne);
 				if(isUserCreated) {
-					Dashboard dashboard = new Dashboard(client);
+					Dashboard dashboard = new Dashboard(personne);
 					dashboard.setVisible(true);
 					me.dispose();
 				}else {

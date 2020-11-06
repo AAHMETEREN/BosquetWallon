@@ -4,12 +4,17 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import pojo.Client;
+import pojo.Personne;
 
-public class ClientDAO extends DAO<Client> {
+public class ClientDAO implements DAO<Client> {
+	
+	protected Connection connect = null;
+	
 	public ClientDAO(Connection conn) {
-		super(conn);
+		connect = conn;
 	}
 
+	@Override
 	public boolean create(Client client) {
 		try {
 			this.connect
@@ -24,14 +29,17 @@ public class ClientDAO extends DAO<Client> {
 		
 	}
 
+	@Override
 	public boolean delete(Client obj) {
 		return false;
 	}
 
+	@Override
 	public boolean update(Client obj) {
 		return false;
 	}
 
+	@Override
 	public Client find(int id) {
 		Client client = new Client();
 		try {
@@ -53,4 +61,5 @@ public class ClientDAO extends DAO<Client> {
 		}
 		return client;
 	}
+
 }
