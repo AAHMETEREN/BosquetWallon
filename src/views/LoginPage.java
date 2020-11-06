@@ -77,7 +77,7 @@ public class LoginPage extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());
-				LoginForm page = new LoginForm(clientDAO);
+				LoginForm page = new LoginForm(clientDAO,"client");
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -94,7 +94,7 @@ public class LoginPage extends JFrame {
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DAO<Organisateur> organisateurDao = new OrganisateurDAO(database.SqliteConnection.getInstance());
-				LoginForm page = new LoginForm(organisateurDao);
+				LoginForm page = new LoginForm(organisateurDao,"organisateur");
 				page.setVisible(true);
 				me.dispose();
 			}

@@ -6,6 +6,7 @@ public class Organisateur implements Personne  {
 	private String adresse;
 	private String prenom;
 	private String nom;
+	private final String role = "organisateur";
 
 	
 	public  Organisateur(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom) {

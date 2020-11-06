@@ -39,6 +39,7 @@ public class ClientDAO implements DAO<Client> {
 		return false;
 	}
 
+
 	@Override
 	public Client find(int id) {
 		Client client = new Client();

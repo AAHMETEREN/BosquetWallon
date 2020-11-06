@@ -10,10 +10,17 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import dao.ClientDAO;
 import dao.DAO;
+import dao.OrganisateurDAO;
+import dao.PersonneDAO;
+import pojo.Client;
+import pojo.Organisateur;
+import pojo.Personne;
 
 import javax.swing.JTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
@@ -27,7 +34,7 @@ public class LoginForm extends JFrame {
 	private JTextField password;
 
 
-	public LoginForm(DAO daoInstance) {
+	public LoginForm(DAO daoInstance,String role) {
 		LoginForm me = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 431);
@@ -69,8 +76,19 @@ public class LoginForm extends JFrame {
 		JButton btnNewButton = new JButton("New button");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(username.getText());
-				System.out.println(password.getText());
+				PersonneDAO daoInstance = new PersonneDAO(database.SqliteConnection.getInstance());
+				Personne personne = daoInstance.login(username.getText(),password.getText(),role);
+				System.out.println("3"+personne.getNom());
+
+				if(personne.getNomUtilisateur() != null) {
+					System.out.println("Connecté !");
+					Dashboard dashboard = new Dashboard(personne);
+					dashboard.setVisible(true);
+					me.dispose();
+				}else {
+					JOptionPane.showMessageDialog(null, "Mot de passe/Nom d'utilisateur incorrecte !");
+				}
+				
 			}
 		});
 		btnNewButton.setForeground(Color.WHITE);

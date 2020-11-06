@@ -7,6 +7,7 @@ public class Client implements Personne {
 	private String prenom;
 	private String nom;
 	private Integer age;
+	private final String role = "client";
 
 	
 	public  Client(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
