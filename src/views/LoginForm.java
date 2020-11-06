@@ -73,15 +73,12 @@ public class LoginForm extends JFrame {
 		password.setBounds(178, 168, 325, 35);
 		panel.add(password);
 
-		JButton btnNewButton = new JButton("New button");
+		JButton btnNewButton = new JButton("Connexion");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				PersonneDAO daoInstance = new PersonneDAO(database.SqliteConnection.getInstance());
 				Personne personne = daoInstance.login(username.getText(),password.getText(),role);
-				System.out.println("3"+personne.getNom());
-
 				if(personne.getNomUtilisateur() != null) {
-					System.out.println("Connecté !");
 					Dashboard dashboard = new Dashboard(personne);
 					dashboard.setVisible(true);
 					me.dispose();
@@ -95,5 +92,18 @@ public class LoginForm extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setBounds(381, 221, 119, 35);
 		panel.add(btnNewButton);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.setBackground(Color.DARK_GRAY);
+		btnRetour.setForeground(Color.WHITE);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginPage page = new LoginPage();
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+		btnRetour.setBounds(586, 10, 88, 26);
+		panel.add(btnRetour);
 	}
 }

@@ -153,5 +153,18 @@ public class RegisterForm extends JFrame {
 		});
 		btnNewButton.setBounds(399, 287, 130, 33);
 		panel_1.add(btnNewButton);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.setBounds(564, 10, 88, 27);
+		btnRetour.setBackground(Color.DARK_GRAY);
+		btnRetour.setForeground(Color.WHITE);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterPage page = new RegisterPage();
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+		panel_1.add(btnRetour);
 	}
 }
