@@ -9,6 +9,13 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.ClientDAO;
+import dao.DAO;
+import dao.OrganisateurDAO;
+import pojo.Client;
+import pojo.Organisateur;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -42,7 +49,7 @@ public class LoginPage extends JFrame {
 	public LoginPage() {
 		LoginPage me = this;
 		getContentPane().setLayout(null);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 436, 263);
 		getContentPane().add(panel);
@@ -52,32 +59,32 @@ public class LoginPage extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		JPanel panel_1 = new JPanel() {
-            public void paintComponent(Graphics g) {  
-                Image img = Toolkit.getDefaultToolkit().getImage(  
-               		 Main.class.getResource("/images/red-tickets.png"));  
-                g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);  
-        }  
-     }; 
+			public void paintComponent(Graphics g) {
+				Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/red-tickets.png"));
+				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+			}
+		};
 		panel_1.setBounds(22, 10, 662, 371);
 		contentPane.add(panel_1);
 		panel_1.setLayout(null);
-		
+
 		JButton btnNewButton = new JButton("Je suis un client");
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClientLoginPage page = new ClientLoginPage();
+				DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());
+				LoginForm page = new LoginForm(clientDAO);
 				page.setVisible(true);
 				me.dispose();
 			}
 		});
 		btnNewButton.setBounds(206, 52, 249, 65);
 		panel_1.add(btnNewButton);
-		
+
 		JButton btnNewButton_1 = new JButton("Je suis un organisateur");
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
@@ -86,7 +93,8 @@ public class LoginPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrganisateurLoginPage page = new OrganisateurLoginPage();
+				DAO<Organisateur> organisateurDao = new OrganisateurDAO(database.SqliteConnection.getInstance());
+				LoginForm page = new LoginForm(organisateurDao);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -99,11 +107,10 @@ public class LoginPage extends JFrame {
 		panel_1.add(btnNewButton_1_1);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArtisteLoginPage page = new ArtisteLoginPage();
-				page.setVisible(true);
+				
 				me.dispose();
 			}
 		});
-		
+
 	}
 }

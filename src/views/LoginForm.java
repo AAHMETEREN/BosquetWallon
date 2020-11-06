@@ -9,38 +9,26 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.DAO;
+
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
-public class ClientLoginPage extends JFrame {
+public class LoginForm extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField username;
+	private JTextField password;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClientLoginPage frame = new ClientLoginPage();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	public ClientLoginPage() {
+	public LoginForm(DAO daoInstance) {
+		LoginForm me = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 431);
 		contentPane = new JPanel();
@@ -57,28 +45,34 @@ public class ClientLoginPage extends JFrame {
 		panel.setBounds(5, 5, 684, 384);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
-		textField = new JTextField();
-		textField.setBounds(178, 100, 325, 35);
-		panel.add(textField);
-		textField.setColumns(10);
-		
+
+		username = new JTextField();
+		username.setBounds(178, 100, 325, 35);
+		panel.add(username);
+		username.setColumns(10);
+
 		JLabel lblNewLabel = new JLabel("Nom d'utilisateur");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblNewLabel.setBounds(178, 77, 139, 13);
 		panel.add(lblNewLabel);
-		
+
 		JLabel lblMotDePasse = new JLabel("Mot de passe");
 		lblMotDePasse.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		lblMotDePasse.setBounds(178, 145, 139, 13);
 		panel.add(lblMotDePasse);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(178, 168, 325, 35);
-		panel.add(textField_1);
-		
+
+		password = new JTextField();
+		password.setColumns(10);
+		password.setBounds(178, 168, 325, 35);
+		panel.add(password);
+
 		JButton btnNewButton = new JButton("New button");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println(username.getText());
+				System.out.println(password.getText());
+			}
+		});
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setBounds(381, 221, 119, 35);

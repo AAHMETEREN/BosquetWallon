@@ -87,31 +87,32 @@ public class Main extends JFrame {
 		lblNewLabel_1_1.setForeground(Color.WHITE);
 		lblNewLabel_1_1.setFont(new Font("Impact", Font.BOLD, 44));
 		panel_1.add(lblNewLabel_1_1);
-		
+
 		JButton loginBtn = new JButton("Connexion");
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				LoginPage page = new LoginPage();
+				page.setVisible(true);
+				me.dispose();
 			}
 		});
 		loginBtn.setBounds(165, 181, 157, 56);
 		loginBtn.setForeground(Color.WHITE);
 		loginBtn.setBackground(Color.DARK_GRAY);
 		panel_1.add(loginBtn);
-		
-				JButton registerBtn = new JButton("Inscription");
-				registerBtn.setBounds(367, 181, 154, 57);
-				panel_1.add(registerBtn);
-				registerBtn.setForeground(Color.WHITE);
-				registerBtn.setBackground(Color.DARK_GRAY);
-				registerBtn.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						RegisterPage page = new RegisterPage();
-						page.setVisible(true);
-						me.dispose();
-					}
-				});
-		
-		
+
+		JButton registerBtn = new JButton("Inscription");
+		registerBtn.setBounds(367, 181, 154, 57);
+		panel_1.add(registerBtn);
+		registerBtn.setForeground(Color.WHITE);
+		registerBtn.setBackground(Color.DARK_GRAY);
+		registerBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterPage page = new RegisterPage();
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+
 	}
 }

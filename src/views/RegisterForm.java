@@ -1,7 +1,5 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -12,20 +10,18 @@ import javax.swing.border.EmptyBorder;
 
 import dao.ClientDAO;
 import dao.DAO;
+import dao.OrganisateurDAO;
 import pojo.Client;
+import pojo.Organisateur;
 import pojo.Personne;
 
-import javax.swing.JTabbedPane;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
-import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import views.RegisterPage;
-import views.RegisterPage.Roles;
 public class RegisterForm extends JFrame {
 	private JPanel contentPane;
 	private JTextField nomUtilisateur;
@@ -36,9 +32,8 @@ public class RegisterForm extends JFrame {
 	private JTextField adresse;
 
 
-	public RegisterForm(Roles role,DAO daoInstance) {
+	public RegisterForm(DAO daoInstance) {
 	
-
 		RegisterForm me = this;
 		getContentPane().setLayout(null);
 
@@ -83,9 +78,14 @@ public class RegisterForm extends JFrame {
 		panel_1.add(nom);
 
 		age = new JTextField();
-		age.setColumns(10);
-		age.setBounds(457, 217, 72, 33);
-		panel_1.add(age);
+		if(daoInstance instanceof ClientDAO) {
+			JLabel lblAge = new JLabel("Age");
+			lblAge.setBounds(457, 194, 59, 13);
+			panel_1.add(lblAge);
+			age.setColumns(10);
+			age.setBounds(457, 217, 72, 33);
+			panel_1.add(age);
+		}
 
 		adresse = new JTextField();
 		adresse.setColumns(10);
@@ -111,11 +111,8 @@ public class RegisterForm extends JFrame {
 		JLabel lblAdresse = new JLabel("Adresse");
 		lblAdresse.setBounds(126, 194, 185, 13);
 		panel_1.add(lblAdresse);
-
-		JLabel lblAge = new JLabel("Age");
-		lblAge.setBounds(457, 194, 59, 13);
-		panel_1.add(lblAge);
-
+		
+		
 		JButton btnNewButton = new JButton("S'inscrire");
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.DARK_GRAY);
@@ -123,9 +120,9 @@ public class RegisterForm extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Personne personne = null;
-				if(role == Roles.CLIENT) {
-					System.out.println("INSTANCE OF CLIENT");
+				System.out.println(daoInstance instanceof ClientDAO);
 
+				if(daoInstance instanceof ClientDAO) {
 					personne =  new Client(
 							motDePasse.getText(), 
 							nomUtilisateur.getText(), 
@@ -134,7 +131,14 @@ public class RegisterForm extends JFrame {
 							nom.getText(), 
 							Integer.parseInt(age.getText())
 						);
-					
+				}else if(daoInstance instanceof OrganisateurDAO) {
+					personne =  new Organisateur(
+							motDePasse.getText(), 
+							nomUtilisateur.getText(), 
+							adresse.getText(),
+							prenom.getText(), 
+							nom.getText()
+						);
 				}
 				Boolean isUserCreated = daoInstance.create(personne);
 				if(isUserCreated) {
