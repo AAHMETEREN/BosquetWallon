@@ -35,7 +35,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Personne personne = new Organisateur("test", "test", "test", "test", "test");
+					Personne personne = new Organisateur(0,"test", "test", "test", "test", "test");
 					Dashboard frame = new Dashboard(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {

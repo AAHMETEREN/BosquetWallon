@@ -124,6 +124,7 @@ public class RegisterForm extends JFrame {
 
 				if(daoInstance instanceof ClientDAO) {
 					personne =  new Client(
+							0,
 							motDePasse.getText(), 
 							nomUtilisateur.getText(), 
 							adresse.getText(),
@@ -133,6 +134,7 @@ public class RegisterForm extends JFrame {
 						);
 				}else if(daoInstance instanceof OrganisateurDAO) {
 					personne =  new Organisateur(
+							0,
 							motDePasse.getText(), 
 							nomUtilisateur.getText(), 
 							adresse.getText(),

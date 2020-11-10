@@ -26,14 +26,26 @@ public class PersonneDAO {
 				String role = result.getString("role");
 				if (password.equals(resultPassword)) {
 					if(role.equals("client")) {
-						Personne pers=  new Client(result.getString("motDePasse"), result.getString("nomUtilisateur"),
-								result.getString("adresse"), result.getString("prenom"), result.getString("nom"),
-								Integer.parseInt(result.getString("age")));
+						Personne pers=  new Client(
+								Integer.parseInt(result.getString("id")),
+								result.getString("motDePasse"),
+								result.getString("nomUtilisateur"),
+								result.getString("adresse"),
+								result.getString("prenom"),
+								result.getString("nom"),
+								Integer.parseInt(result.getString("age"))
+							);
 						System.out.println("5555"+pers.getPrenom());
 						return pers;
 					}else if(role.equals("organisateur")) {
-						return new Organisateur(result.getString("motDePasse"), result.getString("nomUtilisateur"),
-								result.getString("adresse"), result.getString("prenom"), result.getString("nom"));
+						return new Organisateur(
+								Integer.parseInt(result.getString("id")),
+								result.getString("motDePasse"),
+								result.getString("nomUtilisateur"),
+								result.getString("adresse"),
+								result.getString("prenom"),
+								result.getString("nom")
+							);
 					}
 					
 				}

@@ -7,8 +7,8 @@ public class Spectacle {
 	private String titre;
 	private int nombrePlaceParClient;
 	private Organisateur organisateur;
-	private Configuration configuration = new Configuration();
-	private PlanningSalle planningSalle = new PlanningSalle();
+	private Configuration configuration;
+	private PlanningSalle planningSalle;
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private List<Representation> representations = new ArrayList<Representation>();
 	private int id;

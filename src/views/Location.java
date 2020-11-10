@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.module.Configuration;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import pojo.Artiste;
+import pojo.Categorie;
 import pojo.Organisateur;
 import pojo.Personne;
+import pojo.PlanningSalle;
+import pojo.Representation;
 import pojo.Spectacle;
 
 import com.toedter.calendar.JCalendar;
@@ -30,6 +34,8 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTextPane;
+import com.toedter.components.JSpinField;
 
 public class Location extends JFrame {
 	public enum TypePlaces {
@@ -51,11 +57,20 @@ public class Location extends JFrame {
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private JPanel contentPane;
 	private Personne personne;
-	private JTextField maxParPersonneField, titreField , fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant;
+	private JTextField maxParPersonneField, titreField, fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant;
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
+	JTextPane descriptionField;
+	TypePlaces place = TypePlaces.DEBOUT;
+	int maxParPersonne;
+
 	JCalendar calendar;
+	private JLabel labelHeureMin;
+	private JLabel labelArtiste_2;
+	private JButton btnNewButton;
+	private JLabel lblNewLabel;
+
 	/**
 	 * Launch the application.
 	 */
@@ -63,7 +78,7 @@ public class Location extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Personne personne = new Organisateur("test", "test", "test", "test", "test");
+					Personne personne = new Organisateur(0, "test", "test", "test", "test", "test");
 
 					Location frame = new Location(personne);
 					frame.setVisible(true);
@@ -78,10 +93,10 @@ public class Location extends JFrame {
 	 * Create the frame.
 	 */
 	public Location(Personne personne) {
-		artistes.add(new Artiste("test", "test", "test", "test", "test", "test"));
-		artistes.add(new Artiste("test2", "test2", "test2", "test2", "test2", "test2"));
-		artistes.add(new Artiste("test3", "test3", "test3", "test3", "test3", "test3"));
-		artistes.add(new Artiste("test4", "test4", "test4", "test4", "test4", "test4"));
+		artistes.add(new Artiste(0, "test", "test", "test", "test", "test", "test"));
+		artistes.add(new Artiste(0, "test2", "test2", "test2", "test2", "test2", "test2"));
+		artistes.add(new Artiste(0, "test3", "test3", "test3", "test3", "test3", "test3"));
+		artistes.add(new Artiste(0, "test4", "test4", "test4", "test4", "test4", "test4"));
 
 		this.personne = personne;
 		Location me = this;
@@ -89,6 +104,7 @@ public class Location extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 740, 460);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -119,14 +135,14 @@ public class Location extends JFrame {
 		JLabel title = new JLabel("Choix de la date :");
 		title.setForeground(Color.WHITE);
 		title.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		title.setBounds(46, 36, 273, 27);
+		title.setBounds(35, 36, 273, 27);
 		panel.add(title);
 
 		titreField = new JTextField();
 		titreField.setBounds(384, 59, 284, 32);
 		panel.add(titreField);
 		titreField.setColumns(10);
-			
+
 		JLabel labelTitre = new JLabel("Titre");
 		labelTitre.setForeground(Color.WHITE);
 		labelTitre.setBounds(384, 45, 45, 13);
@@ -150,7 +166,7 @@ public class Location extends JFrame {
 		panel.add(comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				TypePlaces place = (TypePlaces) comboBox.getSelectedItem();
+				place = (TypePlaces) comboBox.getSelectedItem();
 				resetChampPrix();
 				if (place == TypePlaces.DEBOUT) {
 					creerChampPrixDebout();
@@ -171,8 +187,6 @@ public class Location extends JFrame {
 		labelPrix.setForeground(Color.WHITE);
 		labelPrix.setBounds(387, 256, 160, 13);
 		panel.add(labelPrix);
-
-		
 
 		fieldBronze = new JTextField();
 		fieldBronze.setBounds(575, 279, 96, 19);
@@ -226,37 +240,91 @@ public class Location extends JFrame {
 		resetChampPrix();
 		creerChampPrixDebout();
 	}
-	
+
 	private void createCalendar() {
 		calendar = new JCalendar();
 		calendar.setLocale(Locale.FRENCH);
-		calendar.setBounds(46, 73, 273, 158);
+		calendar.setBounds(46, 59, 273, 158);
 		panel.add(calendar);
 
 		JLabel calendarValue = new JLabel("New label");
 		calendarValue.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		calendarValue.setForeground(Color.WHITE);
-		calendarValue.setBounds(177, 28, 160, 46);
+		calendarValue.setBounds(148, 28, 160, 46);
 		panel.add(calendarValue);
 		calendarValue.setText(calendar.getDate().toString());
-		
+
 		labelArtiste = new JLabel("Choix d'artiste");
 		labelArtiste.setForeground(Color.WHITE);
 		labelArtiste.setBounds(384, 154, 160, 13);
 		panel.add(labelArtiste);
-		
+
 		JComboBox comboBoxArtiste = new JComboBox<Artiste>();
 		comboBoxArtiste.setBounds(384, 171, 284, 27);
 		panel.add(comboBoxArtiste);
-		
+
 		JButton confirmButton = new JButton("Creer");
 		confirmButton.setForeground(Color.WHITE);
 		confirmButton.setBackground(Color.DARK_GRAY);
 		confirmButton.setBounds(551, 379, 122, 34);
 		confirmButton.addActionListener(e -> {
-	        creerSpectacle();
-	    });
+			creerSpectacle();
+		});
 		panel.add(confirmButton);
+
+		descriptionField = new JTextPane();
+		descriptionField.setBounds(46, 242, 273, 56);
+		panel.add(descriptionField);
+
+		JLabel labelDescription = new JLabel("Description");
+		labelDescription.setForeground(Color.WHITE);
+		labelDescription.setBounds(46, 227, 152, 13);
+		panel.add(labelDescription);
+		
+		JSpinField representationHeureMin = new JSpinField();
+		representationHeureMin.setBounds(46, 342, 64, 19);
+		representationHeureMin.setMaximum(24);
+		representationHeureMin.setMinimum(1);
+		representationHeureMin.addPropertyChangeListener(new PropertyChangeListener() {
+			@SuppressWarnings("deprecation")
+			@Override
+			public void propertyChange(PropertyChangeEvent evt) {
+				System.out.println(representationHeureMin.getValue());
+			}
+		});
+		panel.add(representationHeureMin);
+		
+		JSpinField representationHeureMax = new JSpinField();
+		representationHeureMax.setBounds(134, 342, 64, 19);
+		panel.add(representationHeureMax);
+		representationHeureMax.setValue(13);
+		representationHeureMin.setValue(12);
+
+		
+		labelHeureMin = new JLabel("D\u00E9but ");
+		labelHeureMin.setForeground(Color.WHITE);
+		labelHeureMin.setBounds(46, 325, 160, 13);
+		panel.add(labelHeureMin);
+		
+		labelArtiste_2 = new JLabel("Fin");
+		labelArtiste_2.setForeground(Color.WHITE);
+		labelArtiste_2.setBounds(134, 325, 160, 13);
+		panel.add(labelArtiste_2);
+		
+		btnNewButton = new JButton("Ajouter ");
+		btnNewButton.setForeground(Color.WHITE);
+		btnNewButton.setBackground(Color.DARK_GRAY);
+		btnNewButton.setBounds(220, 339, 96, 26);
+		panel.add(btnNewButton);
+		
+		lblNewLabel = new JLabel("Representations");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setBounds(46, 305, 152, 13);
+		panel.add(lblNewLabel);
+		
+		
+		
 		for (Artiste item : artistes) {
 			comboBoxArtiste.addItem(item.getNomUtilisateur());
 		}
@@ -269,23 +337,79 @@ public class Location extends JFrame {
 			}
 		});
 	}
-	
+
 	private void creerSpectacle() {
-		int maxParPersonne , prixBase , prixBronze , prixArgent , prixOr , prixDiamant = 0;
 		String titre = titreField.getText();
-		maxParPersonne = Integer.parseInt(maxParPersonneField.getText());
-		prixBase = Integer.parseInt(fieldBronze.getText());
-		prixBronze = Integer.parseInt(fieldBronze.getText());
-		prixArgent = Integer.parseInt(fieldArgent.getText());
-		prixOr = Integer.parseInt(fieldOr.getText());
-		prixDiamant = Integer.parseInt(fieldDiamant.getText());
+		String description = descriptionField.getText();
+
 		java.util.Date utilStartDate = calendar.getDate();
 		java.sql.Date date = new java.sql.Date(utilStartDate.getTime());
+
+		List<Categorie> categories = createCategories();
+		PlanningSalle planning = new PlanningSalle(0, date);
+		List<Representation> representations = new ArrayList<Representation>();
+		representations.add(
+				)
 		
-		System.out.print(date.toLocaleString());
-//		Spectacle spectacle = new Spectacle(titreField.getText() , );
+		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
+		Spectacle spectacle = new Spectacle(0, titre, maxParPersonne, (Organisateur) personne, configuration, planning, artistes,
+				representations
+		);
 
 	}
+
+	private List<Categorie> createCategories() {
+		maxParPersonne = Integer.parseInt(maxParPersonneField.getText());
+		System.out.println(place);
+		System.out.println(TypePlaces.DEBOUT);
+
+		if (place == TypePlaces.DEBOUT) {
+			return createCategorieDebout();
+		} else if (place == TypePlaces.ASSIS_CONCERT) {
+			return createCategorieConcert();
+		} else {
+			return createCategorieCirque();
+		}
+	}
+
+	private List<Categorie> createCategorieDebout() {
+		int nombrePlaceDispo = 8000;
+		int prixBase = Integer.parseInt(fieldBase.getText());
+		List<Categorie> categories = new ArrayList<Categorie>();
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BASE, prixBase, nombrePlaceDispo, maxParPersonne));
+		return categories;
+	}
+
+	private List<Categorie> createCategorieConcert() {
+		int nombrePlaceDispo = 5000;
+		int prixBronze = Integer.parseInt(fieldBronze.getText());
+		int prixArgent = Integer.parseInt(fieldArgent.getText());
+		int prixOr = Integer.parseInt(fieldOr.getText());
+
+		List<Categorie> categories = new ArrayList<Categorie>();
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, nombrePlaceDispo, maxParPersonne));
+
+		return categories;
+	}
+
+	private List<Categorie> createCategorieCirque() {
+		int nombrePlaceDispo = 6000;
+		int prixBronze = Integer.parseInt(fieldBronze.getText());
+		int prixArgent = Integer.parseInt(fieldArgent.getText());
+		int prixOr = Integer.parseInt(fieldOr.getText());
+		int prixDiamant = Integer.parseInt(fieldDiamant.getText());
+
+		List<Categorie> categories = new ArrayList<Categorie>();
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, nombrePlaceDispo, maxParPersonne));
+		categories
+				.add(new Categorie(0, Categorie.TypesCategorie.DIAMANT, prixDiamant, nombrePlaceDispo, maxParPersonne));
+		return categories;
+	}
+
 	private void resetChampPrix() {
 		if (fieldBase != null)
 			fieldBase.setVisible(false);

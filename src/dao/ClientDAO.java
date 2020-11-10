@@ -49,6 +49,7 @@ public class ClientDAO implements DAO<Client> {
 					.executeQuery("SELECT * FROM Personne WHERE id = " + id);
 			if(result.next()) {
 				client = new Client(
+						Integer.parseInt(result.getString("id")),
 						result.getString("motDePasse"),
 						result.getString("nomUtilisateur"),
 						result.getString("adresse"),
