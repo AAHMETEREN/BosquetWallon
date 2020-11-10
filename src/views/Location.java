@@ -61,11 +61,11 @@ public class Location extends JFrame {
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
-	JTextPane descriptionField;
-	TypePlaces place = TypePlaces.DEBOUT;
-	int maxParPersonne;
-
-	JCalendar calendar;
+	private JTextPane descriptionField;
+	private TypePlaces place = TypePlaces.DEBOUT;
+	private int maxParPersonne;
+	private JSpinField representationHeureMax , representationHeureMin;
+	private JCalendar calendar;
 	private JLabel labelHeureMin;
 	private JLabel labelArtiste_2;
 	private JButton btnNewButton;
@@ -280,8 +280,8 @@ public class Location extends JFrame {
 		labelDescription.setForeground(Color.WHITE);
 		labelDescription.setBounds(46, 227, 152, 13);
 		panel.add(labelDescription);
-		
-		JSpinField representationHeureMin = new JSpinField();
+
+		representationHeureMin = new JSpinField();
 		representationHeureMin.setBounds(46, 342, 64, 19);
 		representationHeureMin.setMaximum(24);
 		representationHeureMin.setMinimum(1);
@@ -293,38 +293,35 @@ public class Location extends JFrame {
 			}
 		});
 		panel.add(representationHeureMin);
-		
-		JSpinField representationHeureMax = new JSpinField();
+
+		representationHeureMax = new JSpinField();
 		representationHeureMax.setBounds(134, 342, 64, 19);
 		panel.add(representationHeureMax);
 		representationHeureMax.setValue(13);
 		representationHeureMin.setValue(12);
 
-		
 		labelHeureMin = new JLabel("D\u00E9but ");
 		labelHeureMin.setForeground(Color.WHITE);
 		labelHeureMin.setBounds(46, 325, 160, 13);
 		panel.add(labelHeureMin);
-		
+
 		labelArtiste_2 = new JLabel("Fin");
 		labelArtiste_2.setForeground(Color.WHITE);
 		labelArtiste_2.setBounds(134, 325, 160, 13);
 		panel.add(labelArtiste_2);
-		
+
 		btnNewButton = new JButton("Ajouter ");
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.setBounds(220, 339, 96, 26);
 		panel.add(btnNewButton);
-		
+
 		lblNewLabel = new JLabel("Representations");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblNewLabel.setForeground(Color.WHITE);
 		lblNewLabel.setBounds(46, 305, 152, 13);
 		panel.add(lblNewLabel);
-		
-		
-		
+
 		for (Artiste item : artistes) {
 			comboBoxArtiste.addItem(item.getNomUtilisateur());
 		}
@@ -349,12 +346,22 @@ public class Location extends JFrame {
 		PlanningSalle planning = new PlanningSalle(0, date);
 		List<Representation> representations = new ArrayList<Representation>();
 		representations.add(
-				)
+				new Representation(0,date, representationHeureMin.getValue() , representationHeureMax.getValue())
+		);
 		
 		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
-		Spectacle spectacle = new Spectacle(0, titre, maxParPersonne, (Organisateur) personne, configuration, planning, artistes,
+		Spectacle spectacle = new Spectacle(
+				0, 
+				titre,
+				maxParPersonne,
+				(Organisateur) personne,
+				configuration,
+				planning,
+				artistes,
 				representations
 		);
+		
+		spectacle.createSpectacle();
 
 	}
 
@@ -370,6 +377,7 @@ public class Location extends JFrame {
 		} else {
 			return createCategorieCirque();
 		}
+		
 	}
 
 	private List<Categorie> createCategorieDebout() {
