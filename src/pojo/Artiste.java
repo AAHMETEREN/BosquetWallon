@@ -8,9 +8,11 @@ public class Artiste implements Personne{
 	private String nom;
 	private String nomDeScene;
 	private final String role = "artiste";
+	private int id;
 
 	
-	public  Artiste(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom,String nomDeScene) {
+	public  Artiste(int id ,String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom,String nomDeScene) {
+		this.id = id;
 		this.motDePasse = motDePasse;
 		this.nomUtilisateur = nomUtilisateur;
 		this.adresse = adresse;

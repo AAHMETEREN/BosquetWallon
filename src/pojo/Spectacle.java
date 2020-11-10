@@ -5,19 +5,33 @@ import java.util.List;
 
 public class Spectacle {
 	private String titre;
-	private int nombrePlaceParClient = 10;
-	private Configuration configuration;
-	private PlanningSalle planningSalle;
+	private int nombrePlaceParClient;
+	private Organisateur organisateur;
+	private Configuration configuration = new Configuration();
+	private PlanningSalle planningSalle = new PlanningSalle();
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private List<Representation> representations = new ArrayList<Representation>();
+	private int id;
 	
-	public Spectacle(String titre) {
+	public Spectacle(int id , String titre , int nombrePlaceParClient , Organisateur organisateur,Configuration configuration,PlanningSalle planningSalle,List<Artiste> artistes,List<Representation> representations)  {
+		this.id = id;
 		this.titre = titre;
+		this.nombrePlaceParClient = nombrePlaceParClient;
+		this.organisateur =organisateur;
+		this.configuration =configuration;
+		this.planningSalle=planningSalle;
+		this.artistes=artistes;
+		this.representations=representations;
 	}	
 	
 	public String getTitre() {
         return this.titre;
     }
+	
+	public void setTitre(String titre) {
+        this.titre = titre;
+	}
+        
     public void setNombrePlaceParClient(int nombrePlaceParClient) {
         this.nombrePlaceParClient = nombrePlaceParClient;
     }
@@ -53,7 +67,19 @@ public class Spectacle {
         this.artistes.add(artiste);
     }
     
+    public List<Representation> getRepresentations() {
+        return representations;
+    }
     
+    public void addRepresentation(Representation representation) {
+        this.representations.add(representation);
+    }
     
+    public Organisateur getCreatedBy() {
+        return organisateur;
+    }
     
+    public void addRepresentation(Organisateur organisateur) {
+        this.organisateur = (organisateur);
+    }
 }

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -50,13 +51,11 @@ public class Location extends JFrame {
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private JPanel contentPane;
 	private Personne personne;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant;
+	private JTextField maxParPersonneField, titreField , fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant;
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
-	private Spectacle spectacle;
+	JCalendar calendar;
 	/**
 	 * Launch the application.
 	 */
@@ -88,7 +87,7 @@ public class Location extends JFrame {
 		Location me = this;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 706, 430);
+		setBounds(100, 100, 740, 460);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -101,7 +100,7 @@ public class Location extends JFrame {
 			}
 		};
 		panel.setForeground(Color.WHITE);
-		panel.setBounds(0, 0, 692, 393);
+		panel.setBounds(0, 0, 726, 423);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		JButton btnRetour = new JButton("Retour");
@@ -123,20 +122,20 @@ public class Location extends JFrame {
 		title.setBounds(46, 36, 273, 27);
 		panel.add(title);
 
-		textField = new JTextField();
-		textField.setBounds(384, 59, 284, 32);
-		panel.add(textField);
-		textField.setColumns(10);
-
+		titreField = new JTextField();
+		titreField.setBounds(384, 59, 284, 32);
+		panel.add(titreField);
+		titreField.setColumns(10);
+			
 		JLabel labelTitre = new JLabel("Titre");
 		labelTitre.setForeground(Color.WHITE);
 		labelTitre.setBounds(384, 45, 45, 13);
 		panel.add(labelTitre);
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(384, 112, 284, 32);
-		panel.add(textField_1);
+		maxParPersonneField = new JTextField();
+		maxParPersonneField.setColumns(10);
+		maxParPersonneField.setBounds(384, 112, 284, 32);
+		panel.add(maxParPersonneField);
 
 		JLabel labelLimite = new JLabel("Limite de place");
 		labelLimite.setForeground(Color.WHITE);
@@ -229,7 +228,7 @@ public class Location extends JFrame {
 	}
 	
 	private void createCalendar() {
-		JCalendar calendar = new JCalendar();
+		calendar = new JCalendar();
 		calendar.setLocale(Locale.FRENCH);
 		calendar.setBounds(46, 73, 273, 158);
 		panel.add(calendar);
@@ -249,6 +248,15 @@ public class Location extends JFrame {
 		JComboBox comboBoxArtiste = new JComboBox<Artiste>();
 		comboBoxArtiste.setBounds(384, 171, 284, 27);
 		panel.add(comboBoxArtiste);
+		
+		JButton confirmButton = new JButton("Creer");
+		confirmButton.setForeground(Color.WHITE);
+		confirmButton.setBackground(Color.DARK_GRAY);
+		confirmButton.setBounds(551, 379, 122, 34);
+		confirmButton.addActionListener(e -> {
+	        creerSpectacle();
+	    });
+		panel.add(confirmButton);
 		for (Artiste item : artistes) {
 			comboBoxArtiste.addItem(item.getNomUtilisateur());
 		}
@@ -260,6 +268,23 @@ public class Location extends JFrame {
 				calendarValue.setText(calendar.getDate().toLocaleString());
 			}
 		});
+	}
+	
+	private void creerSpectacle() {
+		int maxParPersonne , prixBase , prixBronze , prixArgent , prixOr , prixDiamant = 0;
+		String titre = titreField.getText();
+		maxParPersonne = Integer.parseInt(maxParPersonneField.getText());
+		prixBase = Integer.parseInt(fieldBronze.getText());
+		prixBronze = Integer.parseInt(fieldBronze.getText());
+		prixArgent = Integer.parseInt(fieldArgent.getText());
+		prixOr = Integer.parseInt(fieldOr.getText());
+		prixDiamant = Integer.parseInt(fieldDiamant.getText());
+		java.util.Date utilStartDate = calendar.getDate();
+		java.sql.Date date = new java.sql.Date(utilStartDate.getTime());
+		
+		System.out.print(date.toLocaleString());
+//		Spectacle spectacle = new Spectacle(titreField.getText() , );
+
 	}
 	private void resetChampPrix() {
 		if (fieldBase != null)

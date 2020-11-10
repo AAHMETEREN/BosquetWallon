@@ -7,9 +7,10 @@ public class Organisateur implements Personne  {
 	private String prenom;
 	private String nom;
 	private final String role = "organisateur";
+	private int id;
 
-	
-	public  Organisateur(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom) {
+	public  Organisateur(int id ,String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom) {
+		this.id = id;
 		this.motDePasse = motDePasse;
 		this.nomUtilisateur = nomUtilisateur;
 		this.adresse = adresse;

@@ -8,9 +8,10 @@ public class Client implements Personne {
 	private String nom;
 	private Integer age;
 	private final String role = "client";
-
+	private int id;
 	
-	public  Client(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
+	public  Client(int id , String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
+		this.id = id;
 		this.motDePasse = motDePasse;
 		this.nomUtilisateur = nomUtilisateur;
 		this.adresse = adresse;
