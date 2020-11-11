@@ -99,11 +99,10 @@ public class Spectacle {
 		boolean isSpectacleCreated = this.spectacleDAO.create(this);
 
 		if (isSpectacleCreated) {
-			// create representation
+			// creation representation
 			isSpectacleCreated = createRepresentations();
-			// create configuration
+			// creation configuration et categorie
 			isSpectacleCreated = createConfiguration();
-			// create categorie
 			// create planning salle
 			// create reservation
 		}

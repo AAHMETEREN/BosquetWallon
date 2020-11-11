@@ -33,7 +33,8 @@ public class SpectacleDAO implements DAO<Spectacle> {
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
 					System.out.println(generatedKeys.getLong(1));
-					spectacle.setId((int)generatedKeys.getLong(1));
+			
+					
 				} else {
 					throw new SQLException("Creating user failed, no ID obtained.");
 				}
