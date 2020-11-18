@@ -1,37 +1,42 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.EventQueue;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import pojo.*;
+
+import pojo.Personne;
+import pojo.Client;
+import pojo.Organisateur;
+
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
+
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import javax.swing.SwingConstants;
 
 public class Dashboard extends JFrame {
 
 	private JPanel contentPane;
-	private static final long serialVersionUID = -9047883467236372662L;
-	private JLayeredPane layeredPane;
-	private JPanel HomePanel, ShowPanel, OrderPanel;
 
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Dashboard frame = new Dashboard();
+					Personne personne = new Organisateur(0,"test", "test", "test", "test", "test");
+					Dashboard frame = new Dashboard(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -40,108 +45,88 @@ public class Dashboard extends JFrame {
 		});
 	}
 
-	public void SwitchPanels(@SuppressWarnings("exports") JPanel p) {
-		layeredPane.removeAll();
-		layeredPane.add(p);
-		layeredPane.repaint();
-		layeredPane.revalidate();
-	}
-	
-	public Dashboard() {
-		createView();
-	}
+	/**
+	 * Create the frame.
+	 */
 	public Dashboard(Personne personne) {
-		System.out.println(personne.getMotDePasse());
-		createView();
-	}
-
-	public void createView() {
+		Dashboard me = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(0, 0, 580, 400);
+		setBounds(100, 100, 708, 431);
 		contentPane = new JPanel();
-		contentPane.setVisible(true);
-		contentPane.setVisible(!isVisible());
-		contentPane.setBorder(null);
-		contentPane.setLayout(null);
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 
-		layeredPane = new JLayeredPane();
-		layeredPane.setBounds(0, 0, 580, 371);
-		contentPane.add(layeredPane);
+		JPanel panel = new JPanel(){
+			public void paintComponent(Graphics g) {
+				Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/main.jpg"));
+				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+			}
+		};
+		panel.setBounds(0, 10, 684, 384);
+		contentPane.add(panel);
+		panel.setLayout(null);
 
-		OrderPanel =  new JPanel();
-		OrderPanel.setOpaque(false);
-		OrderPanel.setBounds(0, 0, 580, 371);
-		OrderPanel.setLayout(null);
-		layeredPane.add(OrderPanel);
+		JLabel lblNewLabel = new JLabel("Utilisateur : " + personne.getNomUtilisateur().toUpperCase());
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBounds(474, 10, 181, 13);
+		panel.add(lblNewLabel);
 
-		HomePanel = new JPanel();
-		HomePanel.setOpaque(false);
-		HomePanel.setBounds(0, 0, 580, 371);
-		HomePanel.setLayout(null);
-		layeredPane.add(HomePanel);
+		if (personne instanceof Client) {
+			JButton btnListeSpectacle = new JButton("Voir les spectacles");
+			btnListeSpectacle.setFont(new Font("Tahoma", Font.BOLD, 14));
+			btnListeSpectacle.setForeground(Color.WHITE);
+			btnListeSpectacle.setBackground(Color.RED);
+			btnListeSpectacle.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+				}
+			});
+			btnListeSpectacle.setBounds(58, 74, 220, 57);
+			panel.add(btnListeSpectacle);
+		} else if (personne instanceof Organisateur) {
+			JButton btnLocation = new JButton("Louer une salle");
+			btnLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
+			btnLocation.setForeground(Color.WHITE);
+			btnLocation.setBackground(Color.RED);
+			btnLocation.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					Location page = new Location(personne);
+					page.setVisible(true);
+					me.dispose();
+				}
+			});
+			btnLocation.setBounds(58, 74, 220, 57);
+			panel.add(btnLocation);
+		}
 
-		JLabel title = new JLabel("Choisissez une option au dessus");
-		title.setHorizontalTextPosition(SwingConstants.CENTER);
-		title.setHorizontalAlignment(SwingConstants.CENTER);
-		title.setForeground(Color.BLACK);
-		title.setBounds((580 - 328) / 2, 120, 328, 49);
-		HomePanel.add(title);
-
-		ShowPanel = new JPanel();
-		ShowPanel.setOpaque(false);
-		ShowPanel.setBounds(0, 0, 580, 371);
-		ShowPanel.setLayout(null);
-		layeredPane.add(ShowPanel);
-
-		JLabel lblNewLabel = new JLabel("Choisissez un spectacle");
-		lblNewLabel.setBounds(207, 36, 194, 29);
-		ShowPanel.add(lblNewLabel);
-
-		CreateMenuBar();
-	}
-	
-
-	
-	private void CreateMenuBar() {
-
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu fileMenu = new JMenu("Spectacle");
-		fileMenu.setMnemonic(KeyEvent.VK_F);
-
-		JMenu editMenu = new JMenu("Espace personnel");
-		editMenu.setMnemonic(KeyEvent.VK_F);
-
-		JMenu exitMenu = new JMenu("Quitter");
-		exitMenu.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.exit(0);
+		JButton btnRetour = new JButton("Deconnexion");
+		btnRetour.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main page = new Main();
+				page.setVisible(true);
+				me.dispose();
 			}
 		});
-		exitMenu.setMnemonic(KeyEvent.VK_F);
-
-		JMenuItem eMenuItem = new JMenuItem("Liste des spectacles");
-		eMenuItem.setMnemonic(KeyEvent.VK_E);
-		eMenuItem.addActionListener((event) -> {
-			SwitchPanels(ShowPanel);
-		});
-
-		JMenuItem eEditItem = new JMenuItem("Mes commandes");
-		eEditItem.setMnemonic(KeyEvent.VK_E);
-		eEditItem.addActionListener((event) -> {
-			SwitchPanels(OrderPanel);
-		});
-
-		fileMenu.add(eMenuItem);
-		editMenu.add(eEditItem);
-		menuBar.add(fileMenu);
-		menuBar.add(editMenu);
-		menuBar.add(exitMenu);
-
-		setJMenuBar(menuBar);
-		SwitchPanels(HomePanel);
+		btnRetour.setForeground(Color.WHITE);
+		btnRetour.setBackground(Color.DARK_GRAY);
+		btnRetour.setBounds(525, 57, 138, 30);
+		panel.add(btnRetour);
+		
+		JLabel lblType = new JLabel("Type : "+ personne.getClass().getName().substring(5) );
+		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblType.setForeground(Color.WHITE);
+		lblType.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblType.setBounds(484, 22, 171, 30);
+		panel.add(lblType);
+		
+		JButton btnReservation = new JButton("Mes reservations");
+		btnReservation.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnReservation.setBackground(Color.RED);
+		btnReservation.setForeground(Color.WHITE);
+		btnReservation.setBounds(58, 167, 222, 57);
+		panel.add(btnReservation);
 	}
-
 }

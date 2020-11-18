@@ -18,5 +18,13 @@
 	<classpathentry kind="lib" path="C:/dev/java/projects/test5/jackcess-3.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/dev/java/projects/test5/ucanaccess-5.0.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/erena/Downloads/sqlite-jdbc-3.27.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/erena/Desktop/lib/jcalendar-1.4.jar">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/erena/Desktop/lib/jgoodies-common-1.2.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/erena/Desktop/lib/jgoodies-looks-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/erena/Desktop/lib/junit-4.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

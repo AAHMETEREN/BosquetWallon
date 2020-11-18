@@ -1,6 +1,12 @@
 package pojo;
 
+import dao.AbstractDAOFactory;
+import dao.DAO;
+import dao.DAOFactory;
+
 public class Client implements Personne {
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<Client> clientDAO = dao.getClientDAO();
 	private  String motDePasse;
 	private String nomUtilisateur;
 	private String adresse;
@@ -8,9 +14,9 @@ public class Client implements Personne {
 	private String nom;
 	private Integer age;
 	private final String role = "client";
-
-	
-	public  Client(String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
+	private int id;
+	public  Client(int id , String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom, Integer age) {
+		this.id = id;
 		this.motDePasse = motDePasse;
 		this.nomUtilisateur = nomUtilisateur;
 		this.adresse = adresse;
@@ -49,6 +55,15 @@ public class Client implements Personne {
 	@Override
 	public String getAdresse() {
 		return this.adresse;
+	}
+
+	@Override
+	public int getId() {
+		return this.id;
+	}
+	
+	public boolean create() {
+		return clientDAO.create(this);
 	}
 
 }

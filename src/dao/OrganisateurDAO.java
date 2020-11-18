@@ -49,6 +49,7 @@ public class OrganisateurDAO implements DAO<Organisateur>{
 					.executeQuery("SELECT * FROM Personne WHERE id = " + id);
 			if(result.next()) {
 				organisateur = new Organisateur(
+						Integer.parseInt(result.getString("id")),
 						result.getString("motDePasse"),
 						result.getString("nomUtilisateur"),
 						result.getString("adresse"),

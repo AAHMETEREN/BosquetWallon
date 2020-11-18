@@ -10,12 +10,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dao.ClientDAO;
-import dao.OrganisateurDAO;
-
-import dao.DAO;
 import pojo.Client;
 import pojo.Organisateur;
+import pojo.Personne;
 
 import javax.swing.JTabbedPane;
 import javax.swing.JButton;
@@ -77,8 +74,8 @@ public class RegisterPage extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());
-				RegisterForm page = new RegisterForm(clientDAO);
+				Personne personne = new Client();
+				RegisterForm page = new RegisterForm(personne);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -94,8 +91,8 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO<Organisateur> organisateurDao = new OrganisateurDAO(database.SqliteConnection.getInstance());
-				RegisterForm page = new RegisterForm(organisateurDao);
+				Personne personne = new Organisateur();
+				RegisterForm page = new RegisterForm(personne);
 				page.setVisible(true);
 				me.dispose();
 				
@@ -112,6 +109,19 @@ public class RegisterPage extends JFrame {
 				
 			}
 		});
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.setBounds(564, 10, 88, 27);
+		btnRetour.setBackground(Color.DARK_GRAY);
+		btnRetour.setForeground(Color.WHITE);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main page = new Main();
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+		panel_1.add(btnRetour);
 		
 	
 		

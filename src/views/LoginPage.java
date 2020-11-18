@@ -68,9 +68,9 @@ public class LoginPage extends JFrame {
 		};
 		panel_1.setBounds(22, 10, 662, 371);
 		contentPane.add(panel_1);
-		panel_1.setLayout(null);
 
 		JButton btnNewButton = new JButton("Je suis un client");
+		btnNewButton.setBounds(206, 52, 249, 65);
 		btnNewButton.setForeground(Color.WHITE);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.setBackground(Color.DARK_GRAY);
@@ -82,14 +82,14 @@ public class LoginPage extends JFrame {
 				me.dispose();
 			}
 		});
-		btnNewButton.setBounds(206, 52, 249, 65);
+		panel_1.setLayout(null);
 		panel_1.add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("Je suis un organisateur");
+		btnNewButton_1.setBounds(206, 138, 249, 65);
 		btnNewButton_1.setForeground(Color.WHITE);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton_1.setBackground(Color.DARK_GRAY);
-		btnNewButton_1.setBounds(206, 138, 249, 65);
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -100,17 +100,31 @@ public class LoginPage extends JFrame {
 			}
 		});
 		JButton btnNewButton_1_1 = new JButton("Je suis un artiste");
+		btnNewButton_1_1.setBounds(206, 222, 249, 65);
 		btnNewButton_1_1.setForeground(Color.WHITE);
 		btnNewButton_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton_1_1.setBackground(Color.DARK_GRAY);
-		btnNewButton_1_1.setBounds(206, 222, 249, 65);
 		panel_1.add(btnNewButton_1_1);
+		
+		JButton btnRetour = new JButton("Retour");
+		btnRetour.setBounds(564, 10, 88, 27);
+		btnRetour.setBackground(Color.DARK_GRAY);
+		btnRetour.setForeground(Color.WHITE);
+		btnRetour.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Main page = new Main();
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+		panel_1.add(btnRetour);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				me.dispose();
 			}
 		});
+
 
 	}
 }

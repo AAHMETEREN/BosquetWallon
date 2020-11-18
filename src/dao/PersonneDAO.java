@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
+import pojo.Spectacle;
 
-public class PersonneDAO {
+public class PersonneDAO implements DAO<Personne> {
 
 	protected Connection connect = null;
 
@@ -26,14 +27,26 @@ public class PersonneDAO {
 				String role = result.getString("role");
 				if (password.equals(resultPassword)) {
 					if(role.equals("client")) {
-						Personne pers=  new Client(result.getString("motDePasse"), result.getString("nomUtilisateur"),
-								result.getString("adresse"), result.getString("prenom"), result.getString("nom"),
-								Integer.parseInt(result.getString("age")));
+						Personne pers=  new Client(
+								Integer.parseInt(result.getString("id")),
+								result.getString("motDePasse"),
+								result.getString("nomUtilisateur"),
+								result.getString("adresse"),
+								result.getString("prenom"),
+								result.getString("nom"),
+								Integer.parseInt(result.getString("age"))
+							);
 						System.out.println("5555"+pers.getPrenom());
 						return pers;
 					}else if(role.equals("organisateur")) {
-						return new Organisateur(result.getString("motDePasse"), result.getString("nomUtilisateur"),
-								result.getString("adresse"), result.getString("prenom"), result.getString("nom"));
+						return new Organisateur(
+								Integer.parseInt(result.getString("id")),
+								result.getString("motDePasse"),
+								result.getString("nomUtilisateur"),
+								result.getString("adresse"),
+								result.getString("prenom"),
+								result.getString("nom")
+							);
 					}
 					
 				}
@@ -44,5 +57,25 @@ public class PersonneDAO {
 
 		}
 		return new Client(); // Client vide
+	}
+
+	@Override
+	public boolean create(Personne obj) {
+		return false;
+	}
+
+	@Override
+	public boolean delete(Personne obj) {
+		return false;
+	}
+
+	@Override
+	public boolean update(Personne obj) {
+		return false;
+	}
+
+	@Override
+	public Personne find(int id) {
+		return null;
 	}
 }
