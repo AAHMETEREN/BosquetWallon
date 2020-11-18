@@ -45,4 +45,8 @@ public class Organisateur implements Personne  {
 	public String getAdresse() {
 		return this.adresse;
 	}
+	@Override
+	public int getId() {
+		return this.id;
+	}
 }

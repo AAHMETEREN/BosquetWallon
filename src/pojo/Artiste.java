@@ -55,4 +55,8 @@ public class Artiste implements Personne{
 	public String toString() {
 		return this.nomDeScene;
 	}
+	@Override
+	public int getId() {
+		return this.id;
+	}
 }

@@ -6,4 +6,5 @@ public interface Personne {
 	public String getMotDePasse();
 	public String getNomUtilisateur();
 	public String getAdresse();
+	public int getId();
 }

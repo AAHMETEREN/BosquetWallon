@@ -52,4 +52,9 @@ public class Client implements Personne {
 		return this.adresse;
 	}
 
+	@Override
+	public int getId() {
+		return this.id;
+	}
+
 }

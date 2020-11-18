@@ -12,6 +12,7 @@ public class Spectacle {
 	private Organisateur organisateur;
 	private Configuration configuration;
 	private PlanningSalle planningSalle;
+	private Reservation reservation;
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private List<Representation> representations = new ArrayList<Representation>();
 	private int id;
@@ -100,14 +101,23 @@ public class Spectacle {
 
 		if (isSpectacleCreated) {
 			// creation representation
-			isSpectacleCreated = createRepresentations();
+			createRepresentations();
 			// creation configuration et categorie
-			isSpectacleCreated = createConfiguration();
-			// create planning salle
-			// create reservation
+			createConfiguration();
+			// create planning salle et reservation
+			createPlanningSalle();
+			//
+			createReservation();
 		}
 	}
-
+	boolean createReservation() {
+		this.reservation = new Reservation(0, 0, 0);
+		return reservation.createReservation(this.organisateur.getId(),this.planningSalle.getId());
+	}
+	boolean createPlanningSalle() {
+		return planningSalle.createPlanningSalle(this.id);
+	}
+	
 	boolean createRepresentations() {
 		for (Representation representation : representations) 
 		{ 

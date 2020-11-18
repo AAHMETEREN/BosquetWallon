@@ -7,8 +7,9 @@ import java.sql.SQLException;
 import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
+import pojo.Spectacle;
 
-public class PersonneDAO {
+public class PersonneDAO implements DAO<PersonneDAO> {
 
 	protected Connection connect = null;
 
@@ -56,5 +57,25 @@ public class PersonneDAO {
 
 		}
 		return new Client(); // Client vide
+	}
+
+	@Override
+	public boolean create(PersonneDAO obj) {
+		return false;
+	}
+
+	@Override
+	public boolean delete(PersonneDAO obj) {
+		return false;
+	}
+
+	@Override
+	public boolean update(PersonneDAO obj) {
+		return false;
+	}
+
+	@Override
+	public PersonneDAO find(int id) {
+		return null;
 	}
 }
