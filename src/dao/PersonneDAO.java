@@ -9,7 +9,7 @@ import pojo.Organisateur;
 import pojo.Personne;
 import pojo.Spectacle;
 
-public class PersonneDAO implements DAO<PersonneDAO> {
+public class PersonneDAO implements DAO<Personne> {
 
 	protected Connection connect = null;
 
@@ -60,22 +60,22 @@ public class PersonneDAO implements DAO<PersonneDAO> {
 	}
 
 	@Override
-	public boolean create(PersonneDAO obj) {
+	public boolean create(Personne obj) {
 		return false;
 	}
 
 	@Override
-	public boolean delete(PersonneDAO obj) {
+	public boolean delete(Personne obj) {
 		return false;
 	}
 
 	@Override
-	public boolean update(PersonneDAO obj) {
+	public boolean update(Personne obj) {
 		return false;
 	}
 
 	@Override
-	public PersonneDAO find(int id) {
+	public Personne find(int id) {
 		return null;
 	}
 }

@@ -30,13 +30,13 @@ public class RegisterForm extends JFrame {
 	private JTextField nom;
 	private JTextField age;
 	private JTextField adresse;
+	private Personne personne;
 
-
-	public RegisterForm(DAO daoInstance) {
-	
+	public RegisterForm(Personne personne) {
+		this.personne = personne;
 		RegisterForm me = this;
 		getContentPane().setLayout(null);
-
+		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 436, 263);
 		getContentPane().add(panel);
@@ -78,7 +78,7 @@ public class RegisterForm extends JFrame {
 		panel_1.add(nom);
 
 		age = new JTextField();
-		if(daoInstance instanceof ClientDAO) {
+		if(personne instanceof Client) {
 			JLabel lblAge = new JLabel("Age");
 			lblAge.setBounds(457, 194, 59, 13);
 			panel_1.add(lblAge);
@@ -119,11 +119,8 @@ public class RegisterForm extends JFrame {
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Personne personne = null;
-				System.out.println(daoInstance instanceof ClientDAO);
-
-				if(daoInstance instanceof ClientDAO) {
-					personne =  new Client(
+				if(me.personne instanceof Client) {
+					me.personne =  new Client(
 							0,
 							motDePasse.getText(), 
 							nomUtilisateur.getText(), 
@@ -132,8 +129,8 @@ public class RegisterForm extends JFrame {
 							nom.getText(), 
 							Integer.parseInt(age.getText())
 						);
-				}else if(daoInstance instanceof OrganisateurDAO) {
-					personne =  new Organisateur(
+				}else if(me.personne instanceof Organisateur) {
+					me.personne =  new Organisateur(
 							0,
 							motDePasse.getText(), 
 							nomUtilisateur.getText(), 
@@ -142,9 +139,9 @@ public class RegisterForm extends JFrame {
 							nom.getText()
 						);
 				}
-				Boolean isUserCreated = daoInstance.create(personne);
+				Boolean isUserCreated = me.personne.create();
 				if(isUserCreated) {
-					Dashboard dashboard = new Dashboard(personne);
+					Dashboard dashboard = new Dashboard(me.personne);
 					dashboard.setVisible(true);
 					me.dispose();
 				}else {

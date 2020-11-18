@@ -3,12 +3,13 @@ package pojo;
 import java.sql.Date;
 import java.util.Calendar;
 
+import dao.AbstractDAOFactory;
 import dao.DAO;
 import dao.PlanningSalleDAO;
 
 public class PlanningSalle {
-	private DAO<PlanningSalle> planningSalleDAO = new PlanningSalleDAO(database.SqliteConnection.getInstance());
-
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<PlanningSalle> planningSalleDAO = dao.getPlanningSalleDAO();
 	private int id;
 	private int idSpectacle;
 
@@ -17,9 +18,11 @@ public class PlanningSalle {
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public int getId() {
 		return this.id;
 	}
+
 	public PlanningSalle(int id, Date dateReservation) {
 		this.id = id;
 		this.dateReservation = dateReservation;
@@ -35,12 +38,13 @@ public class PlanningSalle {
 	}
 
 	public Date getdateFinR() {
-		Calendar c = Calendar.getInstance(); 
-		java.sql.Date startDate= new java.sql.Date(c.getTimeInMillis());
-		c.setTime(startDate); 
+		Calendar c = Calendar.getInstance();
+		java.sql.Date startDate = new java.sql.Date(c.getTimeInMillis());
+		c.setTime(startDate);
 		c.add(Calendar.DATE, 1);
 		return new java.sql.Date(c.getTimeInMillis());
 	}
+
 	public int getIdSpectacle() {
 		return this.idSpectacle;
 	}

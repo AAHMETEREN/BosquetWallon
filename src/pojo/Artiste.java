@@ -59,4 +59,10 @@ public class Artiste implements Personne{
 	public int getId() {
 		return this.id;
 	}
+
+	@Override
+	public boolean create() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

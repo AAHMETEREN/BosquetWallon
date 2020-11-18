@@ -3,11 +3,12 @@ package pojo;
 import java.util.ArrayList;
 import java.util.List;
 import dao.DAO;
+import dao.AbstractDAOFactory;
 import dao.ConfigurationDAO;
 
 public class Configuration {
-	private DAO<Configuration> configurationDAO = new ConfigurationDAO(database.SqliteConnection.getInstance());
-
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<Configuration> configurationDAO = dao.getConfigurationDAO();
 	private List<Categorie> categories = new ArrayList<Categorie>();
 	private String description;
 	private String type;
@@ -24,7 +25,7 @@ public class Configuration {
 	public String getDescription() {
 		return this.description;
 	}
-	
+
 	public int getSpectacleId() {
 		return this.spectacleId;
 	}
@@ -48,12 +49,12 @@ public class Configuration {
 	public boolean createConfiguration(int spectacleId) {
 		this.spectacleId = spectacleId;
 		boolean isConfigurationCreated = configurationDAO.create(this);
-		if(isConfigurationCreated) {
-			for(Categorie categorie : this.categories) {
+		if (isConfigurationCreated) {
+			for (Categorie categorie : this.categories) {
 				categorie.createCategorie(this.id);
 			}
 		}
-		
+
 		return true;
 	}
 }

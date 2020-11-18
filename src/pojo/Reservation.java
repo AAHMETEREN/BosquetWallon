@@ -1,12 +1,12 @@
 package pojo;
 
-import java.sql.Date;
 
+import dao.AbstractDAOFactory;
 import dao.DAO;
-import dao.RepresentationDAO;
-import dao.ReservationDAO;
 
 public class Reservation {
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<Reservation> reservationDAO = dao.getReservationDAO();
 	private int id = 0;
 	private float acompte;
 	private float solde;
@@ -14,9 +14,7 @@ public class Reservation {
 	private String status;
 	private int idPersonne;
 	private int idPlanningSalle;
-	private DAO<Reservation> reservationDAO = new ReservationDAO(database.SqliteConnection.getInstance());
-	
-	
+
 	public Reservation(int acompte ,int solde ,float prix ) {
 		this.acompte = acompte;
 		this.solde = solde;

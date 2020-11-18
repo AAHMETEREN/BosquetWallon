@@ -1,6 +1,11 @@
 package pojo;
 
+import dao.AbstractDAOFactory;
+import dao.DAO;
+
 public class Organisateur implements Personne  {
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<Organisateur> organisateurDAO = dao.getOrganisateurDAO();
 	private  String motDePasse;
 	private String nomUtilisateur;
 	private String adresse;
@@ -48,5 +53,10 @@ public class Organisateur implements Personne  {
 	@Override
 	public int getId() {
 		return this.id;
+	}
+
+	@Override
+	public boolean create() {
+		return organisateurDAO.create(this);
 	}
 }

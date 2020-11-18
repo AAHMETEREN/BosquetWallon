@@ -3,10 +3,13 @@ package pojo;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.AbstractDAOFactory;
 import dao.DAO;
 import dao.SpectacleDAO;
 
 public class Spectacle {
+	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
+	private final DAO<Spectacle> spectacleDAO = dao.getSpectacleDAO();
 	private String titre;
 	private int nombrePlaceParClient;
 	private Organisateur organisateur;
@@ -16,7 +19,6 @@ public class Spectacle {
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private List<Representation> representations = new ArrayList<Representation>();
 	private int id;
-	private DAO<Spectacle> spectacleDAO = new SpectacleDAO(database.SqliteConnection.getInstance());
 
 	public Spectacle(int id, String titre, int nombrePlaceParClient, Organisateur organisateur,
 			Configuration configuration, PlanningSalle planningSalle, List<Artiste> artistes,
@@ -110,21 +112,23 @@ public class Spectacle {
 			createReservation();
 		}
 	}
+
 	boolean createReservation() {
 		this.reservation = new Reservation(0, 0, 0);
-		return reservation.createReservation(this.organisateur.getId(),this.planningSalle.getId());
+		return reservation.createReservation(this.organisateur.getId(), this.planningSalle.getId());
 	}
+
 	boolean createPlanningSalle() {
 		return planningSalle.createPlanningSalle(this.id);
 	}
-	
+
 	boolean createRepresentations() {
-		for (Representation representation : representations) 
-		{ 
+		for (Representation representation : representations) {
 			representation.createRepresentation(this.id);
 		}
 		return true;
 	}
+
 	boolean createConfiguration() {
 		configuration.createConfiguration(this.id);
 		return true;
