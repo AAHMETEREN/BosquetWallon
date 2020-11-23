@@ -18,8 +18,6 @@ public class DAOFactory extends AbstractDAOFactory{
 	public DAO<Configuration> getConfigurationDAO(){
 		return new ConfigurationDAO(conn);
 	}
-	
-
 
 	public DAO<PlanningSalle> getPlanningSalleDAO(){
 		return new PlanningSalleDAO(conn);
