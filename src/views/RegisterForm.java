@@ -8,9 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dao.ClientDAO;
-import dao.DAO;
-import dao.OrganisateurDAO;
+import pojo.Artiste;
 import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
@@ -30,10 +28,10 @@ public class RegisterForm extends JFrame {
 	private JTextField nom;
 	private JTextField age;
 	private JTextField adresse;
-	private Personne personne;
+	private JTextField nomDeScene;
+	private JTextField nomEntreprise;
 
-	public RegisterForm(Personne personne) {
-		this.personne = personne;
+	public RegisterForm(String role) {
 		RegisterForm me = this;
 		getContentPane().setLayout(null);
 		
@@ -78,13 +76,31 @@ public class RegisterForm extends JFrame {
 		panel_1.add(nom);
 
 		age = new JTextField();
-		if(personne instanceof Client) {
+		nomDeScene = new JTextField();
+		nomEntreprise = new JTextField();
+		if(role ==  Client.role) {
 			JLabel lblAge = new JLabel("Age");
 			lblAge.setBounds(457, 194, 59, 13);
 			panel_1.add(lblAge);
 			age.setColumns(10);
 			age.setBounds(457, 217, 72, 33);
 			panel_1.add(age);
+		}else if(role == Organisateur.role) {
+			nomEntreprise.setColumns(10);
+			nomEntreprise.setBounds(126, 279, 308, 33);
+			panel_1.add(nomEntreprise);
+			JLabel lblNomEntreprise = new JLabel("Nom d'entreprise");
+			lblNomEntreprise.setBounds(126, 260, 185, 13);
+			panel_1.add(lblNomEntreprise);
+		}else if(role == Artiste.role) {
+			
+			nomDeScene.setColumns(10);
+			nomDeScene.setBounds(126, 279, 308, 33);
+			panel_1.add(nomDeScene);
+			
+			JLabel lblNomDeScene = new JLabel("Nom de scene");
+			lblNomDeScene.setBounds(126, 260, 185, 13);
+			panel_1.add(lblNomDeScene);
 		}
 
 		adresse = new JTextField();
@@ -119,38 +135,54 @@ public class RegisterForm extends JFrame {
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(me.personne instanceof Client) {
-					me.personne =  new Client(
-							0,
-							motDePasse.getText(), 
-							nomUtilisateur.getText(), 
-							adresse.getText(),
-							prenom.getText(), 
-							nom.getText(), 
-							Integer.parseInt(age.getText())
-						);
-				}else if(me.personne instanceof Organisateur) {
-					me.personne =  new Organisateur(
-							0,
-							motDePasse.getText(), 
-							nomUtilisateur.getText(), 
-							adresse.getText(),
-							prenom.getText(), 
-							nom.getText()
-						);
-				}
-				Boolean isUserCreated = me.personne.create();
-				if(isUserCreated) {
-					Dashboard dashboard = new Dashboard(me.personne);
-					dashboard.setVisible(true);
-					me.dispose();
-				}else {
-					JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");
-				}
+					Personne personne = new Personne();
+					if(role == Client.role) {
+						personne =  new Client(
+								0,
+								motDePasse.getText(), 
+								nomUtilisateur.getText(), 
+								adresse.getText(),
+								prenom.getText(), 
+								nom.getText(),
+								Integer.parseInt(age.getText())
+							);
+						
+					}
+					else if(role == Organisateur.role) {
+						personne =  new Organisateur(
+								0,
+								motDePasse.getText(), 
+								nomUtilisateur.getText(), 
+								adresse.getText(),
+								prenom.getText(), 
+								nom.getText(),
+								nomEntreprise.getText()
+							);
+					}
+					else if(role == Artiste.role) {
+						personne =  new Artiste(
+								0,
+								motDePasse.getText(), 
+								nomUtilisateur.getText(), 
+								adresse.getText(),
+								prenom.getText(), 
+								nom.getText(),
+								nomDeScene.getText()
+							);
+					}
+					Boolean isUserCreated = personne.register();
+					if(isUserCreated) {
+						Dashboard dashboard = new Dashboard(personne);
+						dashboard.setVisible(true);
+						me.dispose();
+					}else {
+						JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");
+					}
 				
-			}
+				}
+			
 		});
-		btnNewButton.setBounds(399, 287, 130, 33);
+		btnNewButton.setBounds(126, 328, 130, 33);
 		panel_1.add(btnNewButton);
 		
 		JButton btnRetour = new JButton("Retour");
@@ -165,5 +197,8 @@ public class RegisterForm extends JFrame {
 			}
 		});
 		panel_1.add(btnRetour);
+		
+		
+	
 	}
 }

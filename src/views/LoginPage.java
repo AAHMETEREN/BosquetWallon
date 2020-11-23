@@ -10,9 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dao.ClientDAO;
-import dao.DAO;
-import dao.OrganisateurDAO;
+import pojo.Artiste;
 import pojo.Client;
 import pojo.Organisateur;
 
@@ -76,8 +74,7 @@ public class LoginPage extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());
-				LoginForm page = new LoginForm(clientDAO,"client");
+				LoginForm page = new LoginForm(Client.role);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -93,8 +90,7 @@ public class LoginPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DAO<Organisateur> organisateurDao = new OrganisateurDAO(database.SqliteConnection.getInstance());
-				LoginForm page = new LoginForm(organisateurDao,"organisateur");
+				LoginForm page = new LoginForm(Organisateur.role);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -105,7 +101,13 @@ public class LoginPage extends JFrame {
 		btnNewButton_1_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton_1_1.setBackground(Color.DARK_GRAY);
 		panel_1.add(btnNewButton_1_1);
-		
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginForm page = new LoginForm(Artiste.role);
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
 		JButton btnRetour = new JButton("Retour");
 		btnRetour.setBounds(564, 10, 88, 27);
 		btnRetour.setBackground(Color.DARK_GRAY);

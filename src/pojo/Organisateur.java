@@ -1,62 +1,23 @@
 package pojo;
 
-import dao.AbstractDAOFactory;
-import dao.DAO;
+public class Organisateur extends Personne  {
+	public final static String role =  "organisateur";
+	private String nomEntreprise ;
 
-public class Organisateur implements Personne  {
-	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
-	private final DAO<Organisateur> organisateurDAO = dao.getOrganisateurDAO();
-	private  String motDePasse;
-	private String nomUtilisateur;
-	private String adresse;
-	private String prenom;
-	private String nom;
-	private final String role = "organisateur";
-	private int id;
-
-	public  Organisateur(int id ,String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom) {
-		this.id = id;
-		this.motDePasse = motDePasse;
-		this.nomUtilisateur = nomUtilisateur;
-		this.adresse = adresse;
-		this.prenom = prenom;
-		this.nom = nom;
+	public  Organisateur(int id ,String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom,String nomEntreprise) {
+		super(id,role,motDePasse,nomUtilisateur,adresse,prenom,nom);
+		this.nomEntreprise = nomEntreprise;
 	}
 	
-	public Organisateur() {
+	public String getNomEntreprise() {
+		return this.nomEntreprise;
 	}
-
-	@Override
-	public String getNom() {
-		return this.nom;
+	public void setNomEntreprise(String nomEntreprise) {
+		this.nomEntreprise = nomEntreprise;
 	}
-
+	
 	@Override
-	public String getPrenom() {
-		return this.prenom;
-	}
-
-	@Override
-	public String getMotDePasse() {
-		return this.motDePasse;
-	}
-
-	@Override
-	public String getNomUtilisateur() {
-		return this.nomUtilisateur;
-	}
-
-	@Override
-	public String getAdresse() {
-		return this.adresse;
-	}
-	@Override
-	public int getId() {
-		return this.id;
-	}
-
-	@Override
-	public boolean create() {
-		return organisateurDAO.create(this);
+	public boolean register() {
+		return personneDAO.create(((Organisateur) this));
 	}
 }

@@ -78,7 +78,7 @@ public class Location extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Personne personne = new Organisateur(0, "test", "test", "test", "test", "test");
+					Personne personne = new Organisateur(0, "test", "test", "test", "test", "test", "tt3es");
 
 					Location frame = new Location(personne);
 					frame.setVisible(true);

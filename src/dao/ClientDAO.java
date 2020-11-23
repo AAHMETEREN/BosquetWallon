@@ -41,7 +41,7 @@ public class ClientDAO implements DAO<Client> {
 
 	@Override
 	public Client find(int id) {
-		Client client = new Client();
+		Client client = new Client(id, null, null, null, null, null, id);
 		try {
 			ResultSet result = this.connect
 					.createStatement()

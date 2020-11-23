@@ -1,68 +1,25 @@
 package pojo;
 
-public class Artiste implements Personne{
-	private  String motDePasse;
-	private String nomUtilisateur;
-	private String adresse;
-	private String prenom;
-	private String nom;
+public class Artiste extends Personne {
 	private String nomDeScene;
-	private final String role = "artiste";
-	private int id;
+	public final static String role = "artiste";
 
-	
-	public  Artiste(int id ,String motDePasse , String nomUtilisateur, String adresse ,String prenom ,String nom,String nomDeScene) {
-		this.id = id;
-		this.motDePasse = motDePasse;
-		this.nomUtilisateur = nomUtilisateur;
-		this.adresse = adresse;
-		this.prenom = prenom;
-		this.nom = nom;
-		this.nom = nomDeScene;
-	}
-	
-	public Artiste() {
-	}
-	
-
-
-	@Override
-	public String getNom() {
-		return this.nom;
+	public Artiste(int id, String motDePasse, String nomUtilisateur, String adresse, String prenom, String nom,
+			String nomDeScene) {
+		super(id, role, motDePasse, nomUtilisateur, adresse, prenom, nom);
+		this.nomDeScene = nomDeScene;
 	}
 
-	@Override
-	public String getPrenom() {
-		return this.prenom;
-	}
-
-	@Override
-	public String getMotDePasse() {
-		return this.motDePasse;
-	}
-
-	@Override
-	public String getNomUtilisateur() {
-		return this.nomUtilisateur;
-	}
-
-	@Override
-	public String getAdresse() {
-		return this.adresse;
-	}
-	
-	@Override
-	public String toString() {
+	public String getNomDeScene() {
 		return this.nomDeScene;
 	}
-	@Override
-	public int getId() {
-		return this.id;
-	}
 
+	public void setNomDeScene(String nomDeScene) {
+		this.nomDeScene = nomDeScene;
+	}
+	
 	@Override
-	public boolean create() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean register() {
+		return personneDAO.create(((Artiste) this));
 	}
 }
