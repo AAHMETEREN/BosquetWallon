@@ -70,7 +70,7 @@ public class Location extends JFrame {
 	private JLabel labelArtiste_2;
 	private JButton btnNewButton;
 	private JLabel lblNewLabel;
-
+	private JComboBox comboBoxArtiste;
 	/**
 	 * Launch the application.
 	 */
@@ -79,7 +79,6 @@ public class Location extends JFrame {
 			public void run() {
 				try {
 					Personne personne = new Organisateur(0, "test", "test", "test", "test", "test", "tt3es");
-
 					Location frame = new Location(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -93,10 +92,6 @@ public class Location extends JFrame {
 	 * Create the frame.
 	 */
 	public Location(Personne personne) {
-		artistes.add(new Artiste(0, "test", "test", "test", "test", "test", "test"));
-		artistes.add(new Artiste(0, "test2", "test2", "test2", "test2", "test2", "test2"));
-		artistes.add(new Artiste(0, "test3", "test3", "test3", "test3", "test3", "test3"));
-		artistes.add(new Artiste(0, "test4", "test4", "test4", "test4", "test4", "test4"));
 
 		this.personne = personne;
 		Location me = this;
@@ -239,8 +234,19 @@ public class Location extends JFrame {
 		createCalendar();
 		resetChampPrix();
 		creerChampPrixDebout();
+		getAllArtistes();
 	}
-
+	
+	private void getAllArtistes() {
+		List<Artiste> allArtistes = personne.findAllArtiste();
+	 	comboBoxArtiste = new JComboBox<Artiste>();
+		comboBoxArtiste.setBounds(384, 171, 284, 27);
+		panel.add(comboBoxArtiste);
+		
+		for (Artiste artiste : allArtistes) {
+			comboBoxArtiste.addItem(artiste);
+		}
+	}
 	private void createCalendar() {
 		calendar = new JCalendar();
 		calendar.setLocale(Locale.FRENCH);
@@ -259,9 +265,7 @@ public class Location extends JFrame {
 		labelArtiste.setBounds(384, 154, 160, 13);
 		panel.add(labelArtiste);
 
-		JComboBox comboBoxArtiste = new JComboBox<Artiste>();
-		comboBoxArtiste.setBounds(384, 171, 284, 27);
-		panel.add(comboBoxArtiste);
+		
 
 		JButton confirmButton = new JButton("Creer");
 		confirmButton.setForeground(Color.WHITE);
@@ -322,9 +326,7 @@ public class Location extends JFrame {
 		lblNewLabel.setBounds(46, 305, 152, 13);
 		panel.add(lblNewLabel);
 
-		for (Artiste item : artistes) {
-			comboBoxArtiste.addItem(item.getNomUtilisateur());
-		}
+		
 		// TODO : add id to models
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 			@SuppressWarnings("deprecation")

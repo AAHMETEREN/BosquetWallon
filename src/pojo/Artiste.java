@@ -22,4 +22,9 @@ public class Artiste extends Personne {
 	public boolean register() {
 		return personneDAO.create(((Artiste) this));
 	}
+	
+	@Override
+	public String toString() {
+		return this.getNomUtilisateur();
+	}
 }

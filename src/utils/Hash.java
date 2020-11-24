@@ -38,6 +38,7 @@ public class Hash {
 	}
 
 	public static String hashPassword(String passwordToHash) throws NoSuchAlgorithmException {
+		if(passwordToHash == null) return "";
 		salt = getSalt();
 		String generatedPassword = null;
 		try {
@@ -53,7 +54,7 @@ public class Hash {
 			// Get complete hashed password in hex format
 			generatedPassword = sb.toString();
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			return null;
 		}
 		return generatedPassword;
 	}
