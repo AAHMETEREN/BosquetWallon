@@ -52,7 +52,7 @@ public class ReservationDAO implements DAO<Reservation> {
 
 
 	@Override
-	public Reservation find(int id) {
+	public Reservation find(Reservation obj) {
 		return null;
 	}
 

@@ -58,7 +58,7 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	}
 
 	@Override
-	public Spectacle find(int id) {
+	public Spectacle find(Spectacle obj) {
 		return null;
 	}
 }

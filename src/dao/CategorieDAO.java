@@ -51,7 +51,7 @@ public class CategorieDAO implements DAO<Categorie> {
 	}
 
 	@Override
-	public Categorie find(int id) {
+	public Categorie find(Categorie obj) {
 		return null;
 	}
 }

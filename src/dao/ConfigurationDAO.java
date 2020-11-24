@@ -65,7 +65,7 @@ public class ConfigurationDAO implements DAO<Configuration>{
 	}
 
 	@Override
-	public Configuration find(int id) {
+	public Configuration find(Configuration obj) {
 		return null;
 	}
 }
