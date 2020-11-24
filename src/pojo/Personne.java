@@ -56,6 +56,9 @@ public class Personne {
 	public boolean login() throws NoSuchAlgorithmException {
 		return this.personneDAO.login(this);
 	}
+	public Personne find()  {
+		return this.personneDAO.find(this);
+	}
 
 	public String getRole() {
 		return this.role;

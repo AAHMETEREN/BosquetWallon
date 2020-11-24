@@ -50,7 +50,7 @@ public class RepresentationDAO implements DAO<Representation> {
 	}
 
 	@Override
-	public Representation find(int id) {
+	public Representation find(Representation obj) {
 		return null;
 	}
 }

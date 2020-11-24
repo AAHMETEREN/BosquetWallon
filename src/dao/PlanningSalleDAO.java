@@ -59,7 +59,7 @@ public class PlanningSalleDAO  implements DAO<PlanningSalle> {
 	}
 
 	@Override
-	public PlanningSalle find(int id) {
+	public PlanningSalle find(PlanningSalle obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

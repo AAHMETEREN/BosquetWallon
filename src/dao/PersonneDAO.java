@@ -149,7 +149,29 @@ public class PersonneDAO implements DAO<Personne> {
 	}
 
 	@Override
-	public Personne find(int id) {
+	public Personne find(Personne personne) {
+		try {
+
+			ResultSet result = this.connect
+					.createStatement()
+					.executeQuery("SELECT * FROM Personne WHERE nomUtilisateur = '" + personne.getNomUtilisateur() +"'" );
+			
+			if(result.next()) {
+				return new Personne(
+						Integer.parseInt(
+						result.getString("id")),
+						null,
+						result.getString("motDePasse"),
+						result.getString("nomUtilisateur"),
+						result.getString("adresse"),
+						result.getString("prenom"),
+						result.getString("nom")
+					);
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
 		return null;
 	}
 }

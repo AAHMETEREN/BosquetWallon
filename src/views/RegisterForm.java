@@ -135,7 +135,7 @@ public class RegisterForm extends JFrame {
 		
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					Personne personne = new Personne();
+				Personne personne = new Personne();
 					if(role == Client.role) {
 						personne =  new Client(
 								0,
@@ -170,14 +170,23 @@ public class RegisterForm extends JFrame {
 								nomDeScene.getText()
 							);
 					}
-					Boolean isUserCreated = personne.register();
-					if(isUserCreated) {
-						Dashboard dashboard = new Dashboard(personne);
-						dashboard.setVisible(true);
-						me.dispose();
+					
+					Personne isAlreadyCreatedUser = personne.find();
+					System.out.println(isAlreadyCreatedUser);
+					if(isAlreadyCreatedUser == null) {
+						Boolean isNewUserCreated = personne.register();
+
+						if(isNewUserCreated) {
+							Dashboard dashboard = new Dashboard(personne);
+							dashboard.setVisible(true);
+							me.dispose();
+						}else {
+							JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");
+						}
 					}else {
-						JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");
+						JOptionPane.showMessageDialog(null, "Utilisateur  deja existant.");
 					}
+					
 				
 				}
 			
