@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.security.NoSuchAlgorithmException;
 import java.awt.event.ActionEvent;
 
 public class LoginForm extends JFrame {
@@ -72,10 +73,17 @@ public class LoginForm extends JFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Personne personne = new Personne();
-				personne.setNomUtilisateur(username.getText());
-				personne.setMotDePasse(password.getText());
-				personne.setRole(role);
-				boolean isAuthenticated = personne.login();
+				boolean isAuthenticated = false;
+				
+				try {
+					personne.setNomUtilisateur(username.getText());
+					personne.setRole(role);
+					personne.setMotDePasse(password.getText());
+					isAuthenticated = personne.login();
+				} catch (NoSuchAlgorithmException e1) {
+					e1.printStackTrace();
+				}
+				
 				if (isAuthenticated) {
 					Dashboard dashboard = new Dashboard(personne);
 					dashboard.setVisible(true);

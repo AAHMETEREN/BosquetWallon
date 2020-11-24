@@ -57,16 +57,20 @@ public class Hash {
 		}
 		return generatedPassword;
 	}
-	
-	public static boolean ComparePassword(String inputPassword , String realPassword) throws NoSuchAlgorithmException {
-		String hashedInputPassword = hashPassword(inputPassword);
-		String hashedRealPassword = hashPassword(realPassword);
-		if(hashedInputPassword.equals(hashedRealPassword)) {
-			System.out.println(true);
-		}else {
-			System.out.println(false);
+
+	public static boolean ComparePassword(String inputPassword, String realPassword) throws NoSuchAlgorithmException {
+		try {
+			String hashedInputPassword = hashPassword(inputPassword);
+			String hashedRealPassword = hashPassword(realPassword);
+
+			if (hashedInputPassword.equals(hashedRealPassword)) {
+				return true;
+			}
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
 		}
 		return false;
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,7 @@ import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
 import pojo.Spectacle;
+import utils.Hash;
 
 public class PersonneDAO implements DAO<Personne> {
 
@@ -18,7 +20,7 @@ public class PersonneDAO implements DAO<Personne> {
 		connect = conn;
 	}
 
-	public boolean login(Personne personne) {
+	public boolean login(Personne personne) throws NoSuchAlgorithmException {
 		try {
 			ResultSet result = this.connect.createStatement()
 					.executeQuery("SELECT * FROM Personne WHERE nomUtilisateur = '" 
@@ -28,10 +30,9 @@ public class PersonneDAO implements DAO<Personne> {
 					+ "'"
 				);
 			if (result.next()) {
-				String resultPassword = result.getString("motDePasse");
-				if (personne.getMotDePasse().equals(resultPassword)) {
-					return true;
-				}
+				String hashedRealPassword = result.getString("motDePasse");
+				String hashedInputPassword = personne.getMotDePasse();
+				return Hash.ComparePassword(hashedInputPassword, hashedRealPassword);
 			}
 
 		} catch (SQLException e) {
@@ -90,7 +91,7 @@ public class PersonneDAO implements DAO<Personne> {
 							+ "','" 
 							+ "null" 
 							+ "','" 
-							+ "','null'" 
+							+ "null" 
 							+ "','"
 							+ organisateur.getNomEntreprise() 
 							+ "')"

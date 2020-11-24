@@ -1,8 +1,11 @@
 package pojo;
 
+import java.security.NoSuchAlgorithmException;
+
 import dao.AbstractDAOFactory;
 import dao.DAO;
 import dao.PersonneDAO;
+import utils.Hash;
 
 public class Personne {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
@@ -16,9 +19,17 @@ public class Personne {
 	private String nom;
 
 	public Personne(Integer id, String role, String motDePasse, String nomUtilisateur, String adresse, String prenom,
-			String nom) {
+			String nom)  {
+		
+		String hashedPassword;
+		try {
+			hashedPassword = Hash.hashPassword(motDePasse);
+			this.motDePasse = hashedPassword;
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.id = id;
-		this.motDePasse = motDePasse;
 		this.nomUtilisateur = nomUtilisateur;
 		this.adresse = adresse;
 		this.prenom = prenom;
@@ -33,15 +44,16 @@ public class Personne {
 		this.nomUtilisateur = nomUtilisateur;
 	}
 
-	public void setMotDePasse(String motDePasse) {
-		this.motDePasse = motDePasse;
+	public void setMotDePasse(String motDePasse) throws NoSuchAlgorithmException {
+		String hashedPassword = Hash.hashPassword(motDePasse);
+		this.motDePasse = hashedPassword;
 	}
 
 	public void setRole(String role) {
 		this.role = role;
 	}
 
-	public boolean login() {
+	public boolean login() throws NoSuchAlgorithmException {
 		return this.personneDAO.login(this);
 	}
 
