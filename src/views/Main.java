@@ -8,9 +8,8 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import dao.ClientDAO;
-import dao.DAO;
 import pojo.Client;
+import utils.Hash;
 
 import java.awt.Color;
 import javax.swing.JButton;
@@ -51,11 +50,6 @@ public class Main extends JFrame {
 	 */
 	public Main() {
 		var me = this;
-		DAO<Client> clientDAO = new ClientDAO(database.SqliteConnection.getInstance());// on fait connection
-		for (int i = 1; i < 2; i++) {
-			Client eleve = clientDAO.find(i);
-			System.out.println("Eleve N°" + eleve.getNom() + " " + eleve.getPrenom());
-		}
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 431);

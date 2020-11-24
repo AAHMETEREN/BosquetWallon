@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import pojo.Artiste;
 import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
@@ -74,8 +75,7 @@ public class RegisterPage extends JFrame {
 		btnNewButton.setBackground(Color.DARK_GRAY);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Personne personne = new Client();
-				RegisterForm page = new RegisterForm(personne);
+				RegisterForm page = new RegisterForm(Client.role);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -91,8 +91,7 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Personne personne = new Organisateur();
-				RegisterForm page = new RegisterForm(personne);
+				RegisterForm page = new RegisterForm(Organisateur.role);
 				page.setVisible(true);
 				me.dispose();
 				
@@ -106,7 +105,9 @@ public class RegisterPage extends JFrame {
 		panel_1.add(btnNewButton_1_1);
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				RegisterForm page = new RegisterForm(Artiste.role);
+				page.setVisible(true);
+				me.dispose();
 			}
 		});
 		

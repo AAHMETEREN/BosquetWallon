@@ -10,11 +10,7 @@ public abstract class AbstractDAOFactory {
 
 	public abstract DAO<Categorie> getCategorieDAO();
 
-	public abstract DAO<Client> getClientDAO();
-
-	public abstract DAO<Organisateur> getOrganisateurDAO();
-
-	public abstract DAO<Personne> getPersonneDAO();
+	public abstract PersonneDAO getPersonneDAO();
 
 	public abstract DAO<PlanningSalle> getPlanningSalleDAO();
 

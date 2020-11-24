@@ -1,13 +1,16 @@
 package dao;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import pojo.Artiste;
 import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
 import pojo.Spectacle;
+import utils.Hash;
 
 public class PersonneDAO implements DAO<Personne> {
 
@@ -17,46 +20,117 @@ public class PersonneDAO implements DAO<Personne> {
 		connect = conn;
 	}
 
-	public Personne login(String username, String password,String userRole) {
+	public boolean login(Personne personne) throws NoSuchAlgorithmException {
 		try {
-			ResultSet result = this.connect
-					.createStatement()
-					.executeQuery("SELECT * FROM Personne WHERE nomUtilisateur = '" +username+"'"+"AND role = '"+userRole+"'");
+			ResultSet result = this.connect.createStatement()
+					.executeQuery("SELECT * FROM Personne WHERE nomUtilisateur = '" 
+					+ personne.getNomUtilisateur()
+					+ "' AND role ='" 
+					+ personne.getRole() 
+					+ "'"
+				);
 			if (result.next()) {
-				String resultPassword = result.getString("motDePasse");
-				String role = result.getString("role");
-				if (password.equals(resultPassword)) {
-					if(role.equals("client")) {
-						Personne pers=  new Client(
-								Integer.parseInt(result.getString("id")),
-								result.getString("motDePasse"),
-								result.getString("nomUtilisateur"),
-								result.getString("adresse"),
-								result.getString("prenom"),
-								result.getString("nom"),
-								Integer.parseInt(result.getString("age"))
-							);
-						System.out.println("5555"+pers.getPrenom());
-						return pers;
-					}else if(role.equals("organisateur")) {
-						return new Organisateur(
-								Integer.parseInt(result.getString("id")),
-								result.getString("motDePasse"),
-								result.getString("nomUtilisateur"),
-								result.getString("adresse"),
-								result.getString("prenom"),
-								result.getString("nom")
-							);
-					}
-					
-				}
+				String hashedRealPassword = result.getString("motDePasse");
+				String hashedInputPassword = personne.getMotDePasse();
+				return Hash.ComparePassword(hashedInputPassword, hashedRealPassword);
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-
 		}
-		return new Client(); // Client vide
+		return false;
+	}
+
+	public boolean create(Client client) {
+		try {
+			this.connect.createStatement()
+					.executeUpdate("INSERT INTO Personne VALUES("
+							+ "null,'" 
+							+ client.getMotDePasse() 
+							+ "','"
+							+ client.getNomUtilisateur() 
+							+ "','" 
+							+ "client" 
+							+ "','" 
+							+ client.getAdresse() 
+							+ "','"
+							+ client.getPrenom() 
+							+ "','" 
+							+ client.getNom() 
+							+ "','" 
+							+ "null" 
+							+ "','" 
+							+ client.getAge()
+							+ "','" 
+							+ "null" 
+							+ "')"
+						);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean create(Organisateur organisateur) {
+		try {
+			this.connect.createStatement()
+					.executeUpdate("INSERT INTO Personne VALUES(" 
+							+ "null,'" 
+							+ organisateur.getMotDePasse() 
+							+ "','"
+							+ organisateur.getNomUtilisateur() 
+							+ "','" 
+							+ "organisateur" 
+							+ "','"
+							+ organisateur.getAdresse() 
+							+ "','" 
+							+ organisateur.getPrenom() 
+							+ "','"
+							+ organisateur.getNom() 
+							+ "','" 
+							+ "null" 
+							+ "','" 
+							+ "null" 
+							+ "','"
+							+ organisateur.getNomEntreprise() 
+							+ "')"
+						);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public boolean create(Artiste artiste) {
+		try {
+			this.connect.createStatement()
+					.executeUpdate("INSERT INTO Personne VALUES(null,'" 
+							+ artiste.getMotDePasse() 
+							+ "','"
+							+ artiste.getNomUtilisateur() 
+							+ "','" + "artiste" 
+							+ "','" 
+							+ artiste.getAdresse() 
+							+ "','"
+							+ artiste.getPrenom() 
+							+ "','" 
+							+ artiste.getNom() 
+							+ "','" 
+							+ artiste.getNomDeScene() 
+							+ "','"
+							+ "null" 
+							+ "','" 
+							+ "null" 
+							+ "')"
+						);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+
 	}
 
 	@Override

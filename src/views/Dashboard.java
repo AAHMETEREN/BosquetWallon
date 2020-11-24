@@ -1,12 +1,10 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 
 import pojo.Personne;
 import pojo.Client;
@@ -27,6 +25,9 @@ import javax.swing.SwingConstants;
 public class Dashboard extends JFrame {
 
 	private JPanel contentPane;
+	private Personne personne;
+	private JPanel panel;
+	private Dashboard me;
 
 	/**
 	 * Launch the application.
@@ -35,7 +36,7 @@ public class Dashboard extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Personne personne = new Organisateur(0,"test", "test", "test", "test", "test");
+					Organisateur personne = new Organisateur(0, "test", "test", "test", "test", "test", "test");
 					Dashboard frame = new Dashboard(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -49,7 +50,9 @@ public class Dashboard extends JFrame {
 	 * Create the frame.
 	 */
 	public Dashboard(Personne personne) {
-		Dashboard me = this;
+		this.personne = personne;
+		me = this;
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 708, 431);
 		contentPane = new JPanel();
@@ -57,7 +60,7 @@ public class Dashboard extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel(){
+		panel = new JPanel() {
 			public void paintComponent(Graphics g) {
 				Image img = Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/main.jpg"));
 				g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
@@ -74,33 +77,6 @@ public class Dashboard extends JFrame {
 		lblNewLabel.setBounds(474, 10, 181, 13);
 		panel.add(lblNewLabel);
 
-		if (personne instanceof Client) {
-			JButton btnListeSpectacle = new JButton("Voir les spectacles");
-			btnListeSpectacle.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnListeSpectacle.setForeground(Color.WHITE);
-			btnListeSpectacle.setBackground(Color.RED);
-			btnListeSpectacle.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			btnListeSpectacle.setBounds(58, 74, 220, 57);
-			panel.add(btnListeSpectacle);
-		} else if (personne instanceof Organisateur) {
-			JButton btnLocation = new JButton("Louer une salle");
-			btnLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
-			btnLocation.setForeground(Color.WHITE);
-			btnLocation.setBackground(Color.RED);
-			btnLocation.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					Location page = new Location(personne);
-					page.setVisible(true);
-					me.dispose();
-				}
-			});
-			btnLocation.setBounds(58, 74, 220, 57);
-			panel.add(btnLocation);
-		}
-
 		JButton btnRetour = new JButton("Deconnexion");
 		btnRetour.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnRetour.addActionListener(new ActionListener() {
@@ -114,19 +90,62 @@ public class Dashboard extends JFrame {
 		btnRetour.setBackground(Color.DARK_GRAY);
 		btnRetour.setBounds(525, 57, 138, 30);
 		panel.add(btnRetour);
-		
-		JLabel lblType = new JLabel("Type : "+ personne.getClass().getName().substring(5) );
+
+		JLabel lblType = new JLabel("Type : " + personne.getClass().getName().substring(5));
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblType.setForeground(Color.WHITE);
 		lblType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblType.setBounds(484, 22, 171, 30);
 		panel.add(lblType);
-		
+
 		JButton btnReservation = new JButton("Mes reservations");
 		btnReservation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnReservation.setBackground(Color.RED);
 		btnReservation.setForeground(Color.WHITE);
 		btnReservation.setBounds(58, 167, 222, 57);
 		panel.add(btnReservation);
+		
+		initDashboard();
+
+	}
+
+	public void initDashboard() {
+		switch (personne.getRole()) {
+		case Client.role:
+			initClientDashboard();
+			break;
+		case Organisateur.role:
+			initOrganisateurDashboard();
+			break;
+		}
+	}
+
+	public void initClientDashboard() {
+		JButton btnListeSpectacle = new JButton("Voir les spectacles");
+		btnListeSpectacle.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnListeSpectacle.setForeground(Color.WHITE);
+		btnListeSpectacle.setBackground(Color.RED);
+		btnListeSpectacle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnListeSpectacle.setBounds(58, 74, 220, 57);
+		panel.add(btnListeSpectacle);
+	}
+
+	public void initOrganisateurDashboard() {
+		JButton btnLocation = new JButton("Louer une salle");
+		btnLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnLocation.setForeground(Color.WHITE);
+		btnLocation.setBackground(Color.RED);
+		btnLocation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Location page = new Location(personne);
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
+		btnLocation.setBounds(58, 74, 220, 57);
+		panel.add(btnLocation);
 	}
 }
