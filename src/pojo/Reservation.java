@@ -44,7 +44,6 @@ public class Reservation {
 	public boolean createReservation(int idOrganisateur , int idPlanningSalle) {
 		this.idPlanningSalle = idPlanningSalle;
 		this.idPersonne = idOrganisateur;
-		System.out.println("ID ORGANISATEUR "+idOrganisateur);
 		return reservationDAO.create(this);
 	}
 	
