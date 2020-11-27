@@ -30,7 +30,7 @@ public class ReservationDAO implements DAO<Reservation> {
 					+"','"
 					+reservation.getidPersonne()
 					+"','"
-					+reservation.getidPersonne()
+					+reservation.getIdPlanning()
 					+"')");
 			return true;
 		} catch (SQLException e) {
