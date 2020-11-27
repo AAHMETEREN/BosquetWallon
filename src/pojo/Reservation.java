@@ -15,6 +15,7 @@ public class Reservation {
 	private int idPersonne;
 	private int idPlanningSalle;
 
+	public Reservation() {};
 	public Reservation(int acompte ,int solde ,float prix ) {
 		this.acompte = acompte;
 		this.solde = solde;

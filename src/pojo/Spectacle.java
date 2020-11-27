@@ -15,13 +15,14 @@ public class Spectacle {
 	private Organisateur organisateur;
 	private Configuration configuration;
 	private PlanningSalle planningSalle;
-	private Reservation reservation;
+	private Reservation reservation = new Reservation();
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private List<Representation> representations = new ArrayList<Representation>();
 	private int id;
-
+	
+	public Spectacle() {};
 	public Spectacle(int id, String titre, int nombrePlaceParClient, Organisateur organisateur,
-			Configuration configuration, PlanningSalle planningSalle, List<Artiste> artistes,
+			Configuration configuration, PlanningSalle planningSalle,
 			List<Representation> representations) {
 
 		this.id = id;
@@ -30,7 +31,6 @@ public class Spectacle {
 		this.organisateur = organisateur;
 		this.configuration = configuration;
 		this.planningSalle = planningSalle;
-		this.artistes = artistes;
 		this.representations = representations;
 	}
 
@@ -50,6 +50,12 @@ public class Spectacle {
 		this.nombrePlaceParClient = nombrePlaceParClient;
 	}
 
+	public void setOrganisateur(Personne organisateur) {
+		this.organisateur = (Organisateur) organisateur;
+	}
+
+	
+	
 	public int getNombrePlaceParClient() {
 		return this.nombrePlaceParClient;
 	}
@@ -80,6 +86,10 @@ public class Spectacle {
 
 	public void addArtiste(Artiste artiste) {
 		this.artistes.add(artiste);
+		
+		for(Artiste a : artistes) {
+			System.out.println(a);
+		}
 	}
 
 	public List<Representation> getRepresentations() {
@@ -94,43 +104,44 @@ public class Spectacle {
 		return organisateur;
 	}
 
-	public void addRepresentation(Organisateur organisateur) {
-		this.organisateur = (organisateur);
-	}
 
 	public void createSpectacle() {
 		boolean isSpectacleCreated = this.spectacleDAO.create(this);
-
 		if (isSpectacleCreated) {
-			// creation representation
 			createRepresentations();
-			// creation configuration et categorie
 			createConfiguration();
-			// create planning salle et reservation
 			createPlanningSalle();
-			//
 			createReservation();
+			createArtistes();
+
 		}
 	}
 
 	boolean createReservation() {
-		this.reservation = new Reservation(0, 0, 0);
 		return reservation.createReservation(this.organisateur.getId(), this.planningSalle.getId());
 	}
 
 	boolean createPlanningSalle() {
-		return planningSalle.createPlanningSalle(this.id);
+		return  planningSalle.createPlanningSalle(this.id);
 	}
 
 	boolean createRepresentations() {
+		boolean isRepresentationsCreated = false;
+		
 		for (Representation representation : representations) {
-			representation.createRepresentation(this.id);
+			System.out.println(representation);
+			isRepresentationsCreated = representation.createRepresentation(this.id);
 		}
-		return true;
+		return isRepresentationsCreated;
 	}
-
+	boolean createArtistes() {
+		boolean isArtistesCreated = false;
+		for (Artiste artiste : this.artistes) {
+			isArtistesCreated = artiste.createArtisteSpectacle(this.organisateur.getId(),this.id);
+		}
+		return isArtistesCreated;
+	}
 	boolean createConfiguration() {
-		configuration.createConfiguration(this.id);
-		return true;
+		return configuration.createConfiguration(this.id);
 	}
 }

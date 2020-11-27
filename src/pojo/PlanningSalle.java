@@ -30,6 +30,7 @@ public class PlanningSalle {
 	}
 
 	public boolean createPlanningSalle(int idSpectacle) {
+		this.setSpectacleId(idSpectacle);
 		return this.planningSalleDAO.create(this);
 	}
 
@@ -45,6 +46,10 @@ public class PlanningSalle {
 		return new java.sql.Date(c.getTimeInMillis());
 	}
 
+	public void setSpectacleId(int id) {
+		this.idSpectacle = id;
+	}
+	
 	public int getIdSpectacle() {
 		return this.idSpectacle;
 	}

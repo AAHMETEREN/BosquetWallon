@@ -142,7 +142,6 @@ public class Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Location page = new Location(personne);
 				page.setVisible(true);
-				me.dispose();
 			}
 		});
 		btnLocation.setBounds(58, 74, 220, 57);

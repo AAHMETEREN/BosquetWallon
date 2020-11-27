@@ -42,6 +42,23 @@ public class PersonneDAO implements DAO<Personne> {
 		}
 		return false;
 	}
+	
+	public boolean createArtisteSpectacle(Artiste artiste) {
+		try {
+			System.out.print("ajout d'un artiste");
+			this.connect.createStatement()
+					.executeUpdate("INSERT INTO Artiste VALUES('"
+							+ artiste.getOrganisateurId() 
+							+ "','"
+							+ artiste.getSpectacleId() 
+							+ "')"
+						);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 
 	public boolean create(Client client) {
 		try {
