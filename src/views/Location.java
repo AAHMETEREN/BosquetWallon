@@ -52,14 +52,14 @@ public class Location extends JFrame {
 	List<Artiste> allArtistes;
 	private JPanel contentPane;
 	private Personne personne;
-	private JTextField maxParPersonneField, titreField, fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant;
+	private JTextField  titreField;
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
 	private JTextPane descriptionField;
 	private TypePlaces place = TypePlaces.DEBOUT;
 	private int maxParPersonne;
-	private JSpinField representationHeureMax, representationHeureMin;
+	private JSpinField representationHeureMax, representationHeureMin, fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant ,maxParPersonneField;
 	private JCalendar calendar;
 	private JLabel labelHeureMin;
 	private JLabel labelArtiste_2;
@@ -135,8 +135,7 @@ public class Location extends JFrame {
 		labelTitre.setBounds(42, 17, 45, 13);
 		panel.add(labelTitre);
 
-		maxParPersonneField = new JTextField();
-		maxParPersonneField.setColumns(10);
+		maxParPersonneField = new JSpinField();
 		maxParPersonneField.setBounds(31, 270, 224, 32);
 		panel.add(maxParPersonneField);
 
@@ -175,10 +174,9 @@ public class Location extends JFrame {
 		labelPrix.setBounds(345, 312, 160, 13);
 		panel.add(labelPrix);
 
-		fieldBronze = new JTextField();
+		fieldBronze = new JSpinField();
 		fieldBronze.setBounds(397, 339, 96, 19);
 		panel.add(fieldBronze);
-		fieldBronze.setColumns(10);
 
 		labelBronze = new JLabel("Bronze");
 		labelBronze.setBounds(338, 338, 160, 13);
@@ -198,13 +196,11 @@ public class Location extends JFrame {
 
 		panel.add(labelOr);
 
-		fieldArgent = new JTextField();
-		fieldArgent.setColumns(10);
+		fieldArgent = new JSpinField();
 		fieldArgent.setBounds(397, 361, 96, 19);
 		panel.add(fieldArgent);
 
-		fieldOr = new JTextField();
-		fieldOr.setColumns(10);
+		fieldOr = new JSpinField();
 		fieldOr.setBounds(397, 385, 96, 19);
 		panel.add(fieldOr);
 
@@ -214,13 +210,11 @@ public class Location extends JFrame {
 
 		panel.add(labelDiamant);
 
-		fieldDiamant = new JTextField();
-		fieldDiamant.setColumns(10);
+		fieldDiamant = new JSpinField();
 
 		fieldDiamant.setBounds(397, 410, 96, 19);
 		panel.add(fieldDiamant);
-		fieldBase = new JTextField();
-		fieldBase.setColumns(10);
+		fieldBase = new JSpinField();
 		fieldBase.setBounds(397, 313, 96, 19);
 		panel.add(fieldBase);
 		createCalendar();
@@ -375,7 +369,7 @@ public class Location extends JFrame {
 	}
 
 	private List<Categorie> createCategories() {
-		maxParPersonne = Integer.parseInt(maxParPersonneField.getText());
+		maxParPersonne = (Integer) maxParPersonneField.getValue();
 		if (place == TypePlaces.DEBOUT) {
 			return createCategorieDebout();
 		} else if (place == TypePlaces.ASSIS_CONCERT) {
@@ -388,39 +382,39 @@ public class Location extends JFrame {
 
 	private List<Categorie> createCategorieDebout() {
 		int nombrePlaceDispo = 8000;
-		int prixBase = Integer.parseInt(fieldBase.getText());
+		int prixBase = (Integer) fieldBase.getValue();
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BASE, prixBase, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BASE, prixBase,place));
 		return categories;
 	}
 
 	private List<Categorie> createCategorieConcert() {
 		int nombrePlaceDispo = 5000;
-		int prixBronze = Integer.parseInt(fieldBronze.getText());
-		int prixArgent = Integer.parseInt(fieldArgent.getText());
-		int prixOr = Integer.parseInt(fieldOr.getText());
+		int prixBronze =  (Integer) fieldBronze.getValue();
+		int prixArgent =  (Integer) fieldArgent.getValue();
+		int prixOr =  (Integer) fieldOr.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, nombrePlaceDispo, maxParPersonne));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent, nombrePlaceDispo, maxParPersonne));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze,place));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent,place));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr,place));
 
 		return categories;
 	}
 
 	private List<Categorie> createCategorieCirque() {
 		int nombrePlaceDispo = 6000;
-		int prixBronze = Integer.parseInt(fieldBronze.getText());
-		int prixArgent = Integer.parseInt(fieldArgent.getText());
-		int prixOr = Integer.parseInt(fieldOr.getText());
-		int prixDiamant = Integer.parseInt(fieldDiamant.getText());
+		int prixBronze = (Integer) fieldBronze.getValue();
+		int prixArgent = (Integer) fieldArgent.getValue();
+		int prixOr = (Integer) fieldOr.getValue();
+		int prixDiamant = (Integer) fieldDiamant.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, nombrePlaceDispo, maxParPersonne));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent, nombrePlaceDispo, maxParPersonne));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, nombrePlaceDispo, maxParPersonne));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, place));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent,place));
+		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, place));
 		categories
-				.add(new Categorie(0, Categorie.TypesCategorie.DIAMANT, prixDiamant, nombrePlaceDispo, maxParPersonne));
+				.add(new Categorie(0, Categorie.TypesCategorie.DIAMANT, prixDiamant,place));
 		return categories;
 	}
 
