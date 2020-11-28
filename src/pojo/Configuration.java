@@ -46,7 +46,7 @@ public class Configuration {
 		this.categories.add(categorie);
 	}
 
-	public boolean createConfiguration(int spectacleId) {
+	public boolean create(int spectacleId) {
 		this.spectacleId = spectacleId;
 		boolean isConfigurationCreated = configurationDAO.create(this);
 		if (isConfigurationCreated) {

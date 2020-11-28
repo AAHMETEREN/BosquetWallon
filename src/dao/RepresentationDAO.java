@@ -29,7 +29,7 @@ public class RepresentationDAO implements DAO<Representation> {
 					+ "','"
 					+ representation.getHeureFin()
 					+ "','"
-					+ representation.getIdSpectacle()
+					+ representation.getSpectacle().getId()
 					+ "')"
 				);
 			return true;

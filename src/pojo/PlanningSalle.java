@@ -10,9 +10,8 @@ import dao.PlanningSalleDAO;
 public class PlanningSalle {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<PlanningSalle> planningSalleDAO = dao.getPlanningSalleDAO();
-	private int id;
-	private int idSpectacle;
-
+	private int id = 0;
+	private Spectacle spectacle;
 	private Date dateReservation;
 
 	public void setId(int id) {
@@ -23,14 +22,13 @@ public class PlanningSalle {
 		return this.id;
 	}
 
-	public PlanningSalle(int id, Date dateReservation) {
-		this.id = id;
+	public PlanningSalle(Date dateReservation , Spectacle spectacle) {
 		this.dateReservation = dateReservation;
 		System.out.println("10" + dateReservation);
+		this.spectacle = spectacle;
 	}
 
-	public boolean createPlanningSalle(int idSpectacle) {
-		this.setSpectacleId(idSpectacle);
+	public boolean create() {
 		return this.planningSalleDAO.create(this);
 	}
 
@@ -46,11 +44,8 @@ public class PlanningSalle {
 		return new java.sql.Date(c.getTimeInMillis());
 	}
 
-	public void setSpectacleId(int id) {
-		this.idSpectacle = id;
-	}
 	
-	public int getIdSpectacle() {
-		return this.idSpectacle;
+	public Spectacle getSpectacle() {
+		return this.spectacle;
 	}
 }

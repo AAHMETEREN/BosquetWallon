@@ -25,7 +25,6 @@ public class ReservationOrganisateur extends JFrame {
 	 */
 	public ReservationOrganisateur(Personne personne) {
 		this.personne = personne;
-		this.spectacle.setOrganisateur(personne);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();

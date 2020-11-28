@@ -28,9 +28,9 @@ public class ReservationDAO implements DAO<Reservation> {
 					+"','"
 					+reservation.getPrix()
 					+"','"
-					+reservation.getidPersonne()
+					+reservation.getOrganisateur().getId()
 					+"','"
-					+reservation.getIdPlanning()
+					+reservation.getPlanning().getId()
 					+"')");
 			return true;
 		} catch (SQLException e) {

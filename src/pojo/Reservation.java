@@ -15,25 +15,27 @@ public class Reservation {
 	private float solde;
 	private float prix;
 	private String status;
-	private int idPersonne;
-	private int idPlanningSalle;
+	private Personne organisateur;
+	private PlanningSalle planningSalle;
 
-	public Reservation() {};
-	public Reservation(int acompte ,int solde ,float prix ) {
+	public Reservation(int acompte ,int solde , float prix, PlanningSalle planningSalle , Personne organisateur) {
 		this.acompte = acompte;
 		this.solde = solde;
 		this.prix = prix;
+		this.organisateur = organisateur;
+		this.planningSalle = planningSalle;
 	}
 	public String getStatus() {
 		return this.status;
 	}
 	
-	public int getIdPlanning() {
-		return this.idPlanningSalle;
+	public PlanningSalle  getPlanning() {
+		return this.planningSalle;
 	}
-	public int getidPersonne() {
-		return this.idPersonne;
+	public Personne getOrganisateur() {
+		return this.organisateur;
 	}
+
 	public  float getAcompte() {
 		return this.acompte;
 	}
@@ -44,9 +46,7 @@ public class Reservation {
 	public float getPrix() {
 		return this.prix;
 	}
-	public boolean createReservation(int idOrganisateur , int idPlanningSalle) {
-		this.idPlanningSalle = idPlanningSalle;
-		this.idPersonne = idOrganisateur;
+	public boolean create() {		
 		return reservationDAO.create(this);
 	}
 	

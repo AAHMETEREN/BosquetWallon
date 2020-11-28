@@ -23,7 +23,7 @@ public class PlanningSalleDAO  implements DAO<PlanningSalle> {
 					+"','"
 					+planningSalle.getdateFinR()
 					+"','"
-					+planningSalle.getIdSpectacle()
+					+planningSalle.getSpectacle().getId()
 					+"')";
 			PreparedStatement statement = connect.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 			int affectedRows = statement.executeUpdate();

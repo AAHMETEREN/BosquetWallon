@@ -22,6 +22,7 @@ import pojo.Organisateur;
 import pojo.Personne;
 import pojo.PlanningSalle;
 import pojo.Representation;
+import pojo.Reservation;
 import pojo.Spectacle;
 
 import com.toedter.calendar.JCalendar;
@@ -50,7 +51,8 @@ public class Location extends JFrame {
 		}
 	}
 	Spectacle spectacle = new Spectacle();
-	List<Artiste> allArtistes;
+	List<Artiste> allArtistes = new ArrayList<Artiste>();
+	List<Representation> allRepresentation = new ArrayList<Representation>();
 	private JPanel contentPane;
 	private Personne personne;
 	private JTextField  titreField;
@@ -233,10 +235,8 @@ public class Location extends JFrame {
 		addArtisteBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("454541");
 				Artiste test = (Artiste) comboBoxArtiste.getSelectedItem();
-				System.out.println(test);
-				
+
 				spectacle.addArtiste(test);
 				comboBoxArtiste.removeItem(comboBoxArtiste.getSelectedItem());
 			}
@@ -279,7 +279,7 @@ public class Location extends JFrame {
 		confirmButton.setBackground(Color.DARK_GRAY);
 		confirmButton.setBounds(373, 439, 122, 34);
 		confirmButton.addActionListener(e -> {
-			creerSpectacle();
+			create();
 		});
 		panel.add(confirmButton);
 
@@ -320,7 +320,6 @@ public class Location extends JFrame {
 		lblNewLabel.setBounds(31, 534, 152, 13);
 		panel.add(lblNewLabel);
 
-		// TODO : add id to models
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 			@SuppressWarnings("deprecation")
 			@Override
@@ -331,7 +330,42 @@ public class Location extends JFrame {
 		
 		setRepresentationButton();
 	}
-
+	public void create() {
+		boolean isSpectacleCreated = creerSpectacle();
+		if(isSpectacleCreated) {
+			PlanningSalle planningSalle = creerPlanningSalle();
+			creerReservation(planningSalle);
+			createRepresentation();
+		}
+		
+	}
+	private void createRepresentation() {
+		for(Representation representation : allRepresentation) {
+			representation.create();
+		}
+	}
+	private PlanningSalle creerPlanningSalle() {
+		Date date = getDate();
+		PlanningSalle planningSalle =  new PlanningSalle(date , spectacle);
+		planningSalle.create();
+		return planningSalle;
+	}
+	private void creerReservation(PlanningSalle planningSalle) {
+		Reservation reservation = new Reservation(0 , 0 , 0 , planningSalle, this.personne);
+		reservation.setPrix(getDate());
+		reservation.create();
+	}
+	private boolean creerSpectacle() {
+		String titre = titreField.getText();
+		String description = descriptionField.getText();
+		List<Categorie> categories = createCategories();
+		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
+		spectacle.setTitre(titre);
+		spectacle.setConfiguration(configuration);
+		spectacle.setNombrePlaceParClient(maxParPersonne);
+		spectacle.create();
+		return true;
+	}
 	private void setRepresentationButton() {
 		addRepresentationBtn = new JButton("Ajouter ");
 		addRepresentationBtn.setForeground(Color.WHITE);
@@ -344,32 +378,11 @@ public class Location extends JFrame {
 				int heureFin = (Integer) representationHeureMax.getValue();
 				java.util.Date utilStartDate = calendar.getDate();
 				java.sql.Date date = new java.sql.Date(utilStartDate.getTime());
-				Representation representation = new Representation(0, date, heureDebut, heureFin);
-
-				spectacle.addRepresentation(representation);
+				allRepresentation.add( new Representation(0, date, heureDebut, heureFin ,  spectacle));
 			}
 		});
 		panel.add(addRepresentationBtn);
 	}
-	private void creerSpectacle() {
-		String titre = titreField.getText();
-		String description = descriptionField.getText();
-
-		
-		Date date = getDate();
-		List<Categorie> categories = createCategories();
-		PlanningSalle planning = new PlanningSalle(0, date);
-		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
-		spectacle.setTitre(titre);
-		spectacle.setConfiguration(configuration);
-		spectacle.setPlanningSalle(planning);
-		spectacle.setNombrePlaceParClient(maxParPersonne);
-		spectacle.setOrganisateur( personne);
-		spectacle.getReservation().setPrix(getDate());
-		spectacle.createSpectacle();
-
-	}
-
 	private Date getDate() {
 		java.util.Date utilStartDate = calendar.getDate();
 		return new java.sql.Date(utilStartDate.getTime());
