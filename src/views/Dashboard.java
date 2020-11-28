@@ -103,6 +103,13 @@ public class Dashboard extends JFrame {
 		btnReservation.setBackground(Color.RED);
 		btnReservation.setForeground(Color.WHITE);
 		btnReservation.setBounds(58, 167, 222, 57);
+		btnReservation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReservationOrganisateur page = new ReservationOrganisateur(personne);
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
 		panel.add(btnReservation);
 		
 		initDashboard();

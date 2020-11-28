@@ -120,15 +120,15 @@ public class Spectacle {
 		}
 	}
 
-	boolean createReservation() {
+	private boolean createReservation() {
 		return reservation.createReservation(this.organisateur.getId(), this.planningSalle.getId());
 	}
 
-	boolean createPlanningSalle() {
+	private boolean createPlanningSalle() {
 		return  planningSalle.createPlanningSalle(this.id);
 	}
 
-	boolean createRepresentations() {
+	private boolean createRepresentations() {
 		boolean isRepresentationsCreated = false;
 		
 		for (Representation representation : representations) {
@@ -137,14 +137,16 @@ public class Spectacle {
 		}
 		return isRepresentationsCreated;
 	}
-	boolean createArtistes() {
+	private boolean createArtistes() {
 		boolean isArtistesCreated = false;
 		for (Artiste artiste : this.artistes) {
 			isArtistesCreated = artiste.createArtisteSpectacle(this.organisateur.getId(),this.id);
 		}
 		return isArtistesCreated;
 	}
-	boolean createConfiguration() {
+	private boolean createConfiguration() {
 		return configuration.createConfiguration(this.id);
 	}
+	
+
 }
