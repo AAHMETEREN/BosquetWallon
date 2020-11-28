@@ -59,22 +59,7 @@ public class Location extends JFrame {
 	private JLabel lblNewLabel;
 	private JComboBox<Artiste> comboBoxArtiste ;
 	private JButton addArtisteBtn;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Personne personne = new Organisateur(0, "test", "test", "test", "test", "test", "tt3es");
-					Location frame = new Location(personne);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
@@ -325,10 +310,19 @@ public class Location extends JFrame {
 			creerReservation(planningSalle);
 			createRepresentation();
 			createConfiguration();
+			createArtistes();
 		}
 		
 	}
 	
+	private void createArtistes() {
+		for(Artiste artiste : selectedArtistes) {
+			artiste.setOrganisateur(personne);
+			artiste.setSpectacle(spectacle);
+
+			artiste.create();
+		}
+	}
 	private void createConfiguration() {
 		String description = descriptionField.getText();
 		pojo.Configuration configuration = new pojo.Configuration(0, description, place , spectacle);

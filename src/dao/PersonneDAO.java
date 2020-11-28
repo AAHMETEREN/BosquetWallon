@@ -211,7 +211,7 @@ public class PersonneDAO implements DAO<Personne> {
 				return new Personne(
 						Integer.parseInt(
 						result.getString("id")),
-						null,
+						result.getString("role"),
 						result.getString("motDePasse"),
 						result.getString("nomUtilisateur"),
 						result.getString("adresse"),
@@ -219,6 +219,7 @@ public class PersonneDAO implements DAO<Personne> {
 						result.getString("nom")
 					);
 				}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;

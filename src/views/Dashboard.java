@@ -29,22 +29,6 @@ public class Dashboard extends JFrame {
 	private JPanel panel;
 	private Dashboard me;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Organisateur personne = new Organisateur(0, "test", "test", "test", "test", "test", "test");
-					Dashboard frame = new Dashboard(personne);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
