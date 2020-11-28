@@ -48,9 +48,9 @@ public class PersonneDAO implements DAO<Personne> {
 			System.out.print("ajout d'un artiste");
 			this.connect.createStatement()
 					.executeUpdate("INSERT INTO Artiste VALUES('"
-							+ artiste.getOrganisateurId() 
+							+ artiste.getOrganisateur().getId() 
 							+ "','"
-							+ artiste.getSpectacleId() 
+							+ artiste.getSpectacle().getId() 
 							+ "')"
 						);
 			return true;

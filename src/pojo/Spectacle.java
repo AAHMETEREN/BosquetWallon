@@ -13,18 +13,14 @@ public class Spectacle {
 	private int id = 0;
 	private String titre;
 	private int nombrePlaceParClient;
-	private Configuration configuration;
-	private List<Artiste> artistes = new ArrayList<Artiste>();
- 
-	
-	public Spectacle() { };
 
-	public Spectacle(String titre, int nombrePlaceParClient, Configuration configuration
-			) {
+	public Spectacle() {
+	};
+
+	public Spectacle(String titre, int nombrePlaceParClient) {
 
 		this.titre = titre;
 		this.nombrePlaceParClient = nombrePlaceParClient;
-		this.configuration = configuration;
 	}
 
 	public void setId(int id) {
@@ -51,55 +47,13 @@ public class Spectacle {
 		this.titre = titre;
 	}
 
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
-	}
+	public boolean create() {
+		return this.spectacleDAO.create(this);
 
-	public Configuration getConfiguration() {
-		return this.configuration;
-	}
-
-
-
-	public List<Artiste> getArtistes() {
-		return artistes;
-	}
-
-	public void addArtiste(Artiste artiste) {
-		this.artistes.add(artiste);
-
-		for (Artiste a : artistes) {
-			System.out.println(a);
-		}
-	}
-
-
-
-
-	public void create() {
-		boolean isSpectacleCreated = this.spectacleDAO.create(this);
-		if (isSpectacleCreated) {
-			createConfiguration();
-			createArtistes();
-
-		}
 	}
 
 	public int getId() {
 		return this.id;
-	}
-
-
-	private boolean createArtistes() {
-		boolean isArtistesCreated = false;
-		for (Artiste artiste : this.artistes) {
-			isArtistesCreated = artiste.createArtisteSpectacle(artiste.getId(), this.id);
-		}
-		return isArtistesCreated;
-	}
-
-	private boolean createConfiguration() {
-		return configuration.create(this.id);
 	}
 
 }

@@ -4,7 +4,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import dao.AbstractDAOFactory;
-import dao.DAO;
 import dao.PersonneDAO;
 import utils.Hash;
 

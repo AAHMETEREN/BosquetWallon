@@ -30,7 +30,7 @@ public class CategorieDAO implements DAO<Categorie> {
 					+ "','" 
 					+ categorie.getNbrPlaceMax() 
 					+ "','" 
-					+ categorie.getConfigurationId() 
+					+ categorie.getConfiguration().getId()
 					+ "')");
 			return true;
 

@@ -15,29 +15,35 @@ public class Representation {
 	private Date dateRepresentation;
 	private Spectacle spectacle;
 
-	public Representation(int id , Date dateRepresentation ,int heureDebut ,int heureFin, Spectacle spectacle ) {
+	public Representation(int id, Date dateRepresentation, int heureDebut, int heureFin, Spectacle spectacle) {
 		this.id = id;
 		this.dateRepresentation = dateRepresentation;
 		this.heureDebut = heureDebut;
 		this.heureFin = heureFin;
 		this.spectacle = spectacle;
 	}
-	
+
+	public int getId() {
+		return this.id;
+	}
+
 	public boolean create() {
 		return representationDAO.create(this);
 	}
-	
-	
+
 	public Date getDateRepresentation() {
 		return this.dateRepresentation;
 	}
+
 	public int getHeureDebut() {
 		return this.heureDebut;
 	}
+
 	public int getHeureFin() {
 		return this.heureFin;
 	}
+
 	public Spectacle getSpectacle() {
 		return this.spectacle;
-	}	
+	}
 }

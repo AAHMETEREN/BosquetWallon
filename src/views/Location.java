@@ -18,6 +18,8 @@ import javax.swing.border.EmptyBorder;
 
 import pojo.Artiste;
 import pojo.Categorie;
+import pojo.Configuration;
+import pojo.Configuration.TypePlaces;
 import pojo.Organisateur;
 import pojo.Personne;
 import pojo.PlanningSalle;
@@ -35,23 +37,10 @@ import javax.swing.JTextPane;
 import com.toedter.components.JSpinField;
 
 public class Location extends JFrame {
-	public enum TypePlaces {
-		DEBOUT("Debout (8000 places)"), ASSIS_CONCERT("Assis version concert (5000 places)"),
-		ASSIS_CIRQUE("Assis version cirque (6000 places)");
 
-		private final String display;
-
-		private TypePlaces(String label) {
-			this.display = label;
-		}
-
-		@Override
-		public String toString() {
-			return display;
-		}
-	}
 	Spectacle spectacle = new Spectacle();
 	List<Artiste> allArtistes = new ArrayList<Artiste>();
+	List<Artiste> selectedArtistes = new ArrayList<Artiste>();
 	List<Representation> allRepresentation = new ArrayList<Representation>();
 	private JPanel contentPane;
 	private Personne personne;
@@ -235,9 +224,8 @@ public class Location extends JFrame {
 		addArtisteBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Artiste test = (Artiste) comboBoxArtiste.getSelectedItem();
-
-				spectacle.addArtiste(test);
+				Artiste artiste = (Artiste) comboBoxArtiste.getSelectedItem();
+				selectedArtistes.add(artiste);
 				comboBoxArtiste.removeItem(comboBoxArtiste.getSelectedItem());
 			}
 		});
@@ -336,8 +324,24 @@ public class Location extends JFrame {
 			PlanningSalle planningSalle = creerPlanningSalle();
 			creerReservation(planningSalle);
 			createRepresentation();
+			createConfiguration();
 		}
 		
+	}
+	
+	private void createConfiguration() {
+		String description = descriptionField.getText();
+		pojo.Configuration configuration = new pojo.Configuration(0, description, place , spectacle);
+		boolean isConfigurationCreated = configuration.create();
+		if(isConfigurationCreated) {
+			createCategories(configuration);
+		}
+	}
+	private void createCategories(Configuration configuration) {
+		List<Categorie> categories = setCategoriesList(configuration);
+		for(Categorie categorie : categories) {
+			categorie.create();
+		}
 	}
 	private void createRepresentation() {
 		for(Representation representation : allRepresentation) {
@@ -357,11 +361,8 @@ public class Location extends JFrame {
 	}
 	private boolean creerSpectacle() {
 		String titre = titreField.getText();
-		String description = descriptionField.getText();
-		List<Categorie> categories = createCategories();
-		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
+		
 		spectacle.setTitre(titre);
-		spectacle.setConfiguration(configuration);
 		spectacle.setNombrePlaceParClient(maxParPersonne);
 		spectacle.create();
 		return true;
@@ -387,41 +388,41 @@ public class Location extends JFrame {
 		java.util.Date utilStartDate = calendar.getDate();
 		return new java.sql.Date(utilStartDate.getTime());
 	}
-	private List<Categorie> createCategories() {
+	private List<Categorie> setCategoriesList(Configuration configuration) {
 		maxParPersonne = (Integer) maxParPersonneField.getValue();
 		if (place == TypePlaces.DEBOUT) {
-			return createCategorieDebout();
+			return createCategorieDebout(configuration);
 		} else if (place == TypePlaces.ASSIS_CONCERT) {
-			return createCategorieConcert();
+			return createCategorieConcert(configuration);
 		} else {
-			return createCategorieCirque();
+			return createCategorieCirque(configuration);
 		}
 
 	}
 
-	private List<Categorie> createCategorieDebout() {
+	private List<Categorie> createCategorieDebout(Configuration configuration) {
 		int nombrePlaceDispo = 8000;
 		int prixBase = (Integer) fieldBase.getValue();
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.BASE, prixBase,place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.BASE, prixBase,place , configuration));
 		return categories;
 	}
 
-	private List<Categorie> createCategorieConcert() {
+	private List<Categorie> createCategorieConcert(Configuration configuration) {
 		int nombrePlaceDispo = 5000;
 		int prixBronze =  (Integer) fieldBronze.getValue();
 		int prixArgent =  (Integer) fieldArgent.getValue();
 		int prixOr =  (Integer) fieldOr.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(),  Categorie.TypesCategorie.BRONZE, prixBronze,place));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr,place));
+		categories.add(new Categorie(getDate(),  Categorie.TypesCategorie.BRONZE, prixBronze,place , configuration));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place , configuration));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr,place , configuration));
 
 		return categories;
 	}
 
-	private List<Categorie> createCategorieCirque() {
+	private List<Categorie> createCategorieCirque(Configuration configuration) {
 		int nombrePlaceDispo = 6000;
 		int prixBronze = (Integer) fieldBronze.getValue();
 		int prixArgent = (Integer) fieldArgent.getValue();
@@ -429,11 +430,11 @@ public class Location extends JFrame {
 		int prixDiamant = (Integer) fieldDiamant.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(),Categorie.TypesCategorie.BRONZE, prixBronze, place));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr, place));
+		categories.add(new Categorie(getDate(),Categorie.TypesCategorie.BRONZE, prixBronze, place , configuration));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place , configuration));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr, place , configuration));
 		categories
-				.add(new Categorie(getDate(),Categorie.TypesCategorie.DIAMANT, prixDiamant,place));
+				.add(new Categorie(getDate(),Categorie.TypesCategorie.DIAMANT, prixDiamant,place , configuration));
 		return categories;
 	}
 

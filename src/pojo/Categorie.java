@@ -4,7 +4,7 @@ import java.sql.Date;
 
 import dao.AbstractDAOFactory;
 import dao.DAO;
-import views.Location.TypePlaces;
+import pojo.Configuration.TypePlaces;
 
 public class Categorie {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
@@ -17,13 +17,14 @@ public class Categorie {
 	private TypesCategorie type;
 	private int prix = 0;
 	private int id = 0;
-	private int configurationId;
+	private Configuration configuration;
 	private int nbrPlaceDispo;
 	private int nbrPlaceMax;
 
-	public Categorie(Date date , TypesCategorie type,int prix , TypePlaces place) {
+	public Categorie(Date date , TypesCategorie type,int prix , TypePlaces place , Configuration configuration) {
 		this.prix = prix;
 		this.type = type;
+		this.configuration = configuration;
 		this.calculerNombrePlace(type, place);
 	}
 
@@ -84,13 +85,12 @@ public class Categorie {
 		return this.nbrPlaceMax;
 	}
 
-	public int getConfigurationId() {
-		return this.configurationId;
+	public Configuration getConfiguration() {
+		return this.configuration;
 	}
 
-	public boolean createCategorie(int configurationId) {
-		this.configurationId = configurationId;
-		categorieDAO.create(this);
-		return true;
+	public boolean create() {
+		boolean isCategorieCreated = categorieDAO.create(this);
+		return isCategorieCreated;
 	}
 }

@@ -25,7 +25,7 @@ public class ConfigurationDAO implements DAO<Configuration>{
 					+ "','"
 					+ configuration.getDescription()
 					+ "','"
-					+ configuration.getSpectacleId()
+					+ configuration.getSpectacle().getId()
 					+ "')";
 
 			PreparedStatement statement = connect.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
