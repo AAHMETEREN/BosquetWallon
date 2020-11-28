@@ -41,7 +41,10 @@ public class Spectacle {
 	public String getTitre() {
 		return this.titre;
 	}
-
+	
+	public Reservation getReservation () {
+		return this.reservation;
+	}
 	public void setTitre(String titre) {
 		this.titre = titre;
 	}

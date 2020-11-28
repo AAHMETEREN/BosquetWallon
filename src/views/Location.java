@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -354,8 +355,8 @@ public class Location extends JFrame {
 		String titre = titreField.getText();
 		String description = descriptionField.getText();
 
-		java.util.Date utilStartDate = calendar.getDate();
-		java.sql.Date date = new java.sql.Date(utilStartDate.getTime());
+		
+		Date date = getDate();
 		List<Categorie> categories = createCategories();
 		PlanningSalle planning = new PlanningSalle(0, date);
 		pojo.Configuration configuration = new pojo.Configuration(0, categories, description, titre);
@@ -364,10 +365,15 @@ public class Location extends JFrame {
 		spectacle.setPlanningSalle(planning);
 		spectacle.setNombrePlaceParClient(maxParPersonne);
 		spectacle.setOrganisateur( personne);
+		spectacle.getReservation().setPrix(getDate());
 		spectacle.createSpectacle();
 
 	}
 
+	private Date getDate() {
+		java.util.Date utilStartDate = calendar.getDate();
+		return new java.sql.Date(utilStartDate.getTime());
+	}
 	private List<Categorie> createCategories() {
 		maxParPersonne = (Integer) maxParPersonneField.getValue();
 		if (place == TypePlaces.DEBOUT) {
@@ -384,7 +390,7 @@ public class Location extends JFrame {
 		int nombrePlaceDispo = 8000;
 		int prixBase = (Integer) fieldBase.getValue();
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BASE, prixBase,place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.BASE, prixBase,place));
 		return categories;
 	}
 
@@ -395,9 +401,9 @@ public class Location extends JFrame {
 		int prixOr =  (Integer) fieldOr.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze,place));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent,place));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr,place));
+		categories.add(new Categorie(getDate(),  Categorie.TypesCategorie.BRONZE, prixBronze,place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr,place));
 
 		return categories;
 	}
@@ -410,11 +416,11 @@ public class Location extends JFrame {
 		int prixDiamant = (Integer) fieldDiamant.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(0, Categorie.TypesCategorie.BRONZE, prixBronze, place));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.ARGENT, prixArgent,place));
-		categories.add(new Categorie(0, Categorie.TypesCategorie.OR, prixOr, place));
+		categories.add(new Categorie(getDate(),Categorie.TypesCategorie.BRONZE, prixBronze, place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place));
+		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr, place));
 		categories
-				.add(new Categorie(0, Categorie.TypesCategorie.DIAMANT, prixDiamant,place));
+				.add(new Categorie(getDate(),Categorie.TypesCategorie.DIAMANT, prixDiamant,place));
 		return categories;
 	}
 

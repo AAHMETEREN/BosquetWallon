@@ -1,6 +1,9 @@
 package pojo;
 
 
+import java.sql.Date;
+import java.util.Calendar;
+
 import dao.AbstractDAOFactory;
 import dao.DAO;
 
@@ -47,6 +50,15 @@ public class Reservation {
 		return reservationDAO.create(this);
 	}
 	
+	@SuppressWarnings("deprecation")
+	public void setPrix( Date date ) {
+		int jourDeLaSemaine = date.getDay();
+		if(jourDeLaSemaine == 5 || jourDeLaSemaine == 6) { // Friday or saturday
+			this.prix = 4500;
+		}else {
+			this.prix = 3000;
+		}
+	}
 	
 	public void setId( int id ) {
 		this.id = id;

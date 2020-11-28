@@ -1,8 +1,8 @@
 package pojo;
 
+import java.sql.Date;
+
 import dao.AbstractDAOFactory;
-import dao.CategorieDAO;
-import dao.ConfigurationDAO;
 import dao.DAO;
 import views.Location.TypePlaces;
 
@@ -15,54 +15,54 @@ public class Categorie {
 	}
 
 	private TypesCategorie type;
-	private int prix;
-	private int id;
+	private int prix = 0;
+	private int id = 0;
 	private int configurationId;
 	private int nbrPlaceDispo;
 	private int nbrPlaceMax;
 
-	public Categorie(int id, TypesCategorie type, int prix, TypePlaces place) {
+	public Categorie(Date date , TypesCategorie type,int prix , TypePlaces place) {
 		this.prix = prix;
-		this.nbrPlaceDispo = nbrPlaceDispo;
-		this.nbrPlaceMax = nbrPlaceMax;
-		this.id = id;
 		this.type = type;
-	    int nbrPlaceDispo = 0;	
-			
-		switch(place) {
-			case DEBOUT:
-				nbrPlaceDispo = 8000;
+		this.calculerNombrePlace(type, place);
+	}
+
+	public void calculerNombrePlace(TypesCategorie type, TypePlaces place) {
+		int nbrPlaceDispo = 0;
+		switch (place) {
+		case DEBOUT:
+			nbrPlaceDispo = 8000;
+			break;
+		case ASSIS_CONCERT:
+			switch (type) {
+			case OR:
+				nbrPlaceDispo = 500;
 				break;
-			case ASSIS_CONCERT: 
-				switch(type) { 
-					case OR : 
-						nbrPlaceDispo = 500;
-						break;
-					case ARGENT : 
-						nbrPlaceDispo = 1500;
-						break;
-					case BRONZE : 
-						nbrPlaceDispo = 3000;
-						break;
-				}
+			case ARGENT:
+				nbrPlaceDispo = 1500;
 				break;
-			case ASSIS_CIRQUE :
-				switch(type) {
-				case DIAMANT : 
-					nbrPlaceDispo = 1000;
-					break;
-				case OR : 
-					nbrPlaceDispo = 2000;
-					break;
-				case ARGENT : 
-					nbrPlaceDispo = 1500;
-					break;
-				case BRONZE : 
-					nbrPlaceDispo = 1500;
-					break;
-				}
+			case BRONZE:
+				nbrPlaceDispo = 3000;
 				break;
-				
+			}
+			break;
+		case ASSIS_CIRQUE:
+			switch (type) {
+			case DIAMANT:
+				nbrPlaceDispo = 1000;
+				break;
+			case OR:
+				nbrPlaceDispo = 2000;
+				break;
+			case ARGENT:
+				nbrPlaceDispo = 1500;
+				break;
+			case BRONZE:
+				nbrPlaceDispo = 1500;
+				break;
+			}
+			break;
+
 		}
 		this.nbrPlaceDispo = nbrPlaceDispo;
 		this.nbrPlaceMax = nbrPlaceDispo;
