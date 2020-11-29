@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import pojo.Personne;
 import pojo.Representation;
 import pojo.Spectacle;
 
@@ -51,6 +53,12 @@ public class RepresentationDAO implements DAO<Representation> {
 
 	@Override
 	public Representation find(Representation obj) {
+		return null;
+	}
+
+	@Override
+	public List<Representation> findAll(Representation personne) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

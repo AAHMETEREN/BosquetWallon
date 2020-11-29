@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import pojo.Configuration;
+import pojo.Personne;
 import pojo.Spectacle;
 
 public class ConfigurationDAO implements DAO<Configuration>{
@@ -66,6 +68,12 @@ public class ConfigurationDAO implements DAO<Configuration>{
 
 	@Override
 	public Configuration find(Configuration obj) {
+		return null;
+	}
+
+	@Override
+	public List<Configuration> findAll(Configuration personne) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

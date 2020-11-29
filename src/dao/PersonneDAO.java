@@ -226,4 +226,10 @@ public class PersonneDAO implements DAO<Personne> {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Personne> findAll(Personne personne) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

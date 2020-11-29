@@ -125,6 +125,7 @@ public class Dashboard extends JFrame {
 	}
 
 	public void initOrganisateurDashboard() {
+		
 		JButton btnLocation = new JButton("Louer une salle");
 		btnLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLocation.setForeground(Color.WHITE);

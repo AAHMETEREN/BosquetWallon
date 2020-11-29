@@ -3,6 +3,7 @@ package pojo;
 
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.List;
 
 import dao.AbstractDAOFactory;
 import dao.DAO;
@@ -18,15 +19,21 @@ public class Reservation {
 	private Personne organisateur;
 	private PlanningSalle planningSalle;
 
-	public Reservation(int acompte ,int solde , float prix, PlanningSalle planningSalle , Personne organisateur) {
+	public Reservation(float acompte ,float solde , float prix, PlanningSalle planningSalle , Personne organisateur) {
 		this.acompte = acompte;
 		this.solde = solde;
 		this.prix = prix;
 		this.organisateur = organisateur;
 		this.planningSalle = planningSalle;
 	}
+	public Reservation() {
+	}
 	public String getStatus() {
 		return this.status;
+	}
+	
+	public void setOrganisateur(Personne personne) {
+		this.organisateur = personne;
 	}
 	
 	public PlanningSalle  getPlanning() {
@@ -65,5 +72,9 @@ public class Reservation {
 	}
 	public int getId() {
 		return this.id;
+	}
+	public List<Reservation> findAll() {
+		return reservationDAO.findAll(this);
+		
 	}
 }

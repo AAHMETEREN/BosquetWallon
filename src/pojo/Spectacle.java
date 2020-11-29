@@ -10,6 +10,10 @@ import dao.SpectacleDAO;
 public class Spectacle {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<Spectacle> spectacleDAO = dao.getSpectacleDAO();
+	private PlanningSalle planningSalle;
+	private List<Artiste> artistes = new ArrayList<Artiste>();
+	private Configuration configuration;
+
 	private int id = 0;
 	private String titre;
 	private int nombrePlaceParClient;

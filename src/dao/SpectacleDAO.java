@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
+import pojo.Personne;
 import pojo.Spectacle;
 
 public class SpectacleDAO implements DAO<Spectacle> {
@@ -59,6 +61,12 @@ public class SpectacleDAO implements DAO<Spectacle> {
 
 	@Override
 	public Spectacle find(Spectacle obj) {
+		return null;
+	}
+
+	@Override
+	public List<Spectacle> findAll(Spectacle personne) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
