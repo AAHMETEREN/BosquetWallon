@@ -13,7 +13,7 @@ public interface  DAO<T> {
 	
 	public  T find(T obj);
 	
-	public  List<T> findAll(T obj);
+	public  List<?> findAll(T obj);
 
 }
 

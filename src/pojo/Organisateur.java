@@ -10,6 +10,9 @@ public class Organisateur extends Personne {
 		this.nomEntreprise = nomEntreprise;
 	}
 
+	public Organisateur() {
+	}
+
 	public String getNomEntreprise() {
 		return this.nomEntreprise;
 	}

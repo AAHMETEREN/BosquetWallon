@@ -15,7 +15,7 @@ public class Reservation {
 	private float acompte;
 	private float solde;
 	private float prix;
-	private String status;
+	private String status = "actif";
 	private Personne organisateur;
 	private PlanningSalle planningSalle;
 
@@ -74,7 +74,10 @@ public class Reservation {
 		return this.id;
 	}
 	public List<Reservation> findAll() {
-		return reservationDAO.findAll(this);
-		
+		return  (List<Reservation>) reservationDAO.findAll(this);
+	}
+	
+	public String toString() {
+		return this.planningSalle.getSpectacle().getTitre();
 	}
 }

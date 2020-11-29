@@ -1,15 +1,22 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
+import pojo.Configuration;
+import pojo.Organisateur;
 import pojo.Personne;
+import pojo.PlanningSalle;
 import pojo.Representation;
+import pojo.Reservation;
 import pojo.Spectacle;
+import pojo.Configuration.TypePlaces;
 
 public class RepresentationDAO implements DAO<Representation> {
 	protected Connection connect = null;
@@ -57,8 +64,27 @@ public class RepresentationDAO implements DAO<Representation> {
 	}
 
 	@Override
-	public List<Representation> findAll(Representation personne) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Representation> findAll(Representation representation) {
+		List<Representation> representations = new ArrayList<Representation>();
+		try {
+			ResultSet result = this.connect.createStatement()					
+					.executeQuery("SELECT * FROM Representation WHERE fk_spectacle = '" + representation.getSpectacle().getId() +"'" );
+
+			
+			while (result.next()) {
+				int representationId = Integer.parseInt(result.getString("id"));
+				float heureDebut = Float.parseFloat(result.getString("heureDebut"));
+				float heureFin = Float.parseFloat(result.getString("heureFin"));
+				Date date = Date.valueOf(result.getString("date"));
+
+				
+				Representation representationIndex = new Representation(5, null, 0, 0, null
+						);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return representations;
 	}
 }

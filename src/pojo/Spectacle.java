@@ -10,7 +10,6 @@ import dao.SpectacleDAO;
 public class Spectacle {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<Spectacle> spectacleDAO = dao.getSpectacleDAO();
-	private PlanningSalle planningSalle;
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private Configuration configuration;
 
@@ -30,7 +29,7 @@ public class Spectacle {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	
 	public String getTitre() {
 		return this.titre;
 	}
@@ -43,6 +42,12 @@ public class Spectacle {
 		this.nombrePlaceParClient = nombrePlaceParClient;
 	}
 
+	public Configuration getConfiguration() {
+		return this.configuration;
+	}
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
 	public int getNombrePlaceParClient() {
 		return this.nombrePlaceParClient;
 	}
@@ -58,6 +63,10 @@ public class Spectacle {
 
 	public int getId() {
 		return this.id;
+	}
+	
+	public List<Reservation> findAll() {
+		return  (List<Reservation>) spectacleDAO.findAll(this);
 	}
 
 }

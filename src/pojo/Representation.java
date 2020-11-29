@@ -1,6 +1,7 @@
 package pojo;
 
 import java.sql.Date;
+import java.util.List;
 
 import dao.AbstractDAOFactory;
 import dao.DAO;
@@ -21,6 +22,9 @@ public class Representation {
 		this.heureDebut = heureDebut;
 		this.heureFin = heureFin;
 		this.spectacle = spectacle;
+	}
+
+	public Representation() {
 	}
 
 	public int getId() {
@@ -45,5 +49,13 @@ public class Representation {
 
 	public Spectacle getSpectacle() {
 		return this.spectacle;
+	}
+	
+	public void setSpectacle(Spectacle spectacle) {
+		this.spectacle = spectacle;
+	}
+	
+	public List<Representation> findAll (){
+		return (List<Representation>) representationDAO.findAll(this);
 	}
 }

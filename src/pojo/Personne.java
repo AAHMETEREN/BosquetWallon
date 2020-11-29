@@ -63,6 +63,10 @@ public class Personne {
 	public Personne find()  {
 		return this.personneDAO.find(this);
 	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getRole() {
 		return this.role;

@@ -81,6 +81,7 @@ public class ReservationDAO implements DAO<Reservation> {
 				float solde = Float.parseFloat(result.getString("solde"));
 				float prix = Float.parseFloat(result.getString("prix"));
 				Reservation reservationIndex = new Reservation(acompteReservation, solde, prix, planningSalle, reservation.getOrganisateur());
+				reservationIndex.setId(spectacleId);
 				reservations.add(reservationIndex);
 			}
 
