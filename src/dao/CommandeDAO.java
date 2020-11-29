@@ -31,7 +31,7 @@ public class CommandeDAO implements DAO<Commande> {
 		try {
 			this.connect
 			.createStatement()
-			.executeUpdate("INSERT INTO Representation VALUES("
+			.executeUpdate("INSERT INTO Commande VALUES("
 					+ "null,'" 
 					+ commande.getModeDePayement()
 					+ "','"
@@ -63,6 +63,7 @@ public class CommandeDAO implements DAO<Commande> {
 
 	@Override
 	public List<Commande> findAll(Commande representation) {
+		return null;
 	}
 
 	@Override

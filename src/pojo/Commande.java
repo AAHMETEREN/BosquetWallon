@@ -1,5 +1,8 @@
 package pojo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dao.AbstractDAOFactory;
 import dao.DAO;
 
@@ -17,6 +20,7 @@ public class Commande {
 		TIMBRE_PRIOR,
 		ENVOIE_SECURISEE
 	}
+	private List<Place> places = new ArrayList<Place>();
 	private int id;
 	private payement modeDePayement;
 	private livraison modeDeLivraison;
@@ -75,6 +79,6 @@ public class Commande {
 	}
 	
 	public boolean create() {
-		this.commandeDAO.create(this);
+		return this.commandeDAO.create(this);
 	}
 }

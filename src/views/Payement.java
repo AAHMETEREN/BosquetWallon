@@ -49,11 +49,17 @@ public class Payement extends JFrame {
 	private ButtonGroup modeDePaiement = new ButtonGroup();
 	private JRadioButton rdbtnLivraisonSurPlace, rdbtnLivraisonTimbre, rdbtnLivraisonEnvoieSecu, rdbtnPaiementVisa,
 			rdbtnPaiementPaypal, rdbtnPaiementSEPA;
+	private JLabel lblPrix;
+	private JLabel lblPrixValue;
+	private JLabel lblNewLabel_1;
+	private boolean isClicked = false;
 
 	public Payement(Reservation reservation, Personne personne, Commande commande) {
 		this.currentSpectacle = reservation;
 		this.personne = personne;
 		this.commande = commande;
+		
+		commande.setPersonne(personne);
 		me = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 460, 383);
@@ -81,7 +87,7 @@ public class Payement extends JFrame {
 
 		rdbtnLivraisonSurPlace = new JRadioButton("Sur place");
 		rdbtnLivraisonSurPlace.setBackground(Color.LIGHT_GRAY);
-		rdbtnLivraisonSurPlace.setBounds(24, 54, 103, 21);
+		rdbtnLivraisonSurPlace.setBounds(24, 54, 121, 21);
 		panel.add(rdbtnLivraisonSurPlace);
 
 		rdbtnLivraisonTimbre = new JRadioButton("Envoir avec imbre prior");
@@ -92,6 +98,20 @@ public class Payement extends JFrame {
 		rdbtnLivraisonEnvoieSecu = new JRadioButton("Envoie s\u00E9curis\u00E9 ( + \u20AC10 ) ");
 		rdbtnLivraisonEnvoieSecu.setBackground(Color.LIGHT_GRAY);
 		rdbtnLivraisonEnvoieSecu.setBounds(24, 117, 179, 21);
+		rdbtnLivraisonEnvoieSecu.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				me.isClicked = !isClicked;
+				if(isClicked) {
+					float prix = commande.getCout();
+					prix+= 10;
+					lblPrixValue.setText(Float.toString(prix));
+				}else {
+					float prix = commande.getCout();
+					lblPrixValue.setText(Float.toString(prix));
+				}
+				
+			}
+		});
 		panel.add(rdbtnLivraisonEnvoieSecu);
 
 		rdbtnPaiementVisa = new JRadioButton("Visa");
@@ -138,17 +158,34 @@ public class Payement extends JFrame {
 		modeDePaiement.add(rdbtnPaiementSEPA);
 		modeDePaiement.add(rdbtnPaiementPaypal);
 		modeDePaiement.add(rdbtnPaiementVisa);
-
+		
+		lblPrix = new JLabel("Prix : ");
+		lblPrix.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		lblPrix.setBounds(166, 162, 45, 21);
+		panel.add(lblPrix);
+		
+		lblPrixValue = new JLabel("");
+		lblPrixValue.setHorizontalAlignment(SwingConstants.LEFT);
+		lblPrixValue.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblPrixValue.setBounds(208, 163, 90, 21);
+		panel.add(lblPrixValue);
+		lblPrixValue.setText(Float.toString(commande.getCout()));
+		
+		lblNewLabel_1 = new JLabel("( +5 \u20AC de frais de dossier )");
+		lblNewLabel_1.setBounds(142, 181, 155, 13);
+		panel.add(lblNewLabel_1);
+		
 	}
 
 	public void payer() {
+		this.commande.augmenterCout(5);
+		lblPrixValue.setText(Float.toString(commande.getCout()));
 		if (rdbtnLivraisonTimbre.isSelected()) {
 			this.commande.setModeDeLivraison(livraison.TIMBRE_PRIOR);
 		} else if (rdbtnLivraisonSurPlace.isSelected()) {
 			this.commande.setModeDeLivraison(livraison.SUR_PLACE);
 		} else {
 			this.commande.setModeDeLivraison(livraison.ENVOIE_SECURISEE);
-			this.commande.augmenterCout(10);
 		}
 
 		if (rdbtnPaiementSEPA.isSelected()) {
@@ -160,7 +197,12 @@ public class Payement extends JFrame {
 		}
 		
 		
-		this.commande.create();
-
+		boolean isCommandeCreated = this.commande.create();
+		if(isCommandeCreated) {
+			JOptionPane.showMessageDialog(null, "Payement effectué !");
+		}else {
+			this.commande.augmenterCout(-5);
+			JOptionPane.showMessageDialog(null, "Erreur lors du payement !");
+		}
 	}
 }

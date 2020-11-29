@@ -48,6 +48,7 @@ public class choixRepresentations extends JFrame {
 	private JLabel lblDiamant, lblBronze, lblArgent, lblOr;
 	private JLabel lblBase;
 	private JSpinField spinnerBase;
+	private JLabel lblNewLabel;
 
 	public choixRepresentations(Reservation reservation, Personne personne) {
 		this.currentSpectacle = reservation;
@@ -70,7 +71,7 @@ public class choixRepresentations extends JFrame {
 		btnSelectSpectacle = new JButton("Confirmer");
 		btnSelectSpectacle.setBackground(Color.DARK_GRAY);
 		btnSelectSpectacle.setForeground(Color.WHITE);
-		btnSelectSpectacle.setBounds(276, 153, 145, 47);
+		btnSelectSpectacle.setBounds(342, 198, 79, 27);
 		btnSelectSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmer();
@@ -94,13 +95,13 @@ public class choixRepresentations extends JFrame {
 		spinnerArgent = new JSpinner();
 		spinnerOr = new JSpinner();
 		spinnerDiamant = new JSpinner();
-		lblBase = new JLabel("New label");
+		lblBase = new JLabel("Normale");
 		lblBase.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblBase.setBounds(42, 173, 103, 27);
+		lblBase.setBounds(39, 198, 103, 27);
 		panel.add(lblBase);
 
 		spinnerBase = new JSpinField();
-		spinnerBase.setBounds(154, 175, 80, 25);
+		spinnerBase.setBounds(151, 200, 80, 25);
 		panel.add(spinnerBase);
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(UIManager.getColor("ToolBar.dockingForeground"));
@@ -114,14 +115,14 @@ public class choixRepresentations extends JFrame {
 		labelTitre.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		labelTitre.setForeground(UIManager.getColor("ToggleButton.highlight"));
 		panel_1.add(labelTitre);
-		lblBronze.setBounds(42, 27, 87, 27);
-		lblArgent.setBounds(42, 64, 87, 27);
-		spinnerArgent.setBounds(154, 64, 80, 27);
-		spinnerOr.setBounds(154, 101, 80, 27);
-		spinnerBronze.setBounds(154, 27, 80, 27);
-		lblDiamant.setBounds(42, 138, 87, 27);
-		spinnerDiamant.setBounds(154, 138, 80, 27);
-		lblOr.setBounds(42, 101, 87, 27);
+		lblBronze.setBounds(39, 52, 87, 27);
+		lblArgent.setBounds(39, 89, 87, 27);
+		spinnerArgent.setBounds(151, 89, 80, 27);
+		spinnerOr.setBounds(151, 126, 80, 27);
+		spinnerBronze.setBounds(151, 52, 80, 27);
+		lblDiamant.setBounds(39, 163, 87, 27);
+		spinnerDiamant.setBounds(151, 163, 80, 27);
+		lblOr.setBounds(39, 126, 87, 27);
 		panel.add(lblBronze);
 		panel.add(spinnerBronze);
 		panel.add(lblArgent);
@@ -130,6 +131,11 @@ public class choixRepresentations extends JFrame {
 		panel.add(lblDiamant);
 		panel.add(lblOr);
 		panel.add(spinnerDiamant);
+		
+		lblNewLabel = new JLabel("Types de places ");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 27));
+		lblNewLabel.setBounds(39, 10, 259, 33);
+		panel.add(lblNewLabel);
 
 		createBtnRetour();
 		createReservationCombobox();
@@ -256,7 +262,6 @@ public class choixRepresentations extends JFrame {
 	public void confirmer() {
 		if (isPlaceNbrLowerThanMax() && isEnoughtPlaces()) {
 			Commande commande = new Commande();
-			System.out.println(getCout());
 			commande.setCout(getCout());
 			 Payement page = new Payement(currentSpectacle,personne,commande);
 			 page.setVisible(true);
