@@ -52,6 +52,7 @@ public class ListeSpectacles extends JFrame {
 			public void run() {
 				try {
 					Personne personne = new Organisateur(1, "test", "test", "test", "test", "test", "test");
+					personne.setRole(Organisateur.role);
 					ListeSpectacles frame = new ListeSpectacles(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -65,7 +66,6 @@ public class ListeSpectacles extends JFrame {
 		this.personne = personne;
 		init();
 		me = this;
-		System.out.println(personne.getId());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 460, 383);
 		contentPane = new JPanel();
@@ -187,12 +187,6 @@ public class ListeSpectacles extends JFrame {
 	
 	public void init() {
 		Spectacle spectacle = new Spectacle();
-	
 		allSpectacles = spectacle.findAll();
-		System.out.println("GETTING ID OF RESERVATION" );
-
-		for (Reservation res : allSpectacles) {
-			System.out.println("GETTING ID OF RESERVATION" + res.getPlanning().getSpectacle().getTitre());
-		}
 	}
 }

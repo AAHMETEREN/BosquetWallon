@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import pojo.Categorie;
+import pojo.Categorie.TypesCategorie;
 import pojo.Personne;
 import pojo.Representation;
 import pojo.Reservation;
@@ -28,6 +29,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.JSpinner;
+import com.toedter.components.JSpinField;
 
 public class choixRepresentations extends JFrame {
 
@@ -44,6 +46,8 @@ public class choixRepresentations extends JFrame {
 	private JPanel panel;
 	private JSpinner spinnerBronze, spinnerArgent, spinnerOr, spinnerDiamant;
 	private JLabel lblDiamant, lblBronze, lblArgent, lblOr;
+	private JLabel lblBase;
+	private JSpinField spinnerBase;
 
 	public choixRepresentations(Reservation reservation, Personne personne) {
 		this.currentSpectacle = reservation;
@@ -66,7 +70,7 @@ public class choixRepresentations extends JFrame {
 		btnSelectSpectacle = new JButton("Confirmer");
 		btnSelectSpectacle.setBackground(Color.DARK_GRAY);
 		btnSelectSpectacle.setForeground(Color.WHITE);
-		btnSelectSpectacle.setBounds(154, 204, 119, 21);
+		btnSelectSpectacle.setBounds(276, 153, 145, 47);
 		btnSelectSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmer();
@@ -90,7 +94,14 @@ public class choixRepresentations extends JFrame {
 		spinnerArgent = new JSpinner();
 		spinnerOr = new JSpinner();
 		spinnerDiamant = new JSpinner();
+		lblBase = new JLabel("New label");
+		lblBase.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblBase.setBounds(42, 173, 103, 27);
+		panel.add(lblBase);
 
+		spinnerBase = new JSpinField();
+		spinnerBase.setBounds(154, 175, 80, 25);
+		panel.add(spinnerBase);
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(UIManager.getColor("ToolBar.dockingForeground"));
 		panel_1.setBounds(0, 0, 451, 43);
@@ -119,6 +130,7 @@ public class choixRepresentations extends JFrame {
 		panel.add(lblDiamant);
 		panel.add(lblOr);
 		panel.add(spinnerDiamant);
+
 		createBtnRetour();
 		createReservationCombobox();
 		createCategories();
@@ -127,11 +139,15 @@ public class choixRepresentations extends JFrame {
 
 	public boolean isPlaceNbrLowerThanMax() {
 		int maxPlace = currentRepresentation.getSpectacle().getNombrePlaceParClient();
+		System.out.println("maxPlace : "+ maxPlace);
+
 		int nbrOfBronzePlaces = (int) spinnerBronze.getValue();
 		int nbrOfArgentPlaces = (int) spinnerArgent.getValue();
 		int nbrOfOrPlaces = (int) spinnerOr.getValue();
 		int nbrOfDiamantPlaces = (int) spinnerDiamant.getValue();
-		int sommePlaces = nbrOfBronzePlaces + nbrOfArgentPlaces + nbrOfOrPlaces + nbrOfDiamantPlaces;
+		int nbrOfBasePlaces = (int) spinnerBase.getValue();
+		System.out.println("nbrplacedebase"+ nbrOfBasePlaces);
+		int sommePlaces = nbrOfBronzePlaces + nbrOfArgentPlaces + nbrOfOrPlaces + nbrOfDiamantPlaces + nbrOfBasePlaces;
 
 		if (sommePlaces == 0) {
 			JOptionPane.showMessageDialog(null, "Veuillez choisir au moin 1 place !");
@@ -146,15 +162,74 @@ public class choixRepresentations extends JFrame {
 		}
 
 	}
-	public boolean isEnoughtPlaces() {
-		int maxPlace = currentRepresentation.getSpectacle().getNombrePlaceParClient();
 
-		
-		return false;
+	public boolean isEnoughtPlaces() {
+		int nbrOfBronzePlaces = (int) spinnerBronze.getValue();
+		int nbrOfArgentPlaces = (int) spinnerArgent.getValue();
+		int nbrOfOrPlaces = (int) spinnerOr.getValue();
+		int nbrOfDiamantPlaces = (int) spinnerDiamant.getValue();
+		int nbrOfBasePlaces = (int) spinnerBase.getValue();
+
+		List<Categorie> categories = currentRepresentation.getSpectacle().getConfiguration().getCategories();
+
+		boolean isEnoughtPlaces = true;
+		for (Categorie categorie : categories) {
+			System.out.println(TypesCategorie.valueOf(categorie.getType()));
+			TypesCategorie type = TypesCategorie.valueOf(categorie.getType());
+			System.out.println("test" + type);
+
+			switch (type) {
+			case DIAMANT:
+				if (nbrOfDiamantPlaces > categorie.getNbrPlaceDispo()) {
+					isEnoughtPlaces = false;
+					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
+							+ " places disponible pour la catégorie diamant");
+				}
+				break;
+			case OR:
+				System.out.println(categorie.getNbrPlaceDispo());
+				System.out.println(nbrOfOrPlaces);
+
+				if (nbrOfOrPlaces > categorie.getNbrPlaceDispo()) {
+					System.out.println("plus deplac");
+
+					isEnoughtPlaces = false;
+					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
+							+ " places disponible pour la catégorie or");
+				}
+				break;
+			case ARGENT:
+				if (nbrOfArgentPlaces > categorie.getNbrPlaceDispo()) {
+					isEnoughtPlaces = false;
+					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
+							+ " places disponible pour la catégorie argent");
+				}
+				break;
+			case BRONZE:
+				if (nbrOfBronzePlaces > categorie.getNbrPlaceDispo()) {
+					isEnoughtPlaces = false;
+					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
+							+ " places disponible pour la catégorie bronze");
+				}
+				break;
+			case BASE:
+				if (nbrOfBasePlaces > categorie.getNbrPlaceDispo()) {
+					isEnoughtPlaces = false;
+					JOptionPane.showMessageDialog(null,
+							"Il ne reste plus que " + categorie.getNbrPlaceDispo() + " places disponible");
+				}
+				break;
+			}
+
+		}
+		System.out.println(isEnoughtPlaces);
+
+		return isEnoughtPlaces;
 	}
+
 	public void confirmer() {
 		if (isPlaceNbrLowerThanMax() && isEnoughtPlaces()) {
-			
+
 		}
 	}
 
@@ -164,7 +239,7 @@ public class choixRepresentations extends JFrame {
 		categories = currentRepresentation.getSpectacle().getConfiguration().getCategories();
 		TypePlaces typeConguration = TypePlaces
 				.valueOf(currentRepresentation.getSpectacle().getConfiguration().getType());
-
+		System.out.println("jnoewdjnqwdjdwjd " + typeConguration);
 		resetCategories();
 		switch (typeConguration) {
 		case DEBOUT:
@@ -188,15 +263,18 @@ public class choixRepresentations extends JFrame {
 		spinnerBronze.setVisible(false);
 		lblDiamant.setVisible(false);
 		spinnerDiamant.setVisible(false);
+		spinnerBase.setVisible(false);
+		lblBase.setVisible(false);
 	}
 
 	public void createCategoriesDebout() {
-		lblBronze.setVisible(true);
-		spinnerBronze.setVisible(true);
+		spinnerBase.setVisible(true);
+		lblBase.setVisible(true);
 	}
 
 	public void createCategoriesAssisConcert() {
-		createCategoriesDebout();
+		lblBronze.setVisible(true);
+		spinnerBronze.setVisible(true);
 		lblArgent.setVisible(true);
 		spinnerArgent.setVisible(true);
 		spinnerOr.setVisible(true);
@@ -204,7 +282,6 @@ public class choixRepresentations extends JFrame {
 	}
 
 	public void createCategoriesAssisCirque() {
-		createCategoriesDebout();
 		createCategoriesAssisConcert();
 		lblDiamant.setVisible(true);
 		spinnerDiamant.setVisible(true);

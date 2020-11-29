@@ -40,7 +40,6 @@ public class ConfigurationDAO implements DAO<Configuration>{
 
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
-					System.out.println(generatedKeys.getLong(1));
 					configuration.setId((int)generatedKeys.getLong(1));
 				} else {
 					throw new SQLException("Creating user failed, no ID obtained.");

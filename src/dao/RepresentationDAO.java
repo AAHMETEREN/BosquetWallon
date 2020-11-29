@@ -66,7 +66,6 @@ public class RepresentationDAO implements DAO<Representation> {
 	@Override
 	public List<Representation> findAll(Representation representation) {
 		List<Representation> representations = new ArrayList<Representation>();
-		System.out.println("here2");
 		try {
 			ResultSet result = this.connect.createStatement()					
 					.executeQuery("SELECT * FROM Representation WHERE fk_spectacle = '" + representation.getSpectacle().getId() +"'" );

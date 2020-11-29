@@ -65,7 +65,6 @@ public class ReservationDAO implements DAO<Reservation> {
 			);
 			
 			while (result.next()) {
-				System.out.println("RESULT FOUND");
 				// Creation de spectacle 
 				int spectacleId  = Integer.parseInt(result.getString("reservation_id"));
 				int nbrPlaceParClient = Integer.parseInt(result.getString("nbrPlaceParClient"));

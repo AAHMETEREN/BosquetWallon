@@ -76,18 +76,19 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	@Override
 	public List<Reservation> findAll(Spectacle s) {
 		List<Reservation> reservations = new ArrayList<Reservation>();
-		List<Categorie> categories = new ArrayList<Categorie>();
-		System.out.println("here");
 		try {
 			ResultSet result = this.connect.createStatement().executeQuery(
 					"SELECT Reservation.id  AS reservation_id  , Spectacle.id as spectacle_id , PlanningSalle.id as PlanningSalle_id , Personne.id as Personne_id , Configuration.id as Configuration_id ,  * FROM Reservation "
 							+ " INNER JOIN PlanningSalle ON Reservation.fk_planningSalle = PlanningSalle.id "
 							+ " INNER JOIN Spectacle ON Spectacle.id = PlanningSalle.fk_spectacle "
 							+ " INNER JOIN Personne ON Personne.id =  Reservation.fk_personne "
-							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id ");
+							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id "
+						);
+			
+			while (result.next()) {
+				List<Categorie> categories = new ArrayList<Categorie>();
 
-			int configurationId = Integer.parseInt(result.getString("Configuration_id"));
-			if(result.next()) {
+				int configurationId = Integer.parseInt(result.getString("Configuration_id"));
 				ResultSet categoriesResult = this.connect.createStatement()
 						.executeQuery("SELECT * FROM Categorie WHERE fk_configuration = '" + configurationId + "'");
 
@@ -95,25 +96,21 @@ public class SpectacleDAO implements DAO<Spectacle> {
 					int prix = (int) Float.parseFloat(categoriesResult.getString("prix"));
 					int nbrPlaceDispo = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceDispo"));
 					int nbrPlaceMax = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceMax"));
+					
 					Categorie categorie = new Categorie(TypesCategorie.valueOf(categoriesResult.getString("type")),
 							prix, null, null);
 					categorie.setNbrPlaceDispo(nbrPlaceDispo);
 					categorie.setNbrPlaceMax(nbrPlaceMax);
 					categories.add(categorie);
 				}
-			}
-			while (result.next()) {
-				
 				// Creation de la configuration
 				TypePlaces typePlace = TypePlaces.valueOf(result.getString("type"));
-				System.out.println(typePlace);
 				String description = result.getString("description");
 				Configuration configuration = new Configuration(configurationId, description, typePlace, null);
 				configuration.setCategories(categories);
 				// Creation de spectacle
 				int spectacleId = Integer.parseInt(result.getString("reservation_id"));
 				int nbrPlaceParClient = Integer.parseInt(result.getString("nbrPlaceParClient"));
-				System.out.println(nbrPlaceParClient);
 				String titreSpectacle = result.getString("titre");
 				Spectacle spectacle = new Spectacle(titreSpectacle, nbrPlaceParClient);
 				spectacle.setConfiguration(configuration);

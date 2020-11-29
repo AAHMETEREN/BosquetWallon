@@ -45,7 +45,6 @@ public class PersonneDAO implements DAO<Personne> {
 	
 	public boolean createArtisteSpectacle(Artiste artiste) {
 		try {
-			System.out.print("ajout d'un artiste");
 			this.connect.createStatement()
 					.executeUpdate("INSERT INTO Artiste VALUES('"
 							+ artiste.getOrganisateur().getId() 
@@ -177,7 +176,6 @@ public class PersonneDAO implements DAO<Personne> {
 					.executeQuery("SELECT * FROM Personne WHERE role = '" + Artiste.role +"'" );
 			
 			while(result.next()) {
-				System.out.println("adding");
 				listeArtistes.add(
 					new Artiste(
 						Integer.parseInt(result.getString("id")),
