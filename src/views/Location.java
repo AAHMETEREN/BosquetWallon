@@ -44,22 +44,22 @@ public class Location extends JFrame {
 	List<Representation> allRepresentation = new ArrayList<Representation>();
 	private JPanel contentPane;
 	private Personne personne;
-	private JTextField  titreField;
+	private JTextField titreField;
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
 	private JTextPane descriptionField;
 	private TypePlaces place = TypePlaces.DEBOUT;
 	private int maxParPersonne;
-	private JSpinField representationHeureMax, representationHeureMin, fieldBronze, fieldBase, fieldArgent, fieldOr, fieldDiamant ,maxParPersonneField;
+	private JSpinField representationHeureMax, representationHeureMin, fieldBronze, fieldBase, fieldArgent, fieldOr,
+			fieldDiamant, maxParPersonneField;
 	private JCalendar calendar;
 	private JLabel labelHeureMin;
 	private JLabel labelArtiste_2;
 	private JButton addRepresentationBtn;
 	private JLabel lblNewLabel;
-	private JComboBox<Artiste> comboBoxArtiste ;
+	private JComboBox<Artiste> comboBoxArtiste;
 	private JButton addArtisteBtn;
-	
 
 	/**
 	 * Create the frame.
@@ -226,7 +226,7 @@ public class Location extends JFrame {
 		}
 		comboBoxArtiste.setBounds(31, 329, 224, 27);
 		panel.add(comboBoxArtiste);
-		
+
 	}
 
 	private void createCalendar() {
@@ -300,67 +300,75 @@ public class Location extends JFrame {
 				calendarValue.setText(calendar.getDate().toLocaleString());
 			}
 		});
-		
+
 		setRepresentationButton();
 	}
+
 	public void create() {
 		boolean isSpectacleCreated = creerSpectacle();
-		if(isSpectacleCreated) {
+		if (isSpectacleCreated) {
 			PlanningSalle planningSalle = creerPlanningSalle();
 			creerReservation(planningSalle);
 			createRepresentation();
 			createConfiguration();
 			createArtistes();
 		}
-		
+
 	}
-	
+
 	private void createArtistes() {
-		for(Artiste artiste : selectedArtistes) {
+		for (Artiste artiste : selectedArtistes) {
 			artiste.setOrganisateur(personne);
 			artiste.setSpectacle(spectacle);
 
 			artiste.create();
 		}
 	}
+
 	private void createConfiguration() {
 		String description = descriptionField.getText();
-		pojo.Configuration configuration = new pojo.Configuration(0, description, place , spectacle);
+		pojo.Configuration configuration = new pojo.Configuration(0, description, place, spectacle);
 		boolean isConfigurationCreated = configuration.create();
-		if(isConfigurationCreated) {
+		if (isConfigurationCreated) {
 			createCategories(configuration);
 		}
 	}
+
 	private void createCategories(Configuration configuration) {
 		List<Categorie> categories = setCategoriesList(configuration);
-		for(Categorie categorie : categories) {
+		for (Categorie categorie : categories) {
 			categorie.create();
 		}
 	}
+
 	private void createRepresentation() {
-		for(Representation representation : allRepresentation) {
+		for (Representation representation : allRepresentation) {
 			representation.create();
 		}
 	}
+
 	private PlanningSalle creerPlanningSalle() {
 		Date date = getDate();
-		PlanningSalle planningSalle =  new PlanningSalle(date , spectacle);
+		PlanningSalle planningSalle = new PlanningSalle(date, spectacle);
 		planningSalle.create();
 		return planningSalle;
 	}
+
 	private void creerReservation(PlanningSalle planningSalle) {
-		Reservation reservation = new Reservation(0 , 0 , 0 , planningSalle, this.personne);
+		Reservation reservation = new Reservation(0, 0, 0, planningSalle, this.personne);
 		reservation.setPrix(getDate());
 		reservation.create();
 	}
+
 	private boolean creerSpectacle() {
 		String titre = titreField.getText();
-		
+
 		spectacle.setTitre(titre);
 		spectacle.setNombrePlaceParClient(maxParPersonne);
 		spectacle.create();
 		return true;
 	}
+
 	private void setRepresentationButton() {
 		addRepresentationBtn = new JButton("Ajouter ");
 		addRepresentationBtn.setForeground(Color.WHITE);
@@ -373,15 +381,17 @@ public class Location extends JFrame {
 				int heureFin = (Integer) representationHeureMax.getValue();
 				java.util.Date utilStartDate = calendar.getDate();
 				java.sql.Date date = new java.sql.Date(utilStartDate.getTime());
-				allRepresentation.add( new Representation(0, date, heureDebut, heureFin ,  spectacle));
+				allRepresentation.add(new Representation(0, date, heureDebut, heureFin, spectacle));
 			}
 		});
 		panel.add(addRepresentationBtn);
 	}
+
 	private Date getDate() {
 		java.util.Date utilStartDate = calendar.getDate();
 		return new java.sql.Date(utilStartDate.getTime());
 	}
+
 	private List<Categorie> setCategoriesList(Configuration configuration) {
 		maxParPersonne = (Integer) maxParPersonneField.getValue();
 		if (place == TypePlaces.DEBOUT) {
@@ -398,20 +408,20 @@ public class Location extends JFrame {
 		int nombrePlaceDispo = 8000;
 		int prixBase = (Integer) fieldBase.getValue();
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.BASE, prixBase,place , configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.BASE, prixBase, place, configuration));
 		return categories;
 	}
 
 	private List<Categorie> createCategorieConcert(Configuration configuration) {
 		int nombrePlaceDispo = 5000;
-		int prixBronze =  (Integer) fieldBronze.getValue();
-		int prixArgent =  (Integer) fieldArgent.getValue();
-		int prixOr =  (Integer) fieldOr.getValue();
+		int prixBronze = (Integer) fieldBronze.getValue();
+		int prixArgent = (Integer) fieldArgent.getValue();
+		int prixOr = (Integer) fieldOr.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(),  Categorie.TypesCategorie.BRONZE, prixBronze,place , configuration));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place , configuration));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr,place , configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.BRONZE, prixBronze, place, configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.ARGENT, prixArgent, place, configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.OR, prixOr, place, configuration));
 
 		return categories;
 	}
@@ -424,11 +434,10 @@ public class Location extends JFrame {
 		int prixDiamant = (Integer) fieldDiamant.getValue();
 
 		List<Categorie> categories = new ArrayList<Categorie>();
-		categories.add(new Categorie(getDate(),Categorie.TypesCategorie.BRONZE, prixBronze, place , configuration));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.ARGENT, prixArgent,place , configuration));
-		categories.add(new Categorie(getDate(), Categorie.TypesCategorie.OR, prixOr, place , configuration));
-		categories
-				.add(new Categorie(getDate(),Categorie.TypesCategorie.DIAMANT, prixDiamant,place , configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.BRONZE, prixBronze, place, configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.ARGENT, prixArgent, place, configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.OR, prixOr, place, configuration));
+		categories.add(new Categorie(Categorie.TypesCategorie.DIAMANT, prixDiamant, place, configuration));
 		return categories;
 	}
 

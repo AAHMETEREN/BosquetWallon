@@ -21,7 +21,7 @@ public class Spectacle {
 	};
 
 	public Spectacle(String titre, int nombrePlaceParClient) {
-
+		System.out.println("Setting : "+nombrePlaceParClient);
 		this.titre = titre;
 		this.nombrePlaceParClient = nombrePlaceParClient;
 	}
@@ -49,6 +49,7 @@ public class Spectacle {
 		this.configuration = configuration;
 	}
 	public int getNombrePlaceParClient() {
+		
 		return this.nombrePlaceParClient;
 	}
 

@@ -1,6 +1,9 @@
 package pojo;
 
 import dao.DAO;
+
+import java.util.List;
+
 import dao.AbstractDAOFactory;
 
 public class Configuration {
@@ -22,11 +25,18 @@ public class Configuration {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<Configuration> configurationDAO = dao.getConfigurationDAO();
 	private String description;
+	private List<Categorie> categories;
 	private TypePlaces type;
 	int id;
 	private Spectacle spectacle;
 	
 	
+	public List<Categorie> getCategories(){
+		return this.categories;
+	}
+	public void setCategories(List<Categorie> categories) {
+		this.categories = categories;
+	}
 	public Configuration(int id,  String description, TypePlaces place , Spectacle spectacle) {
 		this.id = id;
 		this.description = description;
@@ -34,6 +44,7 @@ public class Configuration {
 		this.spectacle  = spectacle;
 	}
 	
+
 	public String getDescription() {
 		return this.description;
 	}

@@ -127,7 +127,7 @@ public class ListeSpectacles extends JFrame {
 		btnSelectSpectacle.setBounds(154, 204, 119, 21);
 		btnSelectSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Paiment page = new Paiment(currentSpectacle);
+				choixRepresentations page = new choixRepresentations(currentSpectacle,personne);
 				page.setVisible(true);
 				me.dispose();
 			}
@@ -179,8 +179,6 @@ public class ListeSpectacles extends JFrame {
 		btnRetour.setBounds(353, 60, 88, 26);
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Dashboard page = new Dashboard(personne);
-				page.setVisible(true);
 				me.dispose();
 			}
 		});
@@ -189,6 +187,7 @@ public class ListeSpectacles extends JFrame {
 	
 	public void init() {
 		Spectacle spectacle = new Spectacle();
+	
 		allSpectacles = spectacle.findAll();
 		System.out.println("GETTING ID OF RESERVATION" );
 

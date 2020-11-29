@@ -21,14 +21,20 @@ public class Categorie {
 	private int nbrPlaceDispo;
 	private int nbrPlaceMax;
 
-	public Categorie(Date date , TypesCategorie type,int prix , TypePlaces place , Configuration configuration) {
+	public Categorie(TypesCategorie type,int prix , TypePlaces place , Configuration configuration) {
 		this.prix = prix;
 		this.type = type;
 		this.configuration = configuration;
 		this.calculerNombrePlace(type, place);
 	}
-
+	public void setNbrPlaceMax(int nbrPlaceMax) {
+		this.nbrPlaceMax = nbrPlaceMax;
+	}
+	public void setNbrPlaceDispo(int nbrPlaceDispo) {
+		this.nbrPlaceDispo = nbrPlaceDispo;
+	}
 	public void calculerNombrePlace(TypesCategorie type, TypePlaces place) {
+		if(place == null) return;
 		int nbrPlaceDispo = 0;
 		switch (place) {
 		case DEBOUT:

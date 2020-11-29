@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import pojo.Categorie;
+import pojo.Categorie.TypesCategorie;
 import pojo.Configuration;
 import pojo.Configuration.TypePlaces;
 import pojo.Organisateur;
@@ -74,33 +76,52 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	@Override
 	public List<Reservation> findAll(Spectacle s) {
 		List<Reservation> reservations = new ArrayList<Reservation>();
+		List<Categorie> categories = new ArrayList<Categorie>();
+		System.out.println("here");
 		try {
 			ResultSet result = this.connect.createStatement().executeQuery(
 					"SELECT Reservation.id  AS reservation_id  , Spectacle.id as spectacle_id , PlanningSalle.id as PlanningSalle_id , Personne.id as Personne_id , Configuration.id as Configuration_id ,  * FROM Reservation "
 							+ " INNER JOIN PlanningSalle ON Reservation.fk_planningSalle = PlanningSalle.id "
 							+ " INNER JOIN Spectacle ON Spectacle.id = PlanningSalle.fk_spectacle "
 							+ " INNER JOIN Personne ON Personne.id =  Reservation.fk_personne "
-							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id "
-					);
-			
+							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id ");
+
+			int configurationId = Integer.parseInt(result.getString("Configuration_id"));
+			if(result.next()) {
+				ResultSet categoriesResult = this.connect.createStatement()
+						.executeQuery("SELECT * FROM Categorie WHERE fk_configuration = '" + configurationId + "'");
+
+				while (categoriesResult.next()) {
+					int prix = (int) Float.parseFloat(categoriesResult.getString("prix"));
+					int nbrPlaceDispo = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceDispo"));
+					int nbrPlaceMax = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceMax"));
+					Categorie categorie = new Categorie(TypesCategorie.valueOf(categoriesResult.getString("type")),
+							prix, null, null);
+					categorie.setNbrPlaceDispo(nbrPlaceDispo);
+					categorie.setNbrPlaceMax(nbrPlaceMax);
+					categories.add(categorie);
+				}
+			}
 			while (result.next()) {
+				
 				// Creation de la configuration
-				int configurationId = Integer.parseInt(result.getString("Configuration_id"));
 				TypePlaces typePlace = TypePlaces.valueOf(result.getString("type"));
 				System.out.println(typePlace);
 				String description = result.getString("description");
 				Configuration configuration = new Configuration(configurationId, description, typePlace, null);
-				// Creation de spectacle 
-				int spectacleId  = Integer.parseInt(result.getString("reservation_id"));
+				configuration.setCategories(categories);
+				// Creation de spectacle
+				int spectacleId = Integer.parseInt(result.getString("reservation_id"));
 				int nbrPlaceParClient = Integer.parseInt(result.getString("nbrPlaceParClient"));
+				System.out.println(nbrPlaceParClient);
 				String titreSpectacle = result.getString("titre");
-				Spectacle spectacle = new Spectacle(titreSpectacle,nbrPlaceParClient );
+				Spectacle spectacle = new Spectacle(titreSpectacle, nbrPlaceParClient);
 				spectacle.setConfiguration(configuration);
 				spectacle.setId(spectacleId);
-				
-				// Creation de planning salle 
+
+				// Creation de planning salle
 				Date dateReservation = Date.valueOf(result.getString("dateDebutR"));
-				PlanningSalle planningSalle = new PlanningSalle(dateReservation , spectacle);
+				PlanningSalle planningSalle = new PlanningSalle(dateReservation, spectacle);
 				// Creation de l'organisateur
 				Organisateur organisateur = new Organisateur();
 				organisateur.setId(Integer.parseInt(result.getString("Personne_id")));
@@ -111,7 +132,8 @@ public class SpectacleDAO implements DAO<Spectacle> {
 				float acompteReservation = Float.parseFloat(result.getString("acompte"));
 				float solde = Float.parseFloat(result.getString("solde"));
 				float prix = Float.parseFloat(result.getString("prix"));
-				Reservation reservationIndex = new Reservation(acompteReservation, solde, prix, planningSalle, organisateur);
+				Reservation reservationIndex = new Reservation(acompteReservation, solde, prix, planningSalle,
+						organisateur);
 				reservationIndex.setId(spectacleId);
 				reservations.add(reservationIndex);
 			}

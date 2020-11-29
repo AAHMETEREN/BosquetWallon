@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,12 +10,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import pojo.Artiste;
+import pojo.Client;
 import pojo.Organisateur;
 import pojo.Personne;
 import pojo.Reservation;
 import pojo.Spectacle;
-import pojo.Configuration.TypePlaces;
 
 import javax.swing.JButton;
 import java.awt.Color;
@@ -32,7 +30,6 @@ public class ReservationOrganisateur extends JFrame {
 	private Personne personne;
 	private List<Reservation> mesReservations = new ArrayList<Reservation>();
 	private Reservation currentReservation;
-	private Spectacle spectacle = new Spectacle();
 	private JButton btnRetour;
 	private ReservationOrganisateur me;
 	private JComboBox<Reservation> reservationsCombobox;
@@ -59,7 +56,7 @@ public class ReservationOrganisateur extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Personne personne = new Organisateur(1, "test", "test", "test", "test", "test", "test");
+					Personne personne = new Client(1, "test", "test", "test", "test", "test",5);
 					ReservationOrganisateur frame = new ReservationOrganisateur(personne);
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -220,7 +217,7 @@ public class ReservationOrganisateur extends JFrame {
 		statusLabel.setText(currentReservation.getStatus());
 	}
 	public void createBtnRetour() {
-		btnRetour = new JButton("Retour");
+		btnRetour = new JButton("Quitter");
 		btnRetour.setForeground(Color.WHITE);
 		btnRetour.setBackground(Color.DARK_GRAY);
 		btnRetour.setBounds(353, 60, 88, 26);

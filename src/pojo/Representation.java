@@ -55,6 +55,10 @@ public class Representation {
 		this.spectacle = spectacle;
 	}
 	
+	@Override
+	public String toString() {
+		return ""+heureDebut+ "H à " +heureFin+"H";
+	}
 	public List<Representation> findAll (){
 		return (List<Representation>) representationDAO.findAll(this);
 	}

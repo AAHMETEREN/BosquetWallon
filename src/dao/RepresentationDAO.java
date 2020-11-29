@@ -66,6 +66,7 @@ public class RepresentationDAO implements DAO<Representation> {
 	@Override
 	public List<Representation> findAll(Representation representation) {
 		List<Representation> representations = new ArrayList<Representation>();
+		System.out.println("here2");
 		try {
 			ResultSet result = this.connect.createStatement()					
 					.executeQuery("SELECT * FROM Representation WHERE fk_spectacle = '" + representation.getSpectacle().getId() +"'" );
@@ -73,13 +74,16 @@ public class RepresentationDAO implements DAO<Representation> {
 			
 			while (result.next()) {
 				int representationId = Integer.parseInt(result.getString("id"));
-				float heureDebut = Float.parseFloat(result.getString("heureDebut"));
-				float heureFin = Float.parseFloat(result.getString("heureFin"));
+				int heureDebut = (int) Float.parseFloat(result.getString("heureDebut"));
+				int heureFin = (int) Float.parseFloat(result.getString("heureFin"));
 				Date date = Date.valueOf(result.getString("date"));
 
 				
-				Representation representationIndex = new Representation(5, null, 0, 0, null
-						);
+				representations.add(
+						new Representation(representationId, date, heureDebut,heureFin, representation.getSpectacle())
+					);
+				
+						
 			}
 
 		} catch (SQLException e) {
