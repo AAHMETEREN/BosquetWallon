@@ -29,6 +29,11 @@ public class DAOFactory extends AbstractDAOFactory {
 	public DAO<Spectacle> getSpectacleDAO() {
 		return new SpectacleDAO(conn);
 	}
+	
+	public DAO<Commande> getCommandeDAO() {
+		return new CommandeDAO(conn);
+	}
+	
 
 	public PersonneDAO getPersonneDAO() {
 		return new PersonneDAO(conn);

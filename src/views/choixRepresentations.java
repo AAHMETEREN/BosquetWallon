@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import pojo.Categorie;
 import pojo.Categorie.TypesCategorie;
+import pojo.Commande;
 import pojo.Personne;
 import pojo.Representation;
 import pojo.Reservation;
@@ -38,7 +39,6 @@ public class choixRepresentations extends JFrame {
 	private List<Representation> allRepresentation = new ArrayList<Representation>();
 	private Representation currentRepresentation;
 	private Reservation currentSpectacle;
-	private Spectacle spectacle = new Spectacle();
 	private JButton btnRetour;
 	private choixRepresentations me;
 	private JComboBox<Representation> representationCombobox;
@@ -139,14 +139,11 @@ public class choixRepresentations extends JFrame {
 
 	public boolean isPlaceNbrLowerThanMax() {
 		int maxPlace = currentRepresentation.getSpectacle().getNombrePlaceParClient();
-		System.out.println("maxPlace : "+ maxPlace);
-
 		int nbrOfBronzePlaces = (int) spinnerBronze.getValue();
 		int nbrOfArgentPlaces = (int) spinnerArgent.getValue();
 		int nbrOfOrPlaces = (int) spinnerOr.getValue();
 		int nbrOfDiamantPlaces = (int) spinnerDiamant.getValue();
 		int nbrOfBasePlaces = (int) spinnerBase.getValue();
-		System.out.println("nbrplacedebase"+ nbrOfBasePlaces);
 		int sommePlaces = nbrOfBronzePlaces + nbrOfArgentPlaces + nbrOfOrPlaces + nbrOfDiamantPlaces + nbrOfBasePlaces;
 
 		if (sommePlaces == 0) {
@@ -174,62 +171,95 @@ public class choixRepresentations extends JFrame {
 
 		boolean isEnoughtPlaces = true;
 		for (Categorie categorie : categories) {
-			System.out.println(TypesCategorie.valueOf(categorie.getType()));
 			TypesCategorie type = TypesCategorie.valueOf(categorie.getType());
-			System.out.println("test" + type);
-
 			switch (type) {
 			case DIAMANT:
 				if (nbrOfDiamantPlaces > categorie.getNbrPlaceDispo()) {
 					isEnoughtPlaces = false;
 					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
-							+ " places disponible pour la catégorie diamant");
+							+ " places pour la catégorie diamant");
 				}
 				break;
 			case OR:
-				System.out.println(categorie.getNbrPlaceDispo());
-				System.out.println(nbrOfOrPlaces);
-
 				if (nbrOfOrPlaces > categorie.getNbrPlaceDispo()) {
-					System.out.println("plus deplac");
-
 					isEnoughtPlaces = false;
-					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
-							+ " places disponible pour la catégorie or");
+					JOptionPane.showMessageDialog(null,
+							"Il ne reste plus que " + categorie.getNbrPlaceDispo() + " places pour la catégorie or");
 				}
 				break;
 			case ARGENT:
 				if (nbrOfArgentPlaces > categorie.getNbrPlaceDispo()) {
 					isEnoughtPlaces = false;
 					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
-							+ " places disponible pour la catégorie argent");
+							+ " places pour la catégorie argent");
 				}
 				break;
 			case BRONZE:
 				if (nbrOfBronzePlaces > categorie.getNbrPlaceDispo()) {
 					isEnoughtPlaces = false;
 					JOptionPane.showMessageDialog(null, "Il ne reste plus que " + categorie.getNbrPlaceDispo()
-							+ " places disponible pour la catégorie bronze");
+							+ " places pour la catégorie bronze");
 				}
 				break;
 			case BASE:
 				if (nbrOfBasePlaces > categorie.getNbrPlaceDispo()) {
 					isEnoughtPlaces = false;
 					JOptionPane.showMessageDialog(null,
-							"Il ne reste plus que " + categorie.getNbrPlaceDispo() + " places disponible");
+							"Il ne reste plus que " + categorie.getNbrPlaceDispo() + " places");
 				}
 				break;
 			}
 
 		}
-		System.out.println(isEnoughtPlaces);
-
 		return isEnoughtPlaces;
+	}
+
+	public float getCout() {
+
+		int nbrOfBronzePlaces = (int) spinnerBronze.getValue();
+		int nbrOfArgentPlaces = (int) spinnerArgent.getValue();
+		int nbrOfOrPlaces = (int) spinnerOr.getValue();
+		int nbrOfDiamantPlaces = (int) spinnerDiamant.getValue();
+		int nbrOfBasePlaces = (int) spinnerBase.getValue();
+		float cout = 0;
+		List<Categorie> categories = currentRepresentation.getSpectacle().getConfiguration().getCategories();
+
+		for (Categorie categorie : categories) {
+			TypesCategorie type = TypesCategorie.valueOf(categorie.getType());
+			switch (type) {
+			case DIAMANT:
+				cout += nbrOfDiamantPlaces * categorie.getPrix();
+				break;
+			case OR:
+				cout += nbrOfOrPlaces * categorie.getPrix();
+
+				break;
+			case ARGENT:
+				cout += nbrOfArgentPlaces * categorie.getPrix();
+
+				break;
+			case BRONZE:
+
+				cout += nbrOfBronzePlaces * categorie.getPrix();
+
+				break;
+			case BASE:
+				cout += nbrOfBasePlaces * categorie.getPrix();
+
+				break;
+			}
+
+		}
+		return cout;
 	}
 
 	public void confirmer() {
 		if (isPlaceNbrLowerThanMax() && isEnoughtPlaces()) {
-
+			Commande commande = new Commande();
+			System.out.println(getCout());
+			commande.setCout(getCout());
+			 Payement page = new Payement(currentSpectacle,personne,commande);
+			 page.setVisible(true);
 		}
 	}
 
@@ -239,7 +269,6 @@ public class choixRepresentations extends JFrame {
 		categories = currentRepresentation.getSpectacle().getConfiguration().getCategories();
 		TypePlaces typeConguration = TypePlaces
 				.valueOf(currentRepresentation.getSpectacle().getConfiguration().getType());
-		System.out.println("jnoewdjnqwdjdwjd " + typeConguration);
 		resetCategories();
 		switch (typeConguration) {
 		case DEBOUT:
@@ -324,10 +353,5 @@ public class choixRepresentations extends JFrame {
 		Representation representation = new Representation();
 		representation.setSpectacle(this.currentSpectacle.getPlanning().getSpectacle());
 		allRepresentation = representation.findAll();
-		System.out.println("GETTING ID OF RESERVATION");
-
-		for (Representation res : allRepresentation) {
-			System.out.println("GETTING ID OF REPRESENTATION" + res.getId());
-		}
 	}
 }
