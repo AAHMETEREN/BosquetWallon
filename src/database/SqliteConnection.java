@@ -2,6 +2,7 @@ package database;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
+
 public class SqliteConnection {
 
 	private static Connection instance = null;
@@ -14,7 +15,7 @@ public class SqliteConnection {
 			JOptionPane.showMessageDialog(null, "Erreur JDBC : " + ex.getMessage());
 		}
 		if (instance == null) {
-			JOptionPane.showMessageDialog(null, "La base de données est inaccessible, fermeture du programme.");
+			JOptionPane.showMessageDialog(null, "La base Wde données est inaccessible, fermeture du programme.");
 			System.exit(0);
 		}
 	}

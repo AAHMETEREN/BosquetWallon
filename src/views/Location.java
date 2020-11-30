@@ -51,7 +51,6 @@ public class Location extends JFrame {
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
-	private Component[] compFirstCalendar;
 	private JTextPane descriptionField;
 	private TypePlaces place = TypePlaces.DEBOUT;
 	private int maxParPersonne;
@@ -69,7 +68,6 @@ public class Location extends JFrame {
 	 * Create the frame.
 	 */
 	public Location(Personne personne) {
-
 		this.personne = personne;
 		Location me = this;
 
@@ -227,6 +225,7 @@ public class Location extends JFrame {
 			}
 		});
 		panel.add(addArtisteBtn);
+
 		setListeArtiste(allArtistes);
 	}
 
@@ -260,7 +259,7 @@ public class Location extends JFrame {
 		labelArtiste.setBounds(31, 312, 160, 13);
 		panel.add(labelArtiste);
 
-		JButton confirmButton = new JButton("Creer");
+		JButton confirmButton = new JButton("Acheter");
 		confirmButton.setForeground(Color.WHITE);
 		confirmButton.setBackground(Color.DARK_GRAY);
 		confirmButton.setBounds(338, 611, 187, 34);
@@ -319,13 +318,19 @@ public class Location extends JFrame {
 	}
 
 	public void create() {
+
 		boolean isSpectacleCreated = creerSpectacle();
 		if (isSpectacleCreated) {
 			PlanningSalle planningSalle = creerPlanningSalle();
+
 			creerReservation(planningSalle);
+
 			createRepresentation();
+
 			createConfiguration();
+
 			createArtistes();
+
 			JOptionPane.showMessageDialog(null, "Ajouté avec succes !");
 			this.dispose();
 		}else {
@@ -349,11 +354,13 @@ public class Location extends JFrame {
 		pojo.Configuration configuration = new pojo.Configuration(0, description, place, spectacle);
 		boolean isConfigurationCreated = configuration.create();
 		if (isConfigurationCreated) {
+
 			createCategories(configuration);
 		}
 	}
 
 	private void createCategories(Configuration configuration) {
+
 		List<Categorie> categories = setCategoriesList(configuration);
 		for (Categorie categorie : categories) {
 			categorie.create();
@@ -423,19 +430,17 @@ public class Location extends JFrame {
 	}
 
 	private List<Categorie> createCategorieDebout(Configuration configuration) {
-		int nombrePlaceDispo = 8000;
 		int prixBase = (Integer) fieldBase.getValue();
 		List<Categorie> categories = new ArrayList<Categorie>();
 		categories.add(new Categorie(Categorie.TypesCategorie.BASE, prixBase, place, configuration));
 		return categories;
+		
 	}
 
 	private List<Categorie> createCategorieConcert(Configuration configuration) {
-		int nombrePlaceDispo = 5000;
 		int prixBronze = (Integer) fieldBronze.getValue();
 		int prixArgent = (Integer) fieldArgent.getValue();
 		int prixOr = (Integer) fieldOr.getValue();
-
 		List<Categorie> categories = new ArrayList<Categorie>();
 		categories.add(new Categorie(Categorie.TypesCategorie.BRONZE, prixBronze, place, configuration));
 		categories.add(new Categorie(Categorie.TypesCategorie.ARGENT, prixArgent, place, configuration));
@@ -445,7 +450,6 @@ public class Location extends JFrame {
 	}
 
 	private List<Categorie> createCategorieCirque(Configuration configuration) {
-		int nombrePlaceDispo = 6000;
 		int prixBronze = (Integer) fieldBronze.getValue();
 		int prixArgent = (Integer) fieldArgent.getValue();
 		int prixOr = (Integer) fieldOr.getValue();

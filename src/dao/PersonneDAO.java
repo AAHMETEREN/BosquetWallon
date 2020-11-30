@@ -45,6 +45,7 @@ public class PersonneDAO implements DAO<Personne> {
 	
 	public boolean createArtisteSpectacle(Artiste artiste) {
 		try {
+			System.out.println(artiste.getOrganisateur().getId());
 			this.connect.createStatement()
 					.executeUpdate("INSERT INTO Artiste VALUES('"
 							+ artiste.getOrganisateur().getId() 

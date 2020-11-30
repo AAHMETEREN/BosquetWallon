@@ -1,18 +1,14 @@
 package pojo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dao.AbstractDAOFactory;
 import dao.DAO;
-import dao.SpectacleDAO;
 
 public class Spectacle {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<Spectacle> spectacleDAO = dao.getSpectacleDAO();
-	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private Configuration configuration;
-
 	private int id;
 	private String titre;
 	private int nombrePlaceParClient;
@@ -21,7 +17,6 @@ public class Spectacle {
 	};
 
 	public Spectacle(String titre, int nombrePlaceParClient) {
-		System.out.println("Setting : "+nombrePlaceParClient);
 		this.titre = titre;
 		this.nombrePlaceParClient = nombrePlaceParClient;
 	}
