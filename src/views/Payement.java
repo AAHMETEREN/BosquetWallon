@@ -1,7 +1,5 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -16,26 +14,20 @@ import pojo.Categorie.TypesCategorie;
 import pojo.Commande;
 import pojo.Commande.livraison;
 import pojo.Commande.payement;
+import pojo.Configuration;
 import pojo.Personne;
 import pojo.Place;
-import pojo.Representation;
 import pojo.Reservation;
-import pojo.Spectacle;
-import pojo.Configuration.TypePlaces;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import java.awt.Color;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.JSpinner;
-import com.toedter.components.JSpinField;
 import javax.swing.JRadioButton;
 
 public class Payement extends JFrame {
@@ -54,12 +46,13 @@ public class Payement extends JFrame {
 	private JLabel lblPrixValue;
 	private JLabel lblNewLabel_1;
 	private boolean isClicked = false;
-
-	public Payement(Reservation reservation, Personne personne, Commande commande) {
+	private Configuration configuration;
+	int nbrBronze, nbrArgent, nbrOr , nbrDiamant , nbrBase;
+	public Payement(Reservation reservation, Personne personne, Commande commande , Configuration configuration) {
 		this.currentSpectacle = reservation;
 		this.personne = personne;
 		this.commande = commande;
-		
+		this.configuration = configuration;
 		commande.setPersonne(personne);
 		me = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -180,7 +173,6 @@ public class Payement extends JFrame {
 
 	public void payer() {
 		this.commande.augmenterCout(5);
-		lblPrixValue.setText(Float.toString(commande.getCout()));
 		if (rdbtnLivraisonTimbre.isSelected()) {
 			this.commande.setModeDeLivraison(livraison.TIMBRE_PRIOR);
 		} else if (rdbtnLivraisonSurPlace.isSelected()) {
@@ -200,13 +192,70 @@ public class Payement extends JFrame {
 		
 		boolean isCommandeCreated = this.commande.create();
 		if(isCommandeCreated) {
-			for(Place place : this.commande.getPlaces()) {
-				place.create();
-			}
+			createPlaces();
+			updateNbrPlaceDispo();
 			JOptionPane.showMessageDialog(null, "Payement effectué !");
+			
+			me.dispose();
 		}else {
-			this.commande.augmenterCout(-5);
 			JOptionPane.showMessageDialog(null, "Erreur lors du payement !");
+		}
+	}
+	public void createPlaces() {
+		 nbrBase = 0;
+		 nbrOr = 0;
+		 nbrArgent = 0;
+		 nbrDiamant = 0;
+		 nbrBronze = 0;
+
+		for(Place place : this.commande.getPlaces()) {
+			switch(place.getType_categorie()) {
+				case BASE : 
+						nbrBase++;
+					break;
+				case BRONZE : 
+						nbrBronze++;
+					break;
+				case ARGENT : 
+						nbrArgent++;
+					break;
+				case OR : 
+						nbrOr++;
+					break;
+				case DIAMANT : 
+						nbrDiamant++;
+					break;
+			}
+			place.create();
+		}
+		
+	}
+	public void updateNbrPlaceDispo() {
+		List<Categorie> categories = configuration.getCategories();
+		System.out.println("nbrbase"+nbrBase);
+		
+		for(Categorie categorie : categories) {
+			categorie.setConfiguration(configuration);
+			switch(categorie.getType()) {
+			case "BASE" : 
+				System.out.println("DANS BASE");
+
+				for(int i = 0 ; i < nbrBase ; i ++) categorie.update();
+				break;
+			case "BRONZE" : 
+				for(int i = 0 ; i < nbrBronze ; i ++) categorie.update();
+				break;
+			case "ARGENT" : 
+				for(int i = 0 ; i < nbrArgent ; i ++) categorie.update();
+				break;
+			case "OR" : 
+				for(int i = 0 ; i < nbrOr ; i ++) categorie.update();
+				break;
+			case "DIAMANT" : 
+				for(int i = 0 ; i < nbrDiamant ; i ++) categorie.update();
+				break;
+		}
+		
 		}
 	}
 }

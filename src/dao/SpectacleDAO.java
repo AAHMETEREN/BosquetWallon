@@ -101,6 +101,7 @@ public class SpectacleDAO implements DAO<Spectacle> {
 							prix, null, null);
 					categorie.setNbrPlaceDispo(nbrPlaceDispo);
 					categorie.setNbrPlaceMax(nbrPlaceMax);
+					categorie.setId(Integer.parseInt(categoriesResult.getString("id")));
 					categories.add(categorie);
 				}
 				// Creation de la configuration
