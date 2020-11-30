@@ -27,6 +27,10 @@ public class Categorie {
 		this.configuration = configuration;
 		this.calculerNombrePlace(type, place);
 	}
+	public void setConfiguration(Configuration configuration) {
+		this.configuration = configuration;
+	}
+
 	public void setNbrPlaceMax(int nbrPlaceMax) {
 		this.nbrPlaceMax = nbrPlaceMax;
 	}
@@ -94,9 +98,19 @@ public class Categorie {
 	public Configuration getConfiguration() {
 		return this.configuration;
 	}
-
+	public int getId() {
+		return this.id;
+	}
 	public boolean create() {
 		boolean isCategorieCreated = categorieDAO.create(this);
 		return isCategorieCreated;
+	}
+	
+	public boolean update() {
+		boolean isNbrPlaceDispoDecremented = categorieDAO.update(this);
+		return isNbrPlaceDispoDecremented;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

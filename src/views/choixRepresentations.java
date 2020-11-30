@@ -15,6 +15,7 @@ import pojo.Categorie;
 import pojo.Categorie.TypesCategorie;
 import pojo.Commande;
 import pojo.Personne;
+import pojo.Configuration;
 import pojo.Place;
 import pojo.Representation;
 import pojo.Reservation;
@@ -45,7 +46,7 @@ public class choixRepresentations extends JFrame {
 	private choixRepresentations me;
 	private JButton btnSelectSpectacle;
 	private JPanel panel;
-	private JSpinner spinnerBronze, spinnerArgent, spinnerOr, spinnerDiamant;
+	private JSpinField spinnerBronze, spinnerArgent, spinnerOr, spinnerDiamant;
 	private JLabel lblDiamant, lblBronze, lblArgent, lblOr;
 	private JLabel lblBase;
 	private JSpinField spinnerBase;
@@ -74,35 +75,29 @@ public class choixRepresentations extends JFrame {
 		btnSelectSpectacle = new JButton("Confirmer");
 		btnSelectSpectacle.setBackground(Color.DARK_GRAY);
 		btnSelectSpectacle.setForeground(Color.WHITE);
-		btnSelectSpectacle.setBounds(342, 198, 79, 27);
+		btnSelectSpectacle.setBounds(318, 198, 103, 27);
 		btnSelectSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				confirmer();
 			}
 		});
 		panel.add(btnSelectSpectacle);
-
 		lblBronze = new JLabel("Bronze");
 		lblBronze.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
 		lblArgent = new JLabel("Argent");
 		lblArgent.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblOr = new JLabel("Or");
 		lblOr.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
 		lblDiamant = new JLabel("Diamant");
 		lblDiamant.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-		spinnerBronze = new JSpinner();
-
-		spinnerArgent = new JSpinner();
-		spinnerOr = new JSpinner();
-		spinnerDiamant = new JSpinner();
+		spinnerBronze = new JSpinField();
+		spinnerArgent = new JSpinField();
+		spinnerOr = new JSpinField();
+		spinnerDiamant = new JSpinField();
 		lblBase = new JLabel("Normale");
 		lblBase.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblBase.setBounds(39, 198, 103, 27);
 		panel.add(lblBase);
-
 		spinnerBase = new JSpinField();
 		spinnerBase.setBounds(151, 200, 80, 25);
 		panel.add(spinnerBase);
@@ -134,7 +129,11 @@ public class choixRepresentations extends JFrame {
 		panel.add(lblDiamant);
 		panel.add(lblOr);
 		panel.add(spinnerDiamant);
-
+		spinnerBronze.setMinimum(0);
+		spinnerArgent.setMinimum(0);
+		spinnerOr.setMinimum(0);
+		spinnerDiamant.setMinimum(0);
+		spinnerBase.setMinimum(0);
 		lblNewLabel = new JLabel("Types de places ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 27));
 		lblNewLabel.setBounds(39, 10, 259, 33);
@@ -277,15 +276,19 @@ public class choixRepresentations extends JFrame {
 		if (isPlaceNbrLowerThanMax() && isEnoughtPlaces()) {
 			commande.setCout(getCout());
 			commande.setPlaces(places);
-			Payement page = new Payement(currentSpectacle, personne, commande);
+			Configuration configuration = currentRepresentation.getSpectacle().getConfiguration();
+			List<Categorie> categories = new ArrayList<Categorie>();
+			for(Categorie categorie : categories) {
+				categorie.setConfiguration(configuration);
+			}
+			Payement page = new Payement(currentSpectacle, personne, commande , configuration);
 			page.setVisible(true);
+			me.dispose();
 		}
 	}
 
 	public void createCategories() {
 		resetCategories();
-		List<Categorie> categories = new ArrayList<Categorie>();
-		categories = currentRepresentation.getSpectacle().getConfiguration().getCategories();
 		TypePlaces typeConguration = TypePlaces
 				.valueOf(currentRepresentation.getSpectacle().getConfiguration().getType());
 		resetCategories();

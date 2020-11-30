@@ -29,6 +29,7 @@ public class Dashboard extends JFrame {
 	private JPanel panel;
 	private Dashboard me;
 	private JButton btnReservation;
+	private JButton btnCommandes;
 
 	/**
 	 * Create the frame.
@@ -90,6 +91,13 @@ public class Dashboard extends JFrame {
 		
 		panel.add(btnReservation);
 		
+		btnCommandes = new JButton("Mes commandes");
+		btnCommandes.setForeground(Color.WHITE);
+		btnCommandes.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnCommandes.setBackground(Color.RED);
+		btnCommandes.setBounds(58, 167, 222, 57);
+		panel.add(btnCommandes);
+		
 		initDashboard();
 
 	}
@@ -117,6 +125,13 @@ public class Dashboard extends JFrame {
 				page.setVisible(true);
 			}
 		});
+		btnCommandes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListeCommandes page = new ListeCommandes(personne);
+				page.setVisible(true);
+			}
+		});
+		btnReservation.setVisible(false);
 		btnListeSpectacle.setBounds(58, 74, 220, 57);
 		panel.add(btnListeSpectacle);
 	}

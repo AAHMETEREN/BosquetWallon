@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +30,8 @@ import pojo.Spectacle;
 
 import com.toedter.calendar.JCalendar;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
@@ -48,6 +51,7 @@ public class Location extends JFrame {
 	private JPanel panel;
 	private JLabel labelBronze, labelOr, labelArgent, labelDiamant;
 	private JLabel labelArtiste;
+	private Component[] compFirstCalendar;
 	private JTextPane descriptionField;
 	private TypePlaces place = TypePlaces.DEBOUT;
 	private int maxParPersonne;
@@ -78,7 +82,7 @@ public class Location extends JFrame {
 		contentPane.setLayout(null);
 
 		panel = new JPanel();
-		panel.setBackground(Color.RED);
+		panel.setBackground(Color.DARK_GRAY);
 		panel.setForeground(Color.WHITE);
 		panel.setBounds(0, 0, 548, 661);
 		contentPane.add(panel);
@@ -98,25 +102,27 @@ public class Location extends JFrame {
 
 		JLabel title = new JLabel("Choix de la date :");
 		title.setForeground(Color.WHITE);
-		title.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		title.setFont(new Font("Dialog", Font.BOLD, 15));
 		title.setBounds(60, 50, 273, 27);
 		panel.add(title);
 
 		titreField = new JTextField();
-		titreField.setBounds(113, 8, 327, 32);
+		titreField.setBounds(74, 8, 327, 32);
 		panel.add(titreField);
 		titreField.setColumns(10);
 
 		JLabel labelTitre = new JLabel("Titre");
+		labelTitre.setFont(new Font("Dialog", Font.BOLD, 15));
 		labelTitre.setForeground(Color.WHITE);
-		labelTitre.setBounds(42, 17, 45, 13);
+		labelTitre.setBounds(31, 15, 45, 13);
 		panel.add(labelTitre);
 
 		maxParPersonneField = new JSpinField();
-		maxParPersonneField.setBounds(31, 270, 224, 32);
+		maxParPersonneField.setBounds(31, 270, 252, 32);
 		panel.add(maxParPersonneField);
 
 		JLabel labelLimite = new JLabel("Limite de place");
+		labelLimite.setFont(new Font("Dialog", Font.BOLD, 15));
 		labelLimite.setForeground(Color.WHITE);
 		labelLimite.setBounds(31, 254, 160, 13);
 		panel.add(labelLimite);
@@ -125,7 +131,7 @@ public class Location extends JFrame {
 
 		comboBox.setModel(new DefaultComboBoxModel(TypePlaces.values()));
 
-		comboBox.setBounds(308, 272, 224, 26);
+		comboBox.setBounds(318, 272, 180, 26);
 		panel.add(comboBox);
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -142,13 +148,15 @@ public class Location extends JFrame {
 			}
 		});
 		JLabel labelConfiguration = new JLabel("Configuration");
+		labelConfiguration.setFont(new Font("Dialog", Font.BOLD, 15));
 		labelConfiguration.setForeground(Color.WHITE);
 		labelConfiguration.setBounds(318, 254, 160, 13);
 		panel.add(labelConfiguration);
 
 		JLabel labelPrix = new JLabel("Prix");
+		labelPrix.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelPrix.setForeground(Color.WHITE);
-		labelPrix.setBounds(345, 312, 160, 13);
+		labelPrix.setBounds(338, 316, 160, 13);
 		panel.add(labelPrix);
 
 		fieldBronze = new JSpinField();
@@ -156,18 +164,21 @@ public class Location extends JFrame {
 		panel.add(fieldBronze);
 
 		labelBronze = new JLabel("Bronze");
+		labelBronze.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelBronze.setBounds(338, 338, 160, 13);
 		labelBronze.setForeground(Color.WHITE);
 
 		panel.add(labelBronze);
 
 		labelArgent = new JLabel("Argent");
+		labelArgent.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelArgent.setBounds(338, 361, 160, 13);
 		labelArgent.setForeground(Color.WHITE);
 
 		panel.add(labelArgent);
 
 		labelOr = new JLabel("Or");
+		labelOr.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelOr.setBounds(338, 381, 160, 13);
 		labelOr.setForeground(Color.WHITE);
 
@@ -182,6 +193,7 @@ public class Location extends JFrame {
 		panel.add(fieldOr);
 
 		labelDiamant = new JLabel("Diamant");
+		labelDiamant.setFont(new Font("Tahoma", Font.BOLD, 12));
 		labelDiamant.setBounds(338, 404, 160, 13);
 		labelDiamant.setForeground(Color.WHITE);
 
@@ -205,7 +217,7 @@ public class Location extends JFrame {
 		addArtisteBtn = new JButton("Ajouter ");
 		addArtisteBtn.setForeground(Color.WHITE);
 		addArtisteBtn.setBackground(Color.DARK_GRAY);
-		addArtisteBtn.setBounds(266, 335, 82, 26);
+		addArtisteBtn.setBounds(195, 331, 88, 26);
 		addArtisteBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -224,7 +236,7 @@ public class Location extends JFrame {
 		for (Artiste artiste : artistes) {
 			comboBoxArtiste.addItem(artiste);
 		}
-		comboBoxArtiste.setBounds(31, 329, 224, 27);
+		comboBoxArtiste.setBounds(31, 329, 160, 27);
 		panel.add(comboBoxArtiste);
 
 	}
@@ -232,7 +244,7 @@ public class Location extends JFrame {
 	private void createCalendar() {
 		calendar = new JCalendar();
 		calendar.setLocale(Locale.FRENCH);
-		calendar.setBounds(50, 73, 390, 159);
+		calendar.setBounds(31, 74, 480, 152);
 		panel.add(calendar);
 
 		JLabel calendarValue = new JLabel("New label");
@@ -243,6 +255,7 @@ public class Location extends JFrame {
 		calendarValue.setText(calendar.getDate().toString());
 
 		labelArtiste = new JLabel("Choix d'artiste");
+		labelArtiste.setFont(new Font("Dialog", Font.BOLD, 15));
 		labelArtiste.setForeground(Color.WHITE);
 		labelArtiste.setBounds(31, 312, 160, 13);
 		panel.add(labelArtiste);
@@ -250,47 +263,48 @@ public class Location extends JFrame {
 		JButton confirmButton = new JButton("Creer");
 		confirmButton.setForeground(Color.WHITE);
 		confirmButton.setBackground(Color.DARK_GRAY);
-		confirmButton.setBounds(373, 439, 122, 34);
+		confirmButton.setBounds(338, 611, 187, 34);
 		confirmButton.addActionListener(e -> {
 			create();
 		});
 		panel.add(confirmButton);
 
 		descriptionField = new JTextPane();
-		descriptionField.setBounds(30, 390, 197, 56);
+		descriptionField.setBounds(14, 509, 503, 65);
 		panel.add(descriptionField);
 
 		JLabel labelDescription = new JLabel("Description");
+		labelDescription.setFont(new Font("Dialog", Font.BOLD, 15));
 		labelDescription.setForeground(Color.WHITE);
-		labelDescription.setBounds(31, 376, 152, 13);
+		labelDescription.setBounds(14, 483, 152, 13);
 		panel.add(labelDescription);
 
 		representationHeureMin = new JSpinField();
-		representationHeureMin.setBounds(35, 576, 64, 19);
+		representationHeureMin.setBounds(35, 423, 64, 19);
 		representationHeureMin.setMaximum(24);
 		representationHeureMin.setMinimum(1);
 		panel.add(representationHeureMin);
 
 		representationHeureMax = new JSpinField();
-		representationHeureMax.setBounds(123, 576, 64, 19);
+		representationHeureMax.setBounds(123, 423, 64, 19);
 		panel.add(representationHeureMax);
 		representationHeureMax.setValue(13);
 		representationHeureMin.setValue(12);
 
 		labelHeureMin = new JLabel("D\u00E9but ");
 		labelHeureMin.setForeground(Color.WHITE);
-		labelHeureMin.setBounds(31, 561, 160, 13);
+		labelHeureMin.setBounds(35, 408, 160, 13);
 		panel.add(labelHeureMin);
 
 		labelArtiste_2 = new JLabel("Fin");
 		labelArtiste_2.setForeground(Color.WHITE);
-		labelArtiste_2.setBounds(123, 561, 160, 13);
+		labelArtiste_2.setBounds(123, 410, 160, 13);
 		panel.add(labelArtiste_2);
 
 		lblNewLabel = new JLabel("Representations");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblNewLabel.setFont(new Font("Dialog", Font.BOLD, 15));
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setBounds(31, 534, 152, 13);
+		lblNewLabel.setBounds(31, 381, 152, 13);
 		panel.add(lblNewLabel);
 
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
@@ -312,7 +326,12 @@ public class Location extends JFrame {
 			createRepresentation();
 			createConfiguration();
 			createArtistes();
+			JOptionPane.showMessageDialog(null, "Ajouté avec succes !");
+			this.dispose();
+		}else {
+			JOptionPane.showMessageDialog(null, "Erreur lors de l'ajout du spectacle !");
 		}
+		
 
 	}
 
@@ -372,7 +391,7 @@ public class Location extends JFrame {
 		addRepresentationBtn = new JButton("Ajouter ");
 		addRepresentationBtn.setForeground(Color.WHITE);
 		addRepresentationBtn.setBackground(Color.DARK_GRAY);
-		addRepresentationBtn.setBounds(201, 575, 82, 26);
+		addRepresentationBtn.setBounds(195, 423, 88, 19);
 		addRepresentationBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

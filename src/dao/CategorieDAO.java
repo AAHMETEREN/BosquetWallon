@@ -48,8 +48,19 @@ public class CategorieDAO implements DAO<Categorie> {
 	}
 
 	@Override
-	public boolean update(Categorie obj) {
-		return false;
+	public boolean update(Categorie categorie) {
+		try {
+			this.connect.createStatement().executeUpdate("UPDATE Categorie SET nbrPlaceDispo = nbrPlaceDispo - 1 WHERE Categorie.id = '"
+						+categorie.getId()
+						+"'");
+			
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+
 	}
 
 	@Override

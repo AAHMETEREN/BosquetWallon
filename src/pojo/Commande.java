@@ -87,4 +87,12 @@ public class Commande {
 	public boolean create() {
 		return this.commandeDAO.create(this);
 	}
+	
+	public List<Commande> findAll(){
+		return (List<Commande>) this.commandeDAO.findAll(this);
+	}
+	@Override
+	public String toString() {
+		return "N° "+this.id + " " + this.modeDeLivraison + " "+ this.modeDePayement;
+	}
 }
