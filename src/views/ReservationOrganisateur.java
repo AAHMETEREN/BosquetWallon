@@ -49,22 +49,7 @@ public class ReservationOrganisateur extends JFrame {
 	private JLabel prix;
 	private JLabel status;
 	private JPanel panel_2;
-	/**
-	 * Create the frame.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Personne personne = new Client(1, "test", "test", "test", "test", "test",5);
-					ReservationOrganisateur frame = new ReservationOrganisateur(personne);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	public ReservationOrganisateur(Personne personne) {
 		this.personne = personne;

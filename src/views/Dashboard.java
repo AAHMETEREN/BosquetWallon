@@ -28,7 +28,7 @@ public class Dashboard extends JFrame {
 	private Personne personne;
 	private JPanel panel;
 	private Dashboard me;
-
+	private JButton btnReservation;
 
 	/**
 	 * Create the frame.
@@ -75,14 +75,14 @@ public class Dashboard extends JFrame {
 		btnRetour.setBounds(525, 57, 138, 30);
 		panel.add(btnRetour);
 
-		JLabel lblType = new JLabel("Type : " + personne.getClass().getName().substring(5));
+		JLabel lblType = new JLabel("Type : " + personne.getRole());
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblType.setForeground(Color.WHITE);
 		lblType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblType.setBounds(484, 22, 171, 30);
 		panel.add(lblType);
 
-		JButton btnReservation = new JButton("Mes reservations");
+		btnReservation = new JButton("Mes reservations");
 		btnReservation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnReservation.setBackground(Color.RED);
 		btnReservation.setForeground(Color.WHITE);
@@ -100,6 +100,7 @@ public class Dashboard extends JFrame {
 			initClientDashboard();
 			break;
 		case Organisateur.role:
+
 			initOrganisateurDashboard();
 			break;
 		}
@@ -121,7 +122,6 @@ public class Dashboard extends JFrame {
 	}
 
 	public void initOrganisateurDashboard() {
-		
 		JButton btnLocation = new JButton("Louer une salle");
 		btnLocation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnLocation.setForeground(Color.WHITE);
@@ -134,5 +134,12 @@ public class Dashboard extends JFrame {
 		});
 		btnLocation.setBounds(58, 74, 220, 57);
 		panel.add(btnLocation);
+		btnReservation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReservationOrganisateur page = new ReservationOrganisateur(personne);
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
 	}
 }

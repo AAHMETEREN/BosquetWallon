@@ -37,6 +37,12 @@ public class Commande {
 		this.cout = cout;
 		this.personne = personne;
 	}
+	public void setPlaces(List<Place> places) {
+		this.places = places;
+	}
+	public List<Place> getPlaces() {
+		return this.places;
+	}
 	public void setId(int id) {
 		this.id = id;
 	}

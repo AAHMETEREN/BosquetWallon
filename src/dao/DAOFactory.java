@@ -33,7 +33,9 @@ public class DAOFactory extends AbstractDAOFactory {
 	public DAO<Commande> getCommandeDAO() {
 		return new CommandeDAO(conn);
 	}
-	
+	public DAO<Place> getPlaceDAO() {
+		return new PlaceDAO(conn);
+	}
 
 	public PersonneDAO getPersonneDAO() {
 		return new PersonneDAO(conn);

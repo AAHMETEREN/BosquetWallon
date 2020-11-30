@@ -362,9 +362,8 @@ public class Location extends JFrame {
 
 	private boolean creerSpectacle() {
 		String titre = titreField.getText();
-
 		spectacle.setTitre(titre);
-		spectacle.setNombrePlaceParClient(maxParPersonne);
+		spectacle.setNombrePlaceParClient((Integer) maxParPersonneField.getValue());
 		spectacle.create();
 		return true;
 	}

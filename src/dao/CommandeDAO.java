@@ -6,18 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
-
 import pojo.Commande;
-import pojo.Configuration;
-import pojo.Organisateur;
-import pojo.Personne;
-import pojo.PlanningSalle;
-import pojo.Representation;
-import pojo.Reservation;
-import pojo.Spectacle;
-import pojo.Configuration.TypePlaces;
 
 public class CommandeDAO implements DAO<Commande> {
 	protected Connection connect = null;
@@ -28,10 +18,9 @@ public class CommandeDAO implements DAO<Commande> {
 
 	@Override
 	public boolean create(Commande commande) {
+		
 		try {
-			this.connect
-			.createStatement()
-			.executeUpdate("INSERT INTO Commande VALUES("
+			String insertSQL = "INSERT INTO Commande VALUES("
 					+ "null,'" 
 					+ commande.getModeDePayement()
 					+ "','"
@@ -40,8 +29,25 @@ public class CommandeDAO implements DAO<Commande> {
 					+ commande.getCout()
 					+ "','"
 					+ commande.getPersonne().getId()
-					+ "')"
-				);
+					+ "')";
+
+			PreparedStatement statement = connect.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+
+			int affectedRows = statement.executeUpdate();
+
+			if (affectedRows == 0) {
+				throw new SQLException("Creating user failed, no rows affected.");
+			}
+
+			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+				if (generatedKeys.next()) {
+					commande.setId((int) generatedKeys.getLong(1));
+				} else {
+					throw new SQLException("Creating user failed, no ID obtained.");
+				}
+			}
+
+		
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -62,7 +68,7 @@ public class CommandeDAO implements DAO<Commande> {
 
 
 	@Override
-	public List<Commande> findAll(Commande representation) {
+	public List<Commande> findAll(Commande commande) {
 		return null;
 	}
 

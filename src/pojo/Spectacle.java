@@ -13,7 +13,7 @@ public class Spectacle {
 	private List<Artiste> artistes = new ArrayList<Artiste>();
 	private Configuration configuration;
 
-	private int id = 0;
+	private int id;
 	private String titre;
 	private int nombrePlaceParClient;
 

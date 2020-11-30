@@ -44,23 +44,7 @@ public class ListeSpectacles extends JFrame {
 	private JLabel lblNewLabel;
 	private JTextArea descriptionLabel;
 	private JButton btnSelectSpectacle;
-	/**
-	 * Create the frame.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Personne personne = new Organisateur(1, "test", "test", "test", "test", "test", "test");
-					personne.setRole(Organisateur.role);
-					ListeSpectacles frame = new ListeSpectacles(personne);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+
 
 	public ListeSpectacles(Personne personne) {
 		this.personne = personne;

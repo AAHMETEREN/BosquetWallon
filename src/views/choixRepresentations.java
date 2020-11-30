@@ -15,6 +15,7 @@ import pojo.Categorie;
 import pojo.Categorie.TypesCategorie;
 import pojo.Commande;
 import pojo.Personne;
+import pojo.Place;
 import pojo.Representation;
 import pojo.Reservation;
 import pojo.Spectacle;
@@ -39,9 +40,9 @@ public class choixRepresentations extends JFrame {
 	private List<Representation> allRepresentation = new ArrayList<Representation>();
 	private Representation currentRepresentation;
 	private Reservation currentSpectacle;
+	private JComboBox<Representation> representationCombobox;
 	private JButton btnRetour;
 	private choixRepresentations me;
-	private JComboBox<Representation> representationCombobox;
 	private JButton btnSelectSpectacle;
 	private JPanel panel;
 	private JSpinner spinnerBronze, spinnerArgent, spinnerOr, spinnerDiamant;
@@ -49,6 +50,8 @@ public class choixRepresentations extends JFrame {
 	private JLabel lblBase;
 	private JSpinField spinnerBase;
 	private JLabel lblNewLabel;
+	private List<Place> places = new ArrayList<Place>();
+	private Commande commande = new Commande();
 
 	public choixRepresentations(Reservation reservation, Personne personne) {
 		this.currentSpectacle = reservation;
@@ -131,7 +134,7 @@ public class choixRepresentations extends JFrame {
 		panel.add(lblDiamant);
 		panel.add(lblOr);
 		panel.add(spinnerDiamant);
-		
+
 		lblNewLabel = new JLabel("Types de places ");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 27));
 		lblNewLabel.setBounds(39, 10, 259, 33);
@@ -235,23 +238,34 @@ public class choixRepresentations extends JFrame {
 			switch (type) {
 			case DIAMANT:
 				cout += nbrOfDiamantPlaces * categorie.getPrix();
+				for (int i = 0; i < nbrOfDiamantPlaces; i++) {
+					places.add(new Place(categorie.getPrix(), currentRepresentation, commande, TypesCategorie.DIAMANT));
+				}
 				break;
 			case OR:
 				cout += nbrOfOrPlaces * categorie.getPrix();
-
+				for (int i = 0; i < nbrOfOrPlaces; i++) {
+					places.add(new Place(categorie.getPrix(), currentRepresentation, commande, TypesCategorie.OR));
+				}
 				break;
 			case ARGENT:
 				cout += nbrOfArgentPlaces * categorie.getPrix();
-
+				for (int i = 0; i < nbrOfArgentPlaces; i++) {
+					places.add(new Place(categorie.getPrix(), currentRepresentation, commande, TypesCategorie.ARGENT));
+				}
 				break;
 			case BRONZE:
 
 				cout += nbrOfBronzePlaces * categorie.getPrix();
-
+				for (int i = 0; i < nbrOfBronzePlaces; i++) {
+					places.add(new Place(categorie.getPrix(), currentRepresentation, commande, TypesCategorie.BRONZE));
+				}
 				break;
 			case BASE:
 				cout += nbrOfBasePlaces * categorie.getPrix();
-
+				for (int i = 0; i < nbrOfBasePlaces; i++) {
+					places.add(new Place(categorie.getPrix(), currentRepresentation, commande, TypesCategorie.BASE));
+				}
 				break;
 			}
 
@@ -261,10 +275,10 @@ public class choixRepresentations extends JFrame {
 
 	public void confirmer() {
 		if (isPlaceNbrLowerThanMax() && isEnoughtPlaces()) {
-			Commande commande = new Commande();
 			commande.setCout(getCout());
-			 Payement page = new Payement(currentSpectacle,personne,commande);
-			 page.setVisible(true);
+			commande.setPlaces(places);
+			Payement page = new Payement(currentSpectacle, personne, commande);
+			page.setVisible(true);
 		}
 	}
 

@@ -17,6 +17,7 @@ import pojo.Commande;
 import pojo.Commande.livraison;
 import pojo.Commande.payement;
 import pojo.Personne;
+import pojo.Place;
 import pojo.Representation;
 import pojo.Reservation;
 import pojo.Spectacle;
@@ -199,6 +200,9 @@ public class Payement extends JFrame {
 		
 		boolean isCommandeCreated = this.commande.create();
 		if(isCommandeCreated) {
+			for(Place place : this.commande.getPlaces()) {
+				place.create();
+			}
 			JOptionPane.showMessageDialog(null, "Payement effectué !");
 		}else {
 			this.commande.augmenterCout(-5);

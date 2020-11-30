@@ -22,6 +22,8 @@ public abstract class AbstractDAOFactory {
 
 	public abstract DAO<Commande> getCommandeDAO();
 
+	public abstract DAO<Place> getPlaceDAO();
+
 	public static AbstractDAOFactory getFactory(int type) {
 		switch (type) {
 		case DAO_FACTORY:
@@ -30,6 +32,7 @@ public abstract class AbstractDAOFactory {
 			return null;
 		}
 	}
+
 
 
 }
