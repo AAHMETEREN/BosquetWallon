@@ -85,7 +85,9 @@ public class LoginForm extends JFrame {
 				}
 				
 				if (isAuthenticated) {
-					Dashboard dashboard = new Dashboard(personne);
+					Personne personneAuthenticated = personne.find();
+					personneAuthenticated.setRole(role);
+					Dashboard dashboard = new Dashboard(personneAuthenticated);
 					dashboard.setVisible(true);
 					me.dispose();
 				} else {

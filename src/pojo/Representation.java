@@ -1,6 +1,7 @@
 package pojo;
 
 import java.sql.Date;
+import java.util.List;
 
 import dao.AbstractDAOFactory;
 import dao.DAO;
@@ -13,30 +14,52 @@ public class Representation {
 	private int heureFin;
 	private int id;
 	private Date dateRepresentation;
-	private int idSpectacle;
+	private Spectacle spectacle;
 
-	public Representation(int id , Date dateRepresentation ,int heureDebut ,int heureFin ) {
+	public Representation(int id, Date dateRepresentation, int heureDebut, int heureFin, Spectacle spectacle) {
 		this.id = id;
 		this.dateRepresentation = dateRepresentation;
 		this.heureDebut = heureDebut;
 		this.heureFin = heureFin;
+		this.spectacle = spectacle;
 	}
-	
-	public boolean createRepresentation(int idSpectacle) {
-		this.idSpectacle = idSpectacle;
+
+	public Representation() {
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	public boolean create() {
 		return representationDAO.create(this);
 	}
-	
+
 	public Date getDateRepresentation() {
 		return this.dateRepresentation;
 	}
+
 	public int getHeureDebut() {
 		return this.heureDebut;
 	}
+
 	public int getHeureFin() {
 		return this.heureFin;
 	}
-	public int getIdSpectacle() {
-		return this.idSpectacle;
-	}	
+
+	public Spectacle getSpectacle() {
+		return this.spectacle;
+	}
+	
+	public void setSpectacle(Spectacle spectacle) {
+		this.spectacle = spectacle;
+	}
+	
+	@Override
+	public String toString() {
+		return ""+heureDebut+ "H à " +heureFin+"H";
+	}
+	public List<Representation> findAll (){
+		return (List<Representation>) representationDAO.findAll(this);
+	}
 }

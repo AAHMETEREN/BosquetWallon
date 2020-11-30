@@ -1,37 +1,65 @@
 package pojo;
 
-import java.util.ArrayList;
-import java.util.List;
 import dao.DAO;
+
+import java.util.List;
+
 import dao.AbstractDAOFactory;
-import dao.ConfigurationDAO;
 
 public class Configuration {
+	public enum TypePlaces {
+		DEBOUT("Debout (8000 places)"), ASSIS_CONCERT("Assis version concert (5000 places)"),
+		ASSIS_CIRQUE("Assis version cirque (6000 places)");
+
+		private final String display;
+
+		private TypePlaces(String label) {
+			this.display = label;
+		}
+
+		@Override
+		public String toString() {
+			return display;
+		}
+	}
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
 	private final DAO<Configuration> configurationDAO = dao.getConfigurationDAO();
-	private List<Categorie> categories = new ArrayList<Categorie>();
 	private String description;
-	private String type;
+	private List<Categorie> categories;
+	private TypePlaces type;
 	int id;
-	int spectacleId;
-
-	public Configuration(int id, List<Categorie> categories, String description, String type) {
-		this.id = id;
-		this.categories = categories;
-		this.description = description;
-		this.type = type;
+	private Spectacle spectacle;
+	
+	
+	public List<Categorie> getCategories(){
+		return this.categories;
 	}
+	public void setCategories(List<Categorie> categories) {
+		this.categories = categories;
+	}
+	public Configuration(int id,  String description, TypePlaces place , Spectacle spectacle) {
+		this.id = id;
+		this.description = description;
+		this.type = place;
+		this.spectacle  = spectacle;
+	}
+	
 
 	public String getDescription() {
 		return this.description;
 	}
 
-	public int getSpectacleId() {
-		return this.spectacleId;
+	public Spectacle getSpectacle() {
+		return this.spectacle;
 	}
 
 	public String getType() {
-		return this.type;
+		if(this.type == TypePlaces.DEBOUT) 
+			return "DEBOUT";
+		else if(this.type == TypePlaces.ASSIS_CIRQUE)
+			return "ASSIS_CIRQUE";		
+		else
+			return "ASSIS_CONCERT";
 	}
 
 	public void setId(int id) {
@@ -42,19 +70,8 @@ public class Configuration {
 		return this.id;
 	}
 
-	public void addCategorie(Categorie categorie) {
-		this.categories.add(categorie);
-	}
-
-	public boolean createConfiguration(int spectacleId) {
-		this.spectacleId = spectacleId;
+	public boolean create() {
 		boolean isConfigurationCreated = configurationDAO.create(this);
-		if (isConfigurationCreated) {
-			for (Categorie categorie : this.categories) {
-				categorie.createCategorie(this.id);
-			}
-		}
-
-		return true;
+		return isConfigurationCreated;
 	}
 }

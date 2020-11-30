@@ -5,9 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import pojo.Categorie;
 import pojo.Configuration;
+import pojo.Personne;
 import pojo.Spectacle;
 
 public class CategorieDAO implements DAO<Categorie> {
@@ -30,7 +32,7 @@ public class CategorieDAO implements DAO<Categorie> {
 					+ "','" 
 					+ categorie.getNbrPlaceMax() 
 					+ "','" 
-					+ categorie.getConfigurationId() 
+					+ categorie.getConfiguration().getId()
 					+ "')");
 			return true;
 
@@ -52,6 +54,12 @@ public class CategorieDAO implements DAO<Categorie> {
 
 	@Override
 	public Categorie find(Categorie obj) {
+		return null;
+	}
+
+	@Override
+	public List<Categorie> findAll(Categorie personne) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

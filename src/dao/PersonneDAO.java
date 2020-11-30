@@ -4,6 +4,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import pojo.Artiste;
 import pojo.Client;
@@ -39,6 +41,22 @@ public class PersonneDAO implements DAO<Personne> {
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	public boolean createArtisteSpectacle(Artiste artiste) {
+		try {
+			this.connect.createStatement()
+					.executeUpdate("INSERT INTO Artiste VALUES('"
+							+ artiste.getOrganisateur().getId() 
+							+ "','"
+							+ artiste.getSpectacle().getId() 
+							+ "')"
+						);
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	public boolean create(Client client) {
@@ -132,6 +150,8 @@ public class PersonneDAO implements DAO<Personne> {
 		}
 
 	}
+	
+	
 
 	@Override
 	public boolean create(Personne obj) {
@@ -148,6 +168,35 @@ public class PersonneDAO implements DAO<Personne> {
 		return false;
 	}
 
+	public List<Artiste> findAllArtiste(){
+		List<Artiste> listeArtistes = new ArrayList<Artiste>();
+		try {
+			ResultSet result = this.connect
+					.createStatement()
+					.executeQuery("SELECT * FROM Personne WHERE role = '" + Artiste.role +"'" );
+			
+			while(result.next()) {
+				listeArtistes.add(
+					new Artiste(
+						Integer.parseInt(result.getString("id")),
+						null,
+						result.getString("nomUtilisateur"),
+						result.getString("adresse"),
+						result.getString("prenom"),
+						result.getString("nom"),
+						result.getString("nomDeScene")
+					)	
+				);
+				
+				 
+				}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return listeArtistes;
+	}
+	
 	@Override
 	public Personne find(Personne personne) {
 		try {
@@ -160,7 +209,7 @@ public class PersonneDAO implements DAO<Personne> {
 				return new Personne(
 						Integer.parseInt(
 						result.getString("id")),
-						null,
+						result.getString("role"),
 						result.getString("motDePasse"),
 						result.getString("nomUtilisateur"),
 						result.getString("adresse"),
@@ -168,10 +217,17 @@ public class PersonneDAO implements DAO<Personne> {
 						result.getString("nom")
 					);
 				}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
+		return null;
+	}
+
+	@Override
+	public List<Personne> findAll(Personne personne) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

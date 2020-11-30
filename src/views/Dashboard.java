@@ -28,23 +28,7 @@ public class Dashboard extends JFrame {
 	private Personne personne;
 	private JPanel panel;
 	private Dashboard me;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Organisateur personne = new Organisateur(0, "test", "test", "test", "test", "test", "test");
-					Dashboard frame = new Dashboard(personne);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JButton btnReservation;
 
 	/**
 	 * Create the frame.
@@ -91,18 +75,19 @@ public class Dashboard extends JFrame {
 		btnRetour.setBounds(525, 57, 138, 30);
 		panel.add(btnRetour);
 
-		JLabel lblType = new JLabel("Type : " + personne.getClass().getName().substring(5));
+		JLabel lblType = new JLabel("Type : " + personne.getRole());
 		lblType.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblType.setForeground(Color.WHITE);
 		lblType.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblType.setBounds(484, 22, 171, 30);
 		panel.add(lblType);
 
-		JButton btnReservation = new JButton("Mes reservations");
+		btnReservation = new JButton("Mes reservations");
 		btnReservation.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnReservation.setBackground(Color.RED);
 		btnReservation.setForeground(Color.WHITE);
 		btnReservation.setBounds(58, 167, 222, 57);
+		
 		panel.add(btnReservation);
 		
 		initDashboard();
@@ -115,6 +100,7 @@ public class Dashboard extends JFrame {
 			initClientDashboard();
 			break;
 		case Organisateur.role:
+
 			initOrganisateurDashboard();
 			break;
 		}
@@ -127,6 +113,8 @@ public class Dashboard extends JFrame {
 		btnListeSpectacle.setBackground(Color.RED);
 		btnListeSpectacle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ListeSpectacles page = new ListeSpectacles(personne);
+				page.setVisible(true);
 			}
 		});
 		btnListeSpectacle.setBounds(58, 74, 220, 57);
@@ -142,10 +130,16 @@ public class Dashboard extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				Location page = new Location(personne);
 				page.setVisible(true);
-				me.dispose();
 			}
 		});
 		btnLocation.setBounds(58, 74, 220, 57);
 		panel.add(btnLocation);
+		btnReservation.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ReservationOrganisateur page = new ReservationOrganisateur(personne);
+				page.setVisible(true);
+				me.dispose();
+			}
+		});
 	}
 }

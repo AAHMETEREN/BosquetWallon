@@ -1,33 +1,34 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import pojo.Commande;
 
-import pojo.Configuration;
-import pojo.Personne;
-import pojo.Spectacle;
-
-public class ConfigurationDAO implements DAO<Configuration>{
-
+public class CommandeDAO implements DAO<Commande> {
 	protected Connection connect = null;
 
-	public ConfigurationDAO(Connection conn) {
+	public CommandeDAO(Connection conn) {
 		connect = conn;
 	}
 
 	@Override
-	public boolean create(Configuration configuration) {
+	public boolean create(Commande commande) {
+		
 		try {
-			String insertSQL = "INSERT INTO Configuration VALUES(null,'" 
-					+ configuration.getType() 
+			String insertSQL = "INSERT INTO Commande VALUES("
+					+ "null,'" 
+					+ commande.getModeDePayement()
 					+ "','"
-					+ configuration.getDescription()
+					+ commande.getModeDeLivraison()
 					+ "','"
-					+ configuration.getSpectacle().getId()
+					+ commande.getCout()
+					+ "','"
+					+ commande.getPersonne().getId()
 					+ "')";
 
 			PreparedStatement statement = connect.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
@@ -40,38 +41,39 @@ public class ConfigurationDAO implements DAO<Configuration>{
 
 			try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
 				if (generatedKeys.next()) {
-					configuration.setId((int)generatedKeys.getLong(1));
+					commande.setId((int) generatedKeys.getLong(1));
 				} else {
 					throw new SQLException("Creating user failed, no ID obtained.");
 				}
 			}
 
+		
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
 		}
-
-		return true;
-
 	}
 
 	@Override
-	public boolean delete(Configuration obj) {
+	public boolean delete(Commande obj) {
 		return false;
 	}
 
 	@Override
-	public boolean update(Configuration obj) {
+	public boolean update(Commande obj) {
 		return false;
 	}
 
+
+
 	@Override
-	public Configuration find(Configuration obj) {
+	public List<Commande> findAll(Commande commande) {
 		return null;
 	}
 
 	@Override
-	public List<Configuration> findAll(Configuration personne) {
+	public Commande find(Commande obj) {
 		// TODO Auto-generated method stub
 		return null;
 	}

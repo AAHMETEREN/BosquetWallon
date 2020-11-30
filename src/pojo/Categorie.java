@@ -1,9 +1,10 @@
 package pojo;
 
+import java.sql.Date;
+
 import dao.AbstractDAOFactory;
-import dao.CategorieDAO;
-import dao.ConfigurationDAO;
 import dao.DAO;
+import pojo.Configuration.TypePlaces;
 
 public class Categorie {
 	private final AbstractDAOFactory dao = AbstractDAOFactory.getFactory(AbstractDAOFactory.DAO_FACTORY);
@@ -14,18 +15,64 @@ public class Categorie {
 	}
 
 	private TypesCategorie type;
-	private int prix;
+	private int prix = 0;
+	private int id = 0;
+	private Configuration configuration;
 	private int nbrPlaceDispo;
 	private int nbrPlaceMax;
-	private int id;
-	private int configurationId;
 
-	public Categorie(int id, TypesCategorie type, int prix, int nbrPlaceDispo, int nbrPlaceMax) {
+	public Categorie(TypesCategorie type,int prix , TypePlaces place , Configuration configuration) {
 		this.prix = prix;
-		this.nbrPlaceDispo = nbrPlaceDispo;
-		this.nbrPlaceMax = nbrPlaceMax;
-		this.id = id;
 		this.type = type;
+		this.configuration = configuration;
+		this.calculerNombrePlace(type, place);
+	}
+	public void setNbrPlaceMax(int nbrPlaceMax) {
+		this.nbrPlaceMax = nbrPlaceMax;
+	}
+	public void setNbrPlaceDispo(int nbrPlaceDispo) {
+		this.nbrPlaceDispo = nbrPlaceDispo;
+	}
+	public void calculerNombrePlace(TypesCategorie type, TypePlaces place) {
+		if(place == null) return;
+		int nbrPlaceDispo = 0;
+		switch (place) {
+		case DEBOUT:
+			nbrPlaceDispo = 8000;
+			break;
+		case ASSIS_CONCERT:
+			switch (type) {
+			case OR:
+				nbrPlaceDispo = 500;
+				break;
+			case ARGENT:
+				nbrPlaceDispo = 1500;
+				break;
+			case BRONZE:
+				nbrPlaceDispo = 3000;
+				break;
+			}
+			break;
+		case ASSIS_CIRQUE:
+			switch (type) {
+			case DIAMANT:
+				nbrPlaceDispo = 1000;
+				break;
+			case OR:
+				nbrPlaceDispo = 2000;
+				break;
+			case ARGENT:
+				nbrPlaceDispo = 1500;
+				break;
+			case BRONZE:
+				nbrPlaceDispo = 1500;
+				break;
+			}
+			break;
+
+		}
+		this.nbrPlaceDispo = nbrPlaceDispo;
+		this.nbrPlaceMax = nbrPlaceDispo;
 	}
 
 	public String getType() {
@@ -44,13 +91,12 @@ public class Categorie {
 		return this.nbrPlaceMax;
 	}
 
-	public int getConfigurationId() {
-		return this.configurationId;
+	public Configuration getConfiguration() {
+		return this.configuration;
 	}
 
-	public boolean createCategorie(int configurationId) {
-		this.configurationId = configurationId;
-		categorieDAO.create(this);
-		return true;
+	public boolean create() {
+		boolean isCategorieCreated = categorieDAO.create(this);
+		return isCategorieCreated;
 	}
 }

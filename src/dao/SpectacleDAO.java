@@ -1,11 +1,22 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
+import pojo.Categorie;
+import pojo.Categorie.TypesCategorie;
+import pojo.Configuration;
+import pojo.Configuration.TypePlaces;
+import pojo.Organisateur;
+import pojo.Personne;
+import pojo.PlanningSalle;
+import pojo.Reservation;
 import pojo.Spectacle;
 
 public class SpectacleDAO implements DAO<Spectacle> {
@@ -60,5 +71,73 @@ public class SpectacleDAO implements DAO<Spectacle> {
 	@Override
 	public Spectacle find(Spectacle obj) {
 		return null;
+	}
+
+	@Override
+	public List<Reservation> findAll(Spectacle s) {
+		List<Reservation> reservations = new ArrayList<Reservation>();
+		try {
+			ResultSet result = this.connect.createStatement().executeQuery(
+					"SELECT Reservation.id  AS reservation_id  , Spectacle.id as spectacle_id , PlanningSalle.id as PlanningSalle_id , Personne.id as Personne_id , Configuration.id as Configuration_id ,  * FROM Reservation "
+							+ " INNER JOIN PlanningSalle ON Reservation.fk_planningSalle = PlanningSalle.id "
+							+ " INNER JOIN Spectacle ON Spectacle.id = PlanningSalle.fk_spectacle "
+							+ " INNER JOIN Personne ON Personne.id =  Reservation.fk_personne "
+							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id "
+						);
+			
+			while (result.next()) {
+				List<Categorie> categories = new ArrayList<Categorie>();
+
+				int configurationId = Integer.parseInt(result.getString("Configuration_id"));
+				ResultSet categoriesResult = this.connect.createStatement()
+						.executeQuery("SELECT * FROM Categorie WHERE fk_configuration = '" + configurationId + "'");
+
+				while (categoriesResult.next()) {
+					int prix = (int) Float.parseFloat(categoriesResult.getString("prix"));
+					int nbrPlaceDispo = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceDispo"));
+					int nbrPlaceMax = (int) Float.parseFloat(categoriesResult.getString("nbrPlaceMax"));
+					
+					Categorie categorie = new Categorie(TypesCategorie.valueOf(categoriesResult.getString("type")),
+							prix, null, null);
+					categorie.setNbrPlaceDispo(nbrPlaceDispo);
+					categorie.setNbrPlaceMax(nbrPlaceMax);
+					categories.add(categorie);
+				}
+				// Creation de la configuration
+				TypePlaces typePlace = TypePlaces.valueOf(result.getString("type"));
+				String description = result.getString("description");
+				Configuration configuration = new Configuration(configurationId, description, typePlace, null);
+				configuration.setCategories(categories);
+				// Creation de spectacle
+				int spectacleId = Integer.parseInt(result.getString("reservation_id"));
+				int nbrPlaceParClient = Integer.parseInt(result.getString("nbrPlaceParClient"));
+				String titreSpectacle = result.getString("titre");
+				Spectacle spectacle = new Spectacle(titreSpectacle, nbrPlaceParClient);
+				spectacle.setConfiguration(configuration);
+				spectacle.setId(spectacleId);
+
+				// Creation de planning salle
+				Date dateReservation = Date.valueOf(result.getString("dateDebutR"));
+				PlanningSalle planningSalle = new PlanningSalle(dateReservation, spectacle);
+				// Creation de l'organisateur
+				Organisateur organisateur = new Organisateur();
+				organisateur.setId(Integer.parseInt(result.getString("Personne_id")));
+				organisateur.setNomUtilisateur(result.getString("nomUtilisateur"));
+				organisateur.setNomEntreprise(result.getString("nomEntreprise"));
+
+				// Creation de la reservation
+				float acompteReservation = Float.parseFloat(result.getString("acompte"));
+				float solde = Float.parseFloat(result.getString("solde"));
+				float prix = Float.parseFloat(result.getString("prix"));
+				Reservation reservationIndex = new Reservation(acompteReservation, solde, prix, planningSalle,
+						organisateur);
+				reservationIndex.setId(spectacleId);
+				reservations.add(reservationIndex);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return reservations;
 	}
 }

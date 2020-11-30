@@ -5,8 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.List;
 
 import pojo.Client;
+import pojo.Personne;
 import pojo.PlanningSalle;
 
 public class PlanningSalleDAO  implements DAO<PlanningSalle> {
@@ -19,11 +21,13 @@ public class PlanningSalleDAO  implements DAO<PlanningSalle> {
 	public boolean create(PlanningSalle planningSalle) {
 		try {
 			String insertSQL ="INSERT INTO PlanningSalle VALUES(null,'"
-					+planningSalle.getdateDebutR()
+					+planningSalle.getdateDebutReservation()
 					+"','"
-					+planningSalle.getdateFinR()
+					+planningSalle.getDateFinReservation()
 					+"','"
-					+planningSalle.getIdSpectacle()
+					+planningSalle.getSpectacle().getId()
+					+"','"
+					+planningSalle.getdateDebutReservation()
 					+"')";
 			PreparedStatement statement = connect.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 			int affectedRows = statement.executeUpdate();
@@ -60,6 +64,11 @@ public class PlanningSalleDAO  implements DAO<PlanningSalle> {
 
 	@Override
 	public PlanningSalle find(PlanningSalle obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<PlanningSalle> findAll(PlanningSalle personne) {
 		// TODO Auto-generated method stub
 		return null;
 	}

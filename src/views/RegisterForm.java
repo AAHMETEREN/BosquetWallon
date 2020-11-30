@@ -172,7 +172,6 @@ public class RegisterForm extends JFrame {
 					}
 					
 					Personne isAlreadyCreatedUser = personne.find();
-					System.out.println(isAlreadyCreatedUser);
 					if(isAlreadyCreatedUser == null) {
 						Boolean isNewUserCreated = personne.register();
 

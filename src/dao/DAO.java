@@ -1,6 +1,8 @@
 package dao;
 
-import java.sql.Connection;
+import java.util.List;
+
+import pojo.Personne;
 
 public interface  DAO<T> {
 	public  boolean create(T obj);
@@ -10,5 +12,8 @@ public interface  DAO<T> {
 	public  boolean update(T obj);
 	
 	public  T find(T obj);
+	
+	public  List<?> findAll(T obj);
+
 }
 
