@@ -260,7 +260,7 @@ public class Location extends JFrame {
 		labelArtiste.setBounds(31, 312, 160, 13);
 		panel.add(labelArtiste);
 
-		JButton confirmButton = new JButton("Creer");
+		JButton confirmButton = new JButton("Acheter");
 		confirmButton.setForeground(Color.WHITE);
 		confirmButton.setBackground(Color.DARK_GRAY);
 		confirmButton.setBounds(338, 611, 187, 34);
