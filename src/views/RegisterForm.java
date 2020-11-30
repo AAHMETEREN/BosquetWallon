@@ -174,10 +174,13 @@ public class RegisterForm extends JFrame {
 					Personne isAlreadyCreatedUser = personne.find();
 					if(isAlreadyCreatedUser == null) {
 						Boolean isNewUserCreated = personne.register();
-
+						
 						if(isNewUserCreated) {
-							Dashboard dashboard = new Dashboard(personne);
-							dashboard.setVisible(true);
+							JOptionPane.showMessageDialog(null, "Compte crée avec succes !");
+
+							LoginForm page = new LoginForm(role);
+							
+							page.setVisible(true);
 							me.dispose();
 						}else {
 							JOptionPane.showMessageDialog(null, "Erreur lors de la création du compte.");

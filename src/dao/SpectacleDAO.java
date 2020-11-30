@@ -84,8 +84,10 @@ public class SpectacleDAO implements DAO<Spectacle> {
 							+ " INNER JOIN Personne ON Personne.id =  Reservation.fk_personne "
 							+ " INNER JOIN Configuration ON Configuration.fk_spectacle =  Spectacle.id "
 						);
-			
+
 			while (result.next()) {
+				System.out.println("HE2RE");
+
 				List<Categorie> categories = new ArrayList<Categorie>();
 
 				int configurationId = Integer.parseInt(result.getString("Configuration_id"));

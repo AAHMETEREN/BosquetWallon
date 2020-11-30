@@ -244,13 +244,11 @@ public class Payement extends JFrame {
 	}
 	public void updateNbrPlaceDispo() {
 		List<Categorie> categories = configuration.getCategories();
-		System.out.println("nbrbase"+nbrBase);
 		
 		for(Categorie categorie : categories) {
 			categorie.setConfiguration(configuration);
 			switch(categorie.getType()) {
 			case "BASE" : 
-				System.out.println("DANS BASE");
 
 				for(int i = 0 ; i < nbrBase ; i ++) categorie.update();
 				break;

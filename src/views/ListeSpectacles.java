@@ -100,7 +100,7 @@ public class ListeSpectacles extends JFrame {
 		descriptionLabel.setLineWrap(true);
 		descriptionLabel.setToolTipText("");
 		descriptionLabel.setWrapStyleWord(true);
-		descriptionLabel.setText("test test test test test test test test test test test test test test test test test test test test test test test test ");
+		descriptionLabel.setText("Lorem ipsum");
 		descriptionLabel.setBackground(Color.LIGHT_GRAY);
 		descriptionLabel.setBounds(21, 60, 400, 114);
 		panel.add(descriptionLabel);

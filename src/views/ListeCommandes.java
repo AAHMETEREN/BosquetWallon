@@ -150,9 +150,6 @@ public class ListeCommandes extends JFrame {
 		Commande commande = new Commande();
 		commande.setPersonne(personne);
 		allCommandes = commande.findAll();
-		
-		for(Commande com : allCommandes) {
-			System.out.println(com.getId());
-		}
+
 	}
 }
