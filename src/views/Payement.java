@@ -46,6 +46,7 @@ public class Payement extends JFrame {
 	private JLabel lblPrixValue;
 	private JLabel lblNewLabel_1;
 	private boolean isClicked = false;
+	private JButton btnRetou;
 	private Configuration configuration;
 	int nbrBronze, nbrArgent, nbrOr , nbrDiamant , nbrBase;
 	public Payement(Reservation reservation, Personne personne, Commande commande , Configuration configuration) {
@@ -64,7 +65,7 @@ public class Payement extends JFrame {
 		contentPane.setLayout(null);
 		panel = new JPanel();
 		panel.setBackground(Color.LIGHT_GRAY);
-		panel.setBounds(10, 58, 431, 276);
+		panel.setBounds(10, 60, 431, 276);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -145,6 +146,17 @@ public class Payement extends JFrame {
 		labelTitre.setFont(new Font("Tahoma", Font.PLAIN, 32));
 		labelTitre.setForeground(UIManager.getColor("ToggleButton.highlight"));
 		panel_1.add(labelTitre);
+		
+		btnRetou = new JButton("Quitter");
+		btnRetou.setBackground(Color.DARK_GRAY);
+		btnRetou.setForeground(Color.WHITE);
+		btnRetou.setBounds(353, 15, 88, 26);
+		btnRetou.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				me.dispose();
+			}
+		});
+		panel_1.add(btnRetou);
 
 		modeDeLivraison.add(rdbtnLivraisonTimbre);
 		modeDeLivraison.add(rdbtnLivraisonSurPlace);
